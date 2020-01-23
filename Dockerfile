@@ -1,0 +1,13 @@
+FROM ruby:2.7.0 as base
+
+ENV ROOT_PATH /usr/src
+
+WORKDIR $ROOT_PATH
+
+COPY Gemfile* $ROOT_PATH/
+
+FROM base as development
+
+RUN bundle install
+
+CMD ["puma"]
