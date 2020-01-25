@@ -1,6 +1,6 @@
 FROM ruby:2.7.0 as base
 
-ENV ROOT_PATH /usr/src
+ARG ROOT_PATH
 
 WORKDIR $ROOT_PATH
 
@@ -10,4 +10,4 @@ FROM base as development
 
 RUN bundle install
 
-CMD ["puma"]
+CMD bundle exec puma -p $PORT
