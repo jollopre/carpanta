@@ -8,3 +8,5 @@ end.call
 
 require 'app'
 require 'app/routes'
+
+require 'config/initializers/database'

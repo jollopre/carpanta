@@ -3,5 +3,3 @@ services:
   app:
     build:
       context: .
-      args:
-        ROOT_PATH: /usr/src

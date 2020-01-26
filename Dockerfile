@@ -1,6 +1,6 @@
 FROM ruby:2.7.0 as base
 
-ARG ROOT_PATH
+ENV ROOT_PATH /usr/src
 
 WORKDIR $ROOT_PATH
 
