@@ -13,4 +13,7 @@ lambda do
   #https://guides.rubyonrails.org/configuring.html#configuring-active-record
   config = ActiveRecord::Base
   config.logger = Logger.new(STDOUT)
+
+  # Establish connection needed for tasks such as (migrate or drop)
+  ActiveRecord::Base.establish_connection(YAML.load(ERB.new(IO.read('config/database.yml')).result)['development'])
 end.call

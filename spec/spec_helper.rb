@@ -1,4 +1,5 @@
-# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require_relative '../config/boot'
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -24,4 +25,6 @@ RSpec.configure do |config|
 
   config.order = :random
   Kernel.srand config.seed
+
+  Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f }
 end

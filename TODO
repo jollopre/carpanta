@@ -1,0 +1,9 @@
+- start migrations for the different entities
+- configure travis
+- configure rspec to persist into RAKE_ENV['test']
+- configure Rspec to destroy db after every test
+- configure sinatra: RootApplication and all other inheriting from it (e.g. http://sinatrarb.com/configuration.html)
+- configure sinatra to serve HTML views
+
+- rake task to generate migration (e.g. DateTime.current.strftime('%Y%m%d%H%M%S')) 20080717013526_your_migration_name.rb
+- explore railties gem for generating migrations, etc
