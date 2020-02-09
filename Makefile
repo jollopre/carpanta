@@ -4,8 +4,9 @@ development_up:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
 development_down:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} down
-test:
+build_test:
 	docker-compose ${COMPOSE_FILES_TEST} build
+test:	build_test
 	docker-compose ${COMPOSE_FILES_TEST} run --rm app
 bash:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bash
