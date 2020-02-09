@@ -12,4 +12,5 @@ group :test do
   gem 'rspec', '~> 3.9'
   gem 'rack-test', '~> 1.1'
   gem 'factory_bot', '~> 5.1', '>= 5.1.1'
+  gem 'database_cleaner-active_record', '~> 1.8'
 end
