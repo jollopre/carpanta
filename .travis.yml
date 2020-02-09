@@ -1,0 +1,10 @@
+---
+sudo: require
+
+language: ruby
+
+services:
+  - docker
+
+script:
+  - make test
