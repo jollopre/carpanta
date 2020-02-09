@@ -1,0 +1,12 @@
+/db/*.sqlite
+/infra/*.env
+/spec/examples.txt
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.travis.yml
+Dockerfile
+LICENSE
+Makefile
+README.md
