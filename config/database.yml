@@ -1,8 +1,5 @@
-default: &default
+<%= ENV.fetch('RACK_ENV') %>:
   adapter: <%= ENV.fetch('DB_ADAPTER') %>
   database: <%= ENV.fetch('DB_DATABASE') %>
   pool: <%= ENV.fetch('DB_POOL') %>
   timeout: <%= ENV.fetch('DB_TIMEOUT') %>
-
-development:
-  <<: *default

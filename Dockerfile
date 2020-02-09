@@ -11,3 +11,11 @@ FROM base as development
 RUN bundle install
 
 CMD bundle exec puma -p $PORT
+
+FROM base as test
+
+COPY . $ROOT_PATH/
+
+RUN bundle install
+
+CMD bundle exec rake test:all

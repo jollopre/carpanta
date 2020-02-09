@@ -1,6 +1,8 @@
 version: "3.7"
 services:
   app:
+    build:
+      target: development
     volumes:
       - .:/usr/src
     ports:
