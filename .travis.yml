@@ -1,6 +1,4 @@
 ---
-sudo: require
-
 language: ruby
 
 services:
@@ -8,3 +6,6 @@ services:
 
 script:
   - make test
+branches:
+  only:
+  - 1
