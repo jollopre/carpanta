@@ -22,10 +22,8 @@ module Configurable
   class Configuration
     def initialize(attributes = [])
       attributes.each do |attr|
-        puts "respond_to?(#{attr}): #{respond_to?(attr)}"
         singleton_class.send(:attr_accessor, attr)
       end
     end
-    puts Configuration.singleton_methods
   end
 end

@@ -6,6 +6,7 @@ RSpec.describe Configurable do
       include Configurable
     end
   end
+
   before(:each){ configurable.instance_variable_set(:@configuration, nil) }
 
   describe '.configure' do
