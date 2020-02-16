@@ -9,5 +9,4 @@ end.call
 require 'app'
 require 'app/routes'
 
-require 'config/initializers/database'
-require 'config/initializers/services'
+Dir[File.expand_path(File.join(File.dirname(__FILE__), 'initializers', '**', '*.rb'))].each { |f| require f }
