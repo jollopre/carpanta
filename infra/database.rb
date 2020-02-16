@@ -21,7 +21,7 @@ module Infra
       task_class.database_configuration = configurations
       task_class.db_dir = DB_DIR
       task_class.migrations_paths = MIGRATIONS_PATHS
-      task_class.seed_loader = nil
+      task_class.seed_loader = SeedLoader.new
       task_class.root = root
     end
 
@@ -49,6 +49,12 @@ module Infra
       def load_tasks
         load 'active_record/railties/databases.rake'
         Rake::Task.define_task(:environment)
+      end
+    end
+
+    class SeedLoader
+      def load_seed
+        load "#{Database::DB_DIR}/seed.rb"
       end
     end
   end
