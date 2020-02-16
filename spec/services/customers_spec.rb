@@ -16,12 +16,24 @@ RSpec.describe Carpanta::Services::Customers do
     end
 
     context 'when customer attributes are invalid' do
-      it 'raise RecordInvalid error' do
+      it 'raises RecordInvalid error' do
         attributes.merge!(email: 'wadus@')
 
         expect do
           described_class.create!(attributes)
         end.to raise_error(record_invalid, /Email is invalid/)
+      end
+    end
+
+    context 'when the customer is not unique' do
+      before do
+        described_class.create!(attributes)
+      end
+
+      it 'raises RecordInvalid error' do
+        expect do
+          described_class.create!(attributes)
+        end.to raise_error(record_invalid, /Email has already been taken/)
       end
     end
   end

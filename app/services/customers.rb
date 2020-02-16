@@ -11,10 +11,11 @@ module Carpanta
       class << self
         def create!(attributes)
           customer = Model.new(attributes)
-
           raise Errors::RecordInvalid.new(customer.errors.full_messages) unless customer.valid?
 
-          repository.create!(customer.serializable_hash)
+          customer = repository.create(customer.serializable_hash)
+          raise Errors::RecordInvalid.new(customer.errors.full_messages) unless customer.valid?
+
           true
         end
 
