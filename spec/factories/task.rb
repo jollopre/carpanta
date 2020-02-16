@@ -6,12 +6,6 @@ FactoryBot.define do
     description { 'Dyeing Hair consist of ...' }
     price { 1500 }
 
-    trait :persisted do
-      id { Random.new.rand(100) } 
-      created_at { Time.now }
-      updated_at { Time.now }
-    end
-
     transient do
       with_errors { false }
     end
