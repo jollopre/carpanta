@@ -1,6 +1,6 @@
 require 'lib/configurable'
 require 'app/services/errors'
-require_relative 'sessions/model'
+require 'app/entities/session'
 
 module Carpanta
   module Services
@@ -10,13 +10,11 @@ module Carpanta
 
       class << self
         def create!(attributes)
-          session = Model.new(attributes)
+          session = Entities::Session.new(attributes)
 
           raise Errors::RecordInvalid.new(session.errors.full_messages) unless session.valid?
 
-          repository.create(session.serializable_hash)
-
-          true
+          repository.create!(session)
         end
 
         private

@@ -1,6 +1,6 @@
-require 'app/services/sessions/model'
+require 'app/entities/session'
 
-RSpec.describe Carpanta::Services::Sessions::Model do
+RSpec.describe Carpanta::Entities::Session do
   describe '.initialize' do
     it 'returns an instance responding to session attributes' do
       session = FactoryBot.build(:session)
