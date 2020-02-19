@@ -8,11 +8,15 @@ module Carpanta
         entity.created_at = result.created_at
         entity.updated_at = result.updated_at
         entity
+      rescue ActiveRecord::RecordInvalid => e
+        raise RecordInvalid.new(e.message)
       end
 
       def storage
         configuration.storage
       end
     end
+
+    class RecordInvalid < StandardError ; end
   end
 end
