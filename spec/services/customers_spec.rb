@@ -40,9 +40,7 @@ RSpec.describe Carpanta::Services::Customers do
     end
 
     context 'when the customer email is duplicated' do
-      it 'raises RecordNotUnique error' do
-        pending
-      end
+      it 'raises RecordNotUnique error'
     end
   end
 end
