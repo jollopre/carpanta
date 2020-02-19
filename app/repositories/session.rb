@@ -11,12 +11,10 @@ module Carpanta
           session
         end
       end
-    end
 
-    private
-
-    class Storage < ActiveRecord::Base
-      self.table_name = 'sessions'
+      class Storage < ActiveRecord::Base
+        self.table_name = 'sessions'
+      end
     end
   end
 end

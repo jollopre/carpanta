@@ -1,8 +1,8 @@
-require 'app/services/customers/model'
+require 'app/entities/customer'
 require 'app/services/customers'
 
 FactoryBot.define do
-  factory :customer, class: Carpanta::Services::Customers::Model do
+  factory :customer, class: Carpanta::Entities::Customer do
     name { 'Donald' }
     surname { 'Duck' }
     email { 'donald.duck@carpanta.com' }
