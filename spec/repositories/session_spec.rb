@@ -2,6 +2,7 @@ require 'app/services/customers'
 require 'app/services/tasks'
 require 'app/repositories/session'
 require 'app/entities/session'
+require_relative 'shared_examples'
 
 RSpec.describe Carpanta::Repositories::Session do
   describe '.create!' do
@@ -11,17 +12,13 @@ RSpec.describe Carpanta::Repositories::Session do
     let(:task) do
       FactoryBot.create(:task)
     end
-    let(:session) do
+    let(:entity) do
       FactoryBot.build(:session, task_id: task.id, customer_id: customer.id)
     end
-
-    it 'persists a session' do
-      result = described_class.create!(session)
-
-      expect(result).to be_an_instance_of(Carpanta::Entities::Session)
-      expect(result.id).not_to be_nil
-      expect(result.created_at).not_to be_nil
-      expect(result.updated_at).not_to be_nil
+    let(:entity_class) do
+      Carpanta::Entities::Session
     end
+
+    it_behaves_like 'repository creation'
   end
 end

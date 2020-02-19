@@ -1,19 +1,16 @@
 require 'app/repositories/task'
 require 'app/entities/task'
+require_relative 'shared_examples'
 
 RSpec.describe Carpanta::Repositories::Task do
   describe '.create!' do
-    let(:task) do
+    let(:entity) do
       FactoryBot.build(:task)
     end
-
-    it 'persists a customer' do
-      result = described_class.create!(task)
-
-      expect(result).to be_an_instance_of(Carpanta::Entities::Task)
-      expect(result.id).not_to be_nil
-      expect(result.created_at).not_to be_nil
-      expect(result.updated_at).not_to be_nil
+    let(:entity_class) do
+      Carpanta::Entities::Task
     end
+
+    it_behaves_like 'repository creation'
   end
 end
