@@ -1,4 +1,5 @@
 require 'app/services/tasks'
+require 'app/entities/task'
 require 'spec/services/shared_context'
 
 RSpec.describe Carpanta::Services::Tasks do
@@ -8,11 +9,23 @@ RSpec.describe Carpanta::Services::Tasks do
     let(:attributes) do
       FactoryBot.attributes_for(:task)
     end
+    let(:entity) do
+      Carpanta::Entities::Task
+    end
+    let(:repository) do
+      described_class.configuration.repository
+    end
 
-    it 'persists a task' do
-      result = described_class.create!(attributes)
+    it 'forwards into its repository with a task' do
+      class_double(repository).as_stubbed_const
 
-      expect(result).to eq(true)
+      expect(repository).to receive(:create!) do |task|
+        expect(task.name).to eq('Dyeing Hair')
+        expect(task.description).to eq('Dyeing Hair consist of ...')
+        expect(task.price).to eq(1500)
+      end
+
+      described_class.create!(attributes)
     end
 
     context 'when task attributes are invalid' do

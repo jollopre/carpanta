@@ -1,5 +1,5 @@
-require 'app/repositories/session'
-require 'app/entities/session'
+require 'app/repositories/customer'
+require 'app/entities/customer'
 
 RSpec.describe Carpanta::Repositories::Customer do
   describe '.create!' do

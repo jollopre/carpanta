@@ -1,8 +1,8 @@
-require 'app/services/tasks/model'
+require 'app/entities/task'
 require 'app/services/tasks'
 
 FactoryBot.define do
-  factory :task, class: Carpanta::Services::Tasks::Model do
+  factory :task, class: Carpanta::Entities::Task do
     name { 'Dyeing Hair' }
     description { 'Dyeing Hair consist of ...' }
     price { 1500 }

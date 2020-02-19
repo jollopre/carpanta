@@ -1,6 +1,6 @@
 require 'lib/configurable'
 require 'app/services/errors'
-require_relative 'tasks/model'
+require 'app/entities/task'
 
 module Carpanta
   module Services
@@ -10,13 +10,11 @@ module Carpanta
 
       class << self
         def create!(attributes)
-          task = Model.new(attributes)
+          task = Entities::Task.new(attributes)
 
           raise Errors::RecordInvalid.new(task.errors.full_messages) unless task.valid?
 
-          repository.create(task.serializable_hash)
-
-          true
+          repository.create!(task)
         end
 
         private

@@ -1,6 +1,6 @@
-require 'app/services/tasks/model'
+require 'app/entities/task'
 
-RSpec.describe Carpanta::Services::Tasks::Model do
+RSpec.describe Carpanta::Entities::Task do
   describe '.initialize' do
     it 'returns an instance responding to task attributes' do
       task = FactoryBot.build(:task)
