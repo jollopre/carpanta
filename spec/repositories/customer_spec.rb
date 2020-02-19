@@ -15,11 +15,11 @@ RSpec.describe Carpanta::Repositories::Customer do
 
     context 'when the email is duplicated' do
       it 'raises Repositories::RecordNotUnique' do
-        allow(described_class.storage).to receive(:create!).and_raise(ActiveRecord::RecordNotUnique)
+        allow(described_class.storage).to receive(:create!).and_raise(ActiveRecord::RecordInvalid)
 
         expect do
           described_class.create!(entity)
-        end.to raise_error(Carpanta::Repositories::RecordNotUnique)
+        end.to raise_error(Carpanta::Repositories::RecordInvalid)
       end
     end
   end

@@ -1,5 +1,6 @@
 require 'app/services/customers'
 require 'app/entities/customer'
+require 'app/repositories/base'
 require 'spec/services/shared_context'
 
 RSpec.describe Carpanta::Services::Customers do
@@ -40,7 +41,13 @@ RSpec.describe Carpanta::Services::Customers do
     end
 
     context 'when the customer email is duplicated' do
-      it 'raises RecordNotUnique error'
+      it 'raises RecordInvalid error' do
+        allow(repository).to receive(:create!).and_raise(Carpanta::Repositories::RecordInvalid)
+
+        expect do
+          described_class.create!(attributes)
+        end.to raise_error(record_invalid)
+      end
     end
   end
 end

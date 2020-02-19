@@ -15,6 +15,8 @@ module Carpanta
           raise Errors::RecordInvalid.new(customer.errors.full_messages) unless customer.valid?
 
           repository.create!(customer)
+        rescue Repositories::RecordInvalid => e
+          raise Services::Errors::RecordInvalid.new(e)
         end
 
         private
