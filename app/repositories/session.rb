@@ -1,12 +1,10 @@
-require_relative 'base'
-require 'lib/configurable'
+require 'active_record'
+require_relative 'repository'
 
 module Carpanta
   module Repositories
-    class Session
-      extend Base
-      include Configurable
-      configure_with :storage
+    class Session < ActiveRecord::Base
+      extend Repository
     end
   end
 end
