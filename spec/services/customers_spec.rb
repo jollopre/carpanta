@@ -1,6 +1,5 @@
 require 'app/services/customers'
 require 'app/entities/customer'
-require 'app/repositories/base'
 require 'spec/services/shared_context'
 
 RSpec.describe Carpanta::Services::Customers do
