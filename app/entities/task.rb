@@ -9,7 +9,7 @@ module Carpanta
       validates_numericality_of :price, only_integer: true
 
       def attributes
-        { id: nil, name: nil, description: nil, price: nil, created_at: nil, updated_at: nil }
+        { id: id, name: name, description: description, price: price, created_at: created_at, updated_at: updated_at }
       end
     end
   end

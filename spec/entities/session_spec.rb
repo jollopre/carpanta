@@ -77,4 +77,14 @@ RSpec.describe Carpanta::Entities::Session do
       end
     end
   end
+
+  describe '#serializable_hash' do
+    it 'returns a hash representing the model attributes' do
+      session = FactoryBot.build(:session, price: 'wadus')
+
+      result = session.serializable_hash
+
+      expect(result).to include(:id, :price, :created_at, :updated_at, :customer_id, :task_id)
+    end
+  end
 end

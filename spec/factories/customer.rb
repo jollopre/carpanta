@@ -1,5 +1,4 @@
 require 'app/entities/customer'
-require 'app/services/customers'
 
 FactoryBot.define do
   factory :customer, class: Carpanta::Entities::Customer do
@@ -8,8 +7,9 @@ FactoryBot.define do
     email { 'donald.duck@carpanta.com' }
     phone { '600111222' }
 
-    to_create do |instance|
-      Carpanta::Services::Customers.create!(instance.serializable_hash)
+    to_create do |record|
+      new_record = Carpanta::Services::Customers.create!(record.serializable_hash)
+      record.attributes = new_record.attributes
     end
   end
 end

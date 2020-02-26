@@ -10,7 +10,7 @@ module Carpanta
       validates :email, format: { with: EMAIL_REGEX }
 
       def attributes
-        { id: nil, name: nil, surname: nil, email: nil, phone: nil, created_at: nil, updated_at: nil }
+        { id: id, name: name, surname: surname, email: email, phone: phone, created_at: created_at, updated_at: updated_at }
       end
     end
   end
