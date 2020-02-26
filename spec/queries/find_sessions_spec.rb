@@ -39,7 +39,15 @@ RSpec.describe Carpanta::Queries::FindSessions do
       end
 
       context 'with include task' do
-        it 'loads the tasks associated to each session'
+        let(:params) { { include: :task } }
+        it 'loads the tasks associated to each session' do
+          result = described_class.call(params)
+
+          expect(result).to include(have_attributes(task: have_attributes(id: a_task.id)))
+          expect(result).to include(have_attributes(task: have_attributes(id: another_task.id)))
+          expect(result.to_sql).to match(/SELECT.*"sessions"\."id".*"sessions"\."price".*"tasks"\."id".*"tasks"\."name"/)
+          expect(result.to_sql).to include('INNER JOIN "tasks" ON "tasks"."id" = "sessions"."task_id"')
+        end
       end
     end
   end
