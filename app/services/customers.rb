@@ -1,6 +1,6 @@
 require 'lib/configurable'
 require 'app/services/errors'
-require_relative 'customers/model'
+require 'app/entities/customer'
 
 module Carpanta
   module Services
@@ -10,13 +10,13 @@ module Carpanta
 
       class << self
         def create!(attributes)
-          customer = Model.new(attributes)
+          customer = Entities::Customer.new(attributes)
+
           raise Errors::RecordInvalid.new(customer.errors.full_messages) unless customer.valid?
 
-          customer = repository.create(customer.serializable_hash)
-          raise Errors::RecordInvalid.new(customer.errors.full_messages) unless customer.valid?
-
-          true
+          repository.create!(customer)
+        rescue Repositories::RecordInvalid => e
+          raise Services::Errors::RecordInvalid.new(e)
         end
 
         private

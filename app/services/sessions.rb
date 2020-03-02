@@ -1,20 +1,20 @@
 require 'lib/configurable'
 require 'app/services/errors'
-require 'app/entities/task'
+require 'app/entities/session'
 
 module Carpanta
   module Services
-    module Tasks
+    module Sessions
       include Configurable
       configure_with :repository
 
       class << self
         def create!(attributes)
-          task = Entities::Task.new(attributes)
+          session = Entities::Session.new(attributes)
 
-          raise Errors::RecordInvalid.new(task.errors.full_messages) unless task.valid?
+          raise Errors::RecordInvalid.new(session.errors.full_messages) unless session.valid?
 
-          repository.create!(task)
+          repository.create!(session)
         end
 
         private

@@ -3,10 +3,9 @@ require_relative 'repository'
 
 module Carpanta
   module Repositories
-    class Customer < ActiveRecord::Base
+    class Session < ActiveRecord::Base
       extend Repository
-
-      validates_uniqueness_of :email
+      belongs_to :task
     end
   end
 end

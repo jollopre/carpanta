@@ -1,17 +1,14 @@
-require 'app/services/tasks/model'
+require 'app/entities/task'
 
 FactoryBot.define do
-  factory :task, class: "Carpanta::Services::Tasks::Model" do
+  factory :task, class: Carpanta::Entities::Task do
     name { 'Dyeing Hair' }
     description { 'Dyeing Hair consist of ...' }
     price { 1500 }
 
-    transient do
-      with_errors { false }
-    end
-
-    after(:build) do |task, evaluator|
-      task.errors.add(:name) if evaluator.with_errors
+    to_create do |record|
+      new_record = Carpanta::Services::Tasks.create!(record.serializable_hash)
+      record.attributes = new_record.attributes
     end
   end
 end

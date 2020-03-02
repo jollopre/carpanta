@@ -1,6 +1,6 @@
-require 'app/services/customers/model'
+require 'app/entities/customer'
 
-RSpec.describe Carpanta::Services::Customers::Model do
+RSpec.describe Carpanta::Entities::Customer do
   describe '.initialize' do
     it 'returns an instance responding to customer attributes' do
       customer = FactoryBot.build(:customer)
