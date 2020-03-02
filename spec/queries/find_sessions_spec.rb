@@ -1,15 +1,28 @@
 require 'app/queries/find_sessions'
 
 RSpec.describe Carpanta::Queries::FindSessions do
-  describe '.call' do
+  describe '.scope' do
     context 'when empty params are sent' do
       it 'returns all the sessions' do
-        result = described_class.call
+        result = described_class.scope
 
         expect(result.to_sql).to include('SELECT "sessions".* FROM "sessions"')
       end
     end
 
+    context 'with include task' do
+      let(:params) { { include: :task } }
+
+      it 'loads the tasks associated to each session' do
+        result = described_class.scope(params)
+
+        expect(result.to_sql).to match(/SELECT.*"sessions"\."id".*"sessions"\."price".*"tasks"\."id".*"tasks"\."name"/)
+        expect(result.to_sql).to include('INNER JOIN "tasks" ON "tasks"."id" = "sessions"."task_id"')
+      end
+    end
+  end
+
+  describe '.call' do
     context 'when params are sent' do
       let!(:a_customer) { FactoryBot.create(:customer, email: 'wadus@carpanta.com') }
       let!(:another_customer) { FactoryBot.create(:customer, email: 'another_wadus@carpanta.com')  }
@@ -40,13 +53,13 @@ RSpec.describe Carpanta::Queries::FindSessions do
 
       context 'with include task' do
         let(:params) { { include: :task } }
-        it 'loads the tasks associated to each session' do
+
+        it 'reconstitute session entity' do
           result = described_class.call(params)
 
+          expect(result).to all(be_an_instance_of(Carpanta::Entities::Session))
           expect(result).to include(have_attributes(task: have_attributes(id: a_task.id)))
           expect(result).to include(have_attributes(task: have_attributes(id: another_task.id)))
-          expect(result.to_sql).to match(/SELECT.*"sessions"\."id".*"sessions"\."price".*"tasks"\."id".*"tasks"\."name"/)
-          expect(result.to_sql).to include('INNER JOIN "tasks" ON "tasks"."id" = "sessions"."task_id"')
         end
       end
     end
