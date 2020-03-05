@@ -1,4 +1,3 @@
-require 'active_record'
 require 'yaml'
 
 module Infra

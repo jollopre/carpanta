@@ -1,3 +1,3 @@
 require_relative 'config/boot'
 
-run Carpanta::Routes::Application
+run Carpanta::Controllers::Application
