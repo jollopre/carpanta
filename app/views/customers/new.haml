@@ -1,0 +1,16 @@
+%h2= 'New Customer'
+
+%form{ action: '/customers', method: :post }
+  Name: 
+  %input{ type: 'text', name: 'customer[name]' }
+  %br
+  Surname:
+  %input{ type: 'text', name: 'customer[surname]' }
+  %br
+  Email:
+  %input{ type: 'email', name: 'customer[email]' }
+  %br
+  Phone:
+  %input{ type: 'tel', name: 'customer[phone]' }
+  %br
+  %input{ type: 'submit', value: 'Create' }

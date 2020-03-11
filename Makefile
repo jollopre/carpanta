@@ -6,10 +6,12 @@ development_up:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
 development_down:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} down
+build_devel:
+	docker-compose ${COMPOSE_FILES_DEVELOPMENT} build
 build_test:
 	docker-compose ${COMPOSE_FILES_TEST} build
 test:	build_test
-	docker-compose ${COMPOSE_FILES_TEST} run --rm app
+	docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake test:all
 bash:
 	docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bash
 console:

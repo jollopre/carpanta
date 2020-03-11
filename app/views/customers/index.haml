@@ -1,0 +1,13 @@
+%h2 Customers
+%table
+  %tr
+    %th Name
+    %th Surname
+    %th Email
+    %th Phone
+  - customers.each do |customer|
+    %tr
+      %td= customer.name
+      %td= customer.surname
+      %td= customer.email
+      %td= customer.phone
