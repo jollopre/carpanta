@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.7.0'
 
 gem 'sinatra', '~> 2.0', '>= 2.0.8.1'
-gem 'puma', '~> 4.3', '>= 4.3.1'
+gem 'puma', '~> 4.3'
 gem 'activerecord', '~> 6.0', '>= 6.0.2.1', require: 'active_record'
 gem 'activemodel', '~> 6.0', '>= 6.0.2.1', require: 'active_model'
 gem 'haml', '~> 5.1', '>= 5.1.2'
