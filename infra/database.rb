@@ -1,8 +1,12 @@
 require 'yaml'
+require 'lib/configurable'
 
 module Infra
   class Database
     include Singleton
+    include Configurable
+
+    configure_with :root, :environment, :logger
 
     PATH = 'config/database.yml'.freeze
     DB_DIR = 'db'.freeze
@@ -10,6 +14,7 @@ module Infra
 
     def connect!
       ActiveRecord::Base.configurations = configurations
+      ActiveRecord::Base.logger = logger
       task_class.create_current(environment)
     end
 
@@ -29,11 +34,15 @@ module Infra
     end
 
     def environment
-      ENV.fetch('RACK_ENV')
+      self.class.configuration.environment
     end
 
     def root
-      ENV.fetch('ROOT_PATH')
+      self.class.configuration.root
+    end
+
+    def logger
+      self.class.configuration.logger
     end
 
     def task_class

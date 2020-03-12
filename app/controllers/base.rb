@@ -4,14 +4,12 @@ module Carpanta
   module Controllers
     class Base < Sinatra::Base
       configure do
-        set :root, File.join(ENV.fetch('ROOT_PATH'), 'app')
+        set :root, File.join(Carpanta.root, 'app')
         set :haml, format: :html5
-        set :environment, ENV.fetch('RACK_ENV')
+        set :environment, Carpanta.environment
         set :logging, true
 
-        file = File.new(File.join(ENV.fetch('ROOT_PATH'), 'log', ENV.fetch('RACK_ENV') + '.log'), 'a+')
-        file.sync = true
-        use Rack::CommonLogger, file
+        use Rack::CommonLogger, Carpanta.logger
       end
     end
   end
