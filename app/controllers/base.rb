@@ -3,8 +3,14 @@ require 'sinatra/base'
 module Carpanta
   module Controllers
     class Base < Sinatra::Base
-      set :root, File.join(ENV.fetch('ROOT_PATH'), 'app')
-      set :haml, format: :html5
+      configure do
+        set :root, File.join(Carpanta.root, 'app')
+        set :haml, format: :html5
+        set :environment, Carpanta.environment
+        set :logging, true
+
+        use Rack::CommonLogger, Carpanta.logger
+      end
     end
   end
 end
