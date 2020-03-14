@@ -1,0 +1,11 @@
+%h2 Customer Sessions
+%table
+  %tr
+    %th Task Name
+    %th Price
+    %th Created At
+  - sessions.each do |session|
+    %tr
+      %td= session.task.name
+      %td= session.price
+      %td= session.created_at

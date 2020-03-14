@@ -67,4 +67,37 @@ RSpec.describe Carpanta::Controllers::Customers do
       expect(last_response.status).to eq(302)
     end
   end
+
+  describe 'GET /customers/:customer_id' do
+    context 'when customer DOES NOT exist' do
+      it 'returns 404' do
+        get '/customers/not_found_id'
+
+        expect(last_response.status).to eq(404)
+      end
+
+      it 'returns error message' do
+        get '/customers/not_found_id'
+
+        expect(last_response.body).to include('Customer not found')
+      end
+    end
+
+    context 'when customer exists' do
+      let(:customer) { FactoryBot.create(:customer) }
+      let(:task) { FactoryBot.create(:task) }
+      let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
+
+      it 'returns the sessions for a customer' do
+        get "/customers/#{customer.id}"
+
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to have_tag('table') do
+          with_tag('td', text: task.name)
+          with_tag('td', text: session.price)
+          with_tag('td', text: session.created_at)
+        end
+      end
+    end
+  end
 end

@@ -9,6 +9,8 @@ module Carpanta
       end
 
       def call(params = {})
+        @relation = @relation.where(id: params[:id]) if params[:id]
+
         reconstitute
       end
 
