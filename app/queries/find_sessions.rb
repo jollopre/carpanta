@@ -18,6 +18,7 @@ module Carpanta
         @relation = @relation.where(customer_id: params[:customer_id]) if params[:customer_id]
         @relation = @relation.where(task_id: params[:task_id]) if params[:task_id]
         @relation = @relation.joins(:task).includes(:task) if params[:include] == :task
+        @relation = @relation.order(created_at: :desc)
 
         @relation
       end
