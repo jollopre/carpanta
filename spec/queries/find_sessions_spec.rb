@@ -23,14 +23,21 @@ RSpec.describe Carpanta::Queries::FindSessions do
   end
 
   describe '.call' do
-    context 'when params are sent' do
-      let!(:a_customer) { FactoryBot.create(:customer, email: 'wadus@carpanta.com') }
-      let!(:another_customer) { FactoryBot.create(:customer, email: 'another_wadus@carpanta.com')  }
-      let!(:a_task) { FactoryBot.create(:task) }
-      let!(:another_task) { FactoryBot.create(:task) }
-      let!(:a_session) { FactoryBot.create(:session, customer_id: a_customer.id, task_id: a_task.id, price: 1500) }
-      let!(:another_session) { FactoryBot.create(:session, customer_id: another_customer.id, task_id: another_task.id, price: 1600) }
+    let!(:a_customer) { FactoryBot.create(:customer, email: 'wadus@carpanta.com') }
+    let!(:another_customer) { FactoryBot.create(:customer, email: 'another_wadus@carpanta.com')  }
+    let!(:a_task) { FactoryBot.create(:task) }
+    let!(:another_task) { FactoryBot.create(:task) }
+    let!(:a_session) { FactoryBot.create(:session, customer_id: a_customer.id, task_id: a_task.id, price: 1500) }
+    let!(:another_session) { FactoryBot.create(:session, customer_id: another_customer.id, task_id: another_task.id, price: 1600) }
 
+    it 'returns sessions order by created_at descending' do
+      result = described_class.call
+
+      result_ids = result.map(&:id)
+      expect(result_ids).to eq([another_session.id, a_session.id])
+    end
+
+    context 'when params are sent' do
       context 'with customer_id' do
         let(:params) { { customer_id: a_customer.id } }
         it 'filters by customer_id' do
