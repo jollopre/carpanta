@@ -4,9 +4,7 @@ RSpec.describe Carpanta::Controllers::Customers do
   include_context 'requests'
 
   describe 'GET /customers' do
-    before do
-      FactoryBot.create(:customer)
-    end
+    let!(:customer) { FactoryBot.create(:customer) }
 
     it 'returns 200' do
       get '/customers'
@@ -17,18 +15,17 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns customers heading' do
       get '/customers'
 
-      expect(last_response.body).to have_tag('h2', text: 'Customers')
+      expect(last_response.body).to have_xpath('//h2', text: 'Customers')
     end
 
     it 'returns list of customers' do
       get '/customers'
 
-      expect(last_response.body).to have_tag('table') do
-        with_tag('td', text: 'Donald')
-        with_tag('td', text: 'Duck')
-        with_tag('td', text: 'donald.duck@carpanta.com')
-        with_tag('td', text: '600111222')
-      end
+      expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Donald')
+      expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: 'Duck')
+      expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: 'donald.duck@carpanta.com')
+      expect(last_response.body).to have_xpath('//table/tr[2]/td[4]', text: '600111222')
+      expect(last_response.body).to have_link('Show', href: "/customers/#{customer.id}")
     end
   end
 
@@ -42,13 +39,12 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns form for filling customer' do
       get '/customers/new'
 
-      expect(last_response.body).to have_form('/customers', 'post') do
-        with_text_field('customer[name]')
-        with_text_field('customer[surname]')
-        with_email_field('customer[email]')
-        with_tag('input', with: { type: 'tel', name: 'customer[phone]' })
-        with_submit('Create')
-      end
+      expect(last_response.body).to have_xpath("//form[@action = '/customers' and @method = 'post']")
+      expect(last_response.body).to have_field('customer[name]', type: 'text')
+      expect(last_response.body).to have_field('customer[surname]', type: 'text')
+      expect(last_response.body).to have_field('customer[email]', type: 'email')
+      expect(last_response.body).to have_field('customer[phone]', type: 'tel')
+      expect(last_response.body).to have_button('Create')
     end
   end
 
@@ -92,11 +88,16 @@ RSpec.describe Carpanta::Controllers::Customers do
         get "/customers/#{customer.id}"
 
         expect(last_response.status).to eq(200)
-        expect(last_response.body).to have_tag('table') do
-          with_tag('td', text: task.name)
-          with_tag('td', text: session.price)
-          with_tag('td', text: session.created_at)
-        end
+
+        expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: task.name)
+        expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: session.price)
+        expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: session.created_at)
+      end
+
+      it 'permits adding new session' do
+        get "/customers/#{customer.id}"
+
+        expect(last_response.body).to have_link('New Session', href: "/customers/#{customer.id}/sessions/new")
       end
     end
   end

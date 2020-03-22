@@ -17,7 +17,7 @@ RSpec.describe Carpanta::Queries::FindCustomers do
       context 'with id' do
         let(:params) { { id: [customer.id] } }
 
-        it 'filters by customer_id' do
+        it 'filters by id' do
           result = described_class.call(params)
 
           expect(result).to include(have_attributes(id: customer.id))

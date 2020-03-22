@@ -19,7 +19,7 @@ module Carpanta
 
       post '/customers' do
         begin
-          Services::Customers.create!(filtered_params)
+          Services::Customers.create!(customer_params)
           redirect('/customers')
         rescue Services::Errors::RecordInvalid
           status 422
@@ -42,8 +42,8 @@ module Carpanta
 
       private
 
-      def filtered_params
-        params['customer']
+      def customer_params
+        params[:customer]
       end
     end
   end
