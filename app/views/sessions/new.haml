@@ -1,0 +1,12 @@
+%h2= 'New Session'
+
+%form{ action: "/customers/#{session.customer_id}/sessions", method: :post }
+  Price:
+  %input{ type: 'number', name: 'session[price]' }
+  %br
+  Task:
+  %select{ name: 'session[task_id]' }
+    - tasks.each do |task|
+      %option{ value: task.id }= task.name
+  %br
+  %input{ type: 'submit', value: 'Create' }
