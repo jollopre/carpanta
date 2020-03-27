@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  app:
+    build:
+      target: production
+    ports:
+      - "80:80"
+    env_file:
+      - ./infra/production.env
