@@ -1,5 +1,6 @@
 ---
 services:
   - docker
+install: []
 script:
   - make test
