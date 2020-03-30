@@ -2,6 +2,6 @@ sudo: required
 services:
   - docker
 install:
-  - exit 0
+  - echo ""
 script:
   - make test
