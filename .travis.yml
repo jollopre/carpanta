@@ -3,7 +3,5 @@ language: ruby
 
 services:
   - docker
-install:
-  - make build_test
 script:
   - make test
