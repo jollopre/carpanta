@@ -1,9 +1,7 @@
----
-language: ruby
-
+sudo: required
 services:
   - docker
 install:
-  - make build_test
+  - echo ""
 script:
   - make test

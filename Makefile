@@ -1,18 +1,27 @@
-COMPOSE_FILES_DEVELOPMENT=-f docker-compose.yml -f docker-compose.devel.yml
-COMPOSE_FILES_TEST=-f docker-compose.yml -f docker-compose.test.yml
+.PHONY: up down build test shell console logs start stop
 
-.PHONY: development_up development_down build_test test bash console
-development_up:
-	docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
-development_down:
-	docker-compose ${COMPOSE_FILES_DEVELOPMENT} down
-build_devel:
-	docker-compose ${COMPOSE_FILES_DEVELOPMENT} build
-build_test:
-	docker-compose ${COMPOSE_FILES_TEST} build
-test:	build_test
-	docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake test:all
-bash:
-	docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bash
+COMPOSE_FILES_TEST=-f docker-compose.base.yml -f docker-compose.test.yml
+COMPOSE_FILES_DEVELOPMENT=-f docker-compose.base.yml -f docker-compose.devel.yml
+COMPOSE_FILES_PRODUCTION=-f docker-compose.base.yml -f docker-compose.prod.yml
+TAG=$(shell git log --pretty=format:%H -n 1)
+
+up:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
+down:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} down
+build:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} build
+test:
+	@docker-compose ${COMPOSE_FILES_TEST} build
+	@docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake spec
+shell:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bash
 console:
-	docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bin/console
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bin/console
+logs:
+	@docker-compose -f docker-compose.base.yml logs -f
+start:
+	@docker-compose ${COMPOSE_FILES_PRODUCTION} build
+	@docker-compose ${COMPOSE_FILES_PRODUCTION} up -d
+stop:
+	@docker-compose ${COMPOSE_FILES_PRODUCTION} down
