@@ -17,6 +17,7 @@
 /_yardoc/
 /doc/
 /rdoc/
+/app/public/*.css
 
 ## Environment normalization:
 /.bundle/
