@@ -1,16 +1,18 @@
 %h2= 'New Customer'
 
-%form{ action: '/customers', method: :post }
-  Name: 
-  %input{ type: 'text', name: 'customer[name]' }
-  %br
-  Surname:
-  %input{ type: 'text', name: 'customer[surname]' }
-  %br
-  Email:
-  %input{ type: 'email', name: 'customer[email]' }
-  %br
-  Phone:
-  %input{ type: 'tel', name: 'customer[phone]' }
-  %br
-  %input{ type: 'submit', value: 'Create' }
+%form{ action: '/customers', method: :post, class: 'pure-form pure-form-aligned' }
+  %fieldset
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'name' } Name
+      %input{ type: 'text', id: 'name', name: 'customer[name]' }
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'surname' } Surname
+      %input{ type: 'text', id: 'surname', name: 'customer[surname]' }
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'email' } Email
+      %input{ type: 'email', id: 'email', name: 'customer[email]' }
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'phone' } Phone
+      %input{ type: 'tel', id: 'phone', name: 'customer[phone]' }
+    %div{ class: 'pure-controls' }
+      %input{ type: 'submit', class: 'pure-button pure-button-primary', value: 'Create' }
