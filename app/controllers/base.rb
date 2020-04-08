@@ -8,7 +8,7 @@ module Carpanta
         set :logging, true
         set :root, File.join(Carpanta.root, 'app')
         set :run, false
-        set :dump_errors, development? || test?
+        set :dump_errors, true
         set :show_exceptions, development? || test?
         set :haml, format: :html5
 
