@@ -1,12 +1,14 @@
 %h2= 'New Session'
 
-%form{ action: "/customers/#{session.customer_id}/sessions", method: :post }
-  Price:
-  %input{ type: 'number', name: 'session[price]' }
-  %br
-  Task:
-  %select{ name: 'session[task_id]' }
-    - tasks.each do |task|
-      %option{ value: task.id }= task.name
-  %br
-  %input{ type: 'submit', value: 'Create' }
+%form{ action: "/customers/#{session.customer_id}/sessions", method: :post, class: 'pure-form pure-form-aligned' }
+  %fieldset
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'price' } Price
+      %input{ type: 'number', id: 'price', name: 'session[price]' }
+    %div{ class: 'pure-control-group' }
+      %label{ for: 'task_id' } Task
+      %select{ id: 'task_id', name: 'session[task_id]' }
+        - tasks.each do |task|
+          %option{ value: task.id }= task.name
+    %div{ class: 'pure-controls' }
+      %input{ type: 'submit', class: 'pure-button pure-button-primary', value: 'Create' }
