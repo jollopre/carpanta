@@ -1,4 +1,5 @@
 body {
+  min-width: 320px;
   line-height: 1.7em;
   color: #7f8c8d;
   font-size: 13px;
@@ -75,6 +76,11 @@ label {
   padding: 1em;
 }
 
+.l-box-lrg {
+  padding: 2em;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
 .footer {
   background: #111;
   position: fixed;
@@ -92,5 +98,9 @@ label {
   }
   .home-menu ul {
     float: right;
+  }
+
+  .l-box-lrg {
+    border: none;
   }
 }

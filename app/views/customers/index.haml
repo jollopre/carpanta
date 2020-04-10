@@ -1,6 +1,9 @@
-%h2{ class: 'content-head' }Customers
-%a{ href: '/customers/new', class: 'pure-button' } New Customer
-%table{ class: 'pure-table' }
+%h2{ class: 'content-head is-center' }Customers
+%div{ class: 'pure-g l-box' }
+  %div{ class: 'pure-u-3-4'}
+  %div{ class: 'pure-u-1-4' }
+    %a{ href: '/customers/new', class: 'pure-button' } New Customer
+%table{ class: 'pure-table', style: 'margin-left:auto; margin-right:auto' }
   %tr
     %th Name
     %th Surname

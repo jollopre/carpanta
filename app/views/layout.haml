@@ -1,8 +1,9 @@
 %html
   %head
+    %meta{ charset: 'UTF-8' }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
     %link{ rel: 'stylesheet', href: '/pure-min.css' }
     %link{ rel: 'stylesheet', href: '/carpanta.css' }
-    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1', charset: 'UTF-8' }
     %title Welcome to Carpanta
   %body
     %div.header
@@ -16,7 +17,7 @@
             %a{ class: 'pure-menu-link', href: '#' }Tasks
     %div{ class: 'content-wrapper' }
       %div{ class: 'content' }
-        %div{ class: 'is-center' }=yield
+        =yield
       %div{ class: 'footer l-box is-center' }
         %small
           &copy; Copyright #{Time.now.year},&nbsp
