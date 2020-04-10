@@ -96,6 +96,10 @@ RSpec.describe Carpanta::Controllers::Customers do
       let(:task) { FactoryBot.create(:task) }
       let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
 
+      it 'returns the details for a customer'
+
+      it 'includes link to return to the list of customers'
+
       it 'returns the sessions for a customer' do
         get "/customers/#{customer.id}"
 
