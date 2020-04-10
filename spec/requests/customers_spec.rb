@@ -18,6 +18,12 @@ RSpec.describe Carpanta::Controllers::Customers do
       expect(last_response.body).to have_xpath('//h2', text: 'Customers')
     end
 
+    it 'includes link for new customer' do
+      get '/customers'
+
+      expect(last_response.body).to have_link('New Customer', href: '/customers/new')
+    end
+
     it 'returns list of customers' do
       get '/customers'
 
