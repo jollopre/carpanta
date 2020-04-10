@@ -1,0 +1,96 @@
+body {
+  line-height: 1.7em;
+  color: #7f8c8d;
+  font-size: 13px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  color: #34495e;
+}
+
+.home-menu {
+  padding: 0.5em;
+  text-align: center;
+  box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+.home-menu {
+  background: #2d3e50;
+}
+.pure-menu.pure-menu-fixed {
+  border-bottom: none;
+  z-index: 4;
+}
+
+.home-menu .pure-menu-heading {
+  color: white;
+  font-weight: 400;
+  font-size: 120%;
+}
+
+.home-menu .pure-menu-selected a {
+  color: white;
+}
+
+.home-menu a {
+    color: #6FBEF3;
+}
+.home-menu li a:hover,
+.home-menu li a:focus {
+  background: none;
+  border: none;
+  color: #AECFE5;
+}
+
+.content-wrapper {
+  position: absolute;
+  top: 5%;
+  width: 100%;
+  min-height: 12%;
+  z-index: 2;
+  background: white;
+}
+
+.content {
+  padding: 1em 1em 3em;
+}
+
+.content-head {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 2em 0 1em;
+}
+
+.is-center {
+  text-align: center;
+}
+
+.l-box {
+  padding: 1em;
+}
+
+.footer {
+  background: #111;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (min-width: 48em) {
+  body {
+    font-size: 16px;
+  }
+
+  .home-menu {
+    text-align: left;
+  }
+  .home-menu ul {
+    float: right;
+  }
+}

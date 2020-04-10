@@ -1,6 +1,25 @@
 %html
   %head
     %link{ rel: 'stylesheet', href: '/pure-min.css' }
+    %link{ rel: 'stylesheet', href: '/carpanta.css' }
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1', charset: 'UTF-8' }
     %title Welcome to Carpanta
-  %body= yield
+  %body
+    %div.header
+      %div{ class: 'home-menu pure-menu pure-menu-horizontal pure-menu-fixed'}
+        %a{ class: 'pure-menu-heading', href: '/' }Carpanta
+
+        %ul{ class: 'pure-menu-list' }
+          %li{ class: 'pure-menu-item pure-menu-selected' }
+            %a{ class: 'pure-menu-link', href: '/customers' }Customers
+          %li{ class: 'pure-menu-item' }
+            %a{ class: 'pure-menu-link', href: '#' }Tasks
+    %div{ class: 'content-wrapper' }
+      %div{ class: 'content' }
+        %div{ class: 'is-center' }=yield
+      %div{ class: 'footer l-box is-center' }
+        %small
+          &copy; Copyright #{Time.now.year},&nbsp
+          %a{ href: 'https://github.com/jollopre/carpanta', target: '_blank' }Carpanta.
+          Powered by&nbsp
+          %a{ href: 'https://github.com/jollopre', target: '_blank' }jollopre.

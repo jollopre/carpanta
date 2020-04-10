@@ -1,11 +1,11 @@
-%h2 Customers
+%h2{ class: 'content-head' }Customers
 %table{ class: 'pure-table' }
   %tr
     %th Name
     %th Surname
     %th Email
     %th Phone
-    %th
+    %th #
   - customers.each do |customer|
     %tr
       %td= customer.name

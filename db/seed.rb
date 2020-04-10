@@ -34,7 +34,16 @@ end
 
 customers = lambda do
   [
-    { name: 'Ben', surname: 'Dover', email: 'ben.dover@carpanta.com', phone: '600111222' }
+    { name: 'Ben', surname: 'Dover', email: 'ben.dover@carpanta.com', phone: '600111222' },
+    { name: 'Hermione', surname: 'Byrne', email: 'hermione.byrne@carpanta.com', phone: '600111222' },
+    { name: 'Felix', surname: 'Burns', email: 'felix.burns@carpanta.com', phone: '600111222' },
+    { name: 'Eden', surname: 'Davenport', email: 'eden.davenport@carpanta.com', phone: '600111222' },
+    { name: 'Isabella', surname: 'Mckinney', email: 'isabella.mckinney@carpanta.com', phone: '600111222' },
+    { name: 'Teresa', surname: 'Le', email: 'teresa.le@carpanta.com', phone: '600111222' },
+    { name: 'Casey', surname: 'Salazar', email: 'casey.salazar@carpanta.com', phone: '600111222' },
+    { name: 'Fatima', surname: 'Sanchez', email: 'fatima.sanchez@carpanta.com', phone: '600111222' },
+    { name: 'Pearl', surname: 'Baxter', email: 'pearl.baxter@carpanta.com', phone: '600111222' },
+    { name: 'Molly', surname: 'Barron', email: 'molly.barron@carpanta.com', phone: '600111222' }
   ]
 end
 
