@@ -11,4 +11,5 @@
         - tasks.each do |task|
           %option{ value: task.id }= task.name
     %div{ class: 'pure-controls' }
-      %input{ type: 'submit', class: 'pure-button pure-button-primary', value: 'Create' }
+      %a{ class: 'pure-button', href: "/customers/#{session.customer_id}" } Cancel
+      %input{ type: 'submit', class: 'pure-button', value: 'Create' }
