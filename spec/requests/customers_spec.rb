@@ -52,6 +52,12 @@ RSpec.describe Carpanta::Controllers::Customers do
       expect(last_response.body).to have_field('customer[phone]', type: 'tel')
       expect(last_response.body).to have_button('Create')
     end
+
+    it 'includes cancel link' do
+      get '/customers/new'
+
+      expect(last_response.body).to have_link('Cancel', href: '/customers')
+    end
   end
 
   describe 'POST /customers' do
