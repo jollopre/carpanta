@@ -12,6 +12,7 @@ RUN npm install
 
 FROM base as test
 COPY --from=assets /usr/src/node_modules/purecss/build/pure-min.css ./app/public/
+COPY --from=assets /usr/src/node_modules/purecss/build/grids-responsive-min.css ./app/public/
 RUN bundle install -j 10
 CMD bundle exec puma -p $PORT
 

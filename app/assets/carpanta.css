@@ -88,6 +88,10 @@ label {
   width: 100%;
 }
 
+.pull-right {
+  float: right;
+}
+
 @media (min-width: 48em) {
   body {
     font-size: 16px;
