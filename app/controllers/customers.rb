@@ -33,7 +33,7 @@ module Carpanta
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
 
-          haml :'customers/show', locals: { sessions: sessions }
+          haml :'customers/show', locals: { customer: customer, sessions: sessions }
         rescue Actions::Errors::RecordNotFound
           body 'Customer not found'
           status 404

@@ -96,7 +96,18 @@ RSpec.describe Carpanta::Controllers::Customers do
       let(:task) { FactoryBot.create(:task) }
       let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
 
-      it 'returns the details for a customer'
+      it 'returns the details for a customer' do
+        get "/customers/#{customer.id}"
+
+        expect(last_response.body).to have_xpath('//dl/dt[1]', text: 'Name')
+        expect(last_response.body).to have_xpath('//dl/dd[1]', text: customer.name)
+        expect(last_response.body).to have_xpath('//dl/dt[2]', text: 'Surname')
+        expect(last_response.body).to have_xpath('//dl/dd[2]', text: customer.surname)
+        expect(last_response.body).to have_xpath('//dl/dt[3]', text: 'Email')
+        expect(last_response.body).to have_xpath('//dl/dd[3]', text: customer.email)
+        expect(last_response.body).to have_xpath('//dl/dt[4]', text: 'Phone')
+        expect(last_response.body).to have_xpath('//dl/dd[4]', text: customer.phone)
+      end
 
       it 'includes link to return to the list of customers' do
         get "/customers/#{customer.id}"

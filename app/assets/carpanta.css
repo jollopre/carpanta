@@ -26,7 +26,6 @@ header label:after {
 
 .logo {
   float: left;
-  font-weight: bold;
   font-size: 1.5em;
 }
 
@@ -130,4 +129,4 @@ footer a:hover { color: #aaa; }
 
 .pull-right {
   float: right;
-
+}
