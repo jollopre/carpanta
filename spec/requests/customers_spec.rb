@@ -98,7 +98,11 @@ RSpec.describe Carpanta::Controllers::Customers do
 
       it 'returns the details for a customer'
 
-      it 'includes link to return to the list of customers'
+      it 'includes link to return to the list of customers' do
+        get "/customers/#{customer.id}"
+
+        expect(last_response.body).to have_link('Back', href: '/customers')
+      end
 
       it 'returns the sessions for a customer' do
         get "/customers/#{customer.id}"
