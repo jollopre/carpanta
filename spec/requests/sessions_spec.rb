@@ -27,6 +27,12 @@ RSpec.describe Carpanta::Controllers::Sessions do
       expect(last_response.body).to have_select('session[task_id]', options: ['Dyeing Hair'])
       expect(last_response.body).to have_button('Create')
     end
+
+    it 'includes cancel link' do
+      get '/customers/1/sessions/new'
+
+      expect(last_response.body).to have_link('Cancel', href: '/customers/1')
+    end
   end
 
   describe 'POST /customers/:customer_id/sessions' do

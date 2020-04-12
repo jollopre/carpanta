@@ -4,13 +4,20 @@ module Carpanta
   module Controllers
     class Base < Sinatra::Base
       configure do
-        set :root, File.join(Carpanta.root, 'app')
-        set :haml, format: :html5
-        set :environment, Carpanta.environment
+        set :environment, Carpanta.environment.to_sym
         set :logging, true
-        set :raise_errors, Carpanta.development?
+        set :root, File.join(Carpanta.root, 'app')
+        set :run, false
+        set :dump_errors, true
+        set :show_exceptions, development? || test?
+        set :haml, format: :html5
 
         use Rack::CommonLogger, Carpanta.logger
+      end
+
+      configure :development do
+        require 'sinatra/reloader'
+        register Sinatra::Reloader
       end
     end
   end

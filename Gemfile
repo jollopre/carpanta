@@ -9,6 +9,10 @@ gem 'haml', '~> 5.1', '>= 5.1.2'
 gem 'rake', '~> 13.0', '>= 13.0.1'
 gem 'sqlite3', '~> 1.4', '>= 1.4.2'
 
+group :development do
+  gem 'sinatra-contrib', '~> 2.0', '>= 2.0.8.1'
+end
+
 group :test do
   gem 'rspec', '~> 3.9'
   gem 'rack-test', '~> 1.1'

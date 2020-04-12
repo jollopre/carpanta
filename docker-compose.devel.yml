@@ -5,6 +5,7 @@ services:
       target: test
     volumes:
       - .:/usr/src
+      - /usr/src/app/public
     ports:
       - "3000:3000"
     env_file:
