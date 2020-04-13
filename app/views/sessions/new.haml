@@ -5,13 +5,13 @@
     %form{ action: "/customers/#{session.customer_id}/sessions", method: :post, class: 'pure-form pure-form-stacked' }
       %fieldset
         %div{ class: 'pure-control-group' }
-          %label{ for: 'price' } Price
+          %label{ for: 'price' } Price (in cents)
           %input{ type: 'number', id: 'price', name: 'session[price]' }
         %div{ class: 'pure-control-group' }
           %label{ for: 'task_id' } Task
           %select{ id: 'task_id', name: 'session[task_id]' }
             - tasks.each do |task|
-              %option{ value: task.id }= task.name
+              %option{ value: task.id, "data-price": task.price }= task.name
         %div{ class: 'pure-controls' }
           %a{ class: 'pure-button', href: "/customers/#{session.customer_id}" } Cancel
           %input{ type: 'submit', class: 'pure-button', value: 'Create' }

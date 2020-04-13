@@ -16,6 +16,6 @@ RSpec.describe 'Sessions resource', type: :feature do
     click_button 'Create'
 
     expect(page).to have_text(task.name)
-    expect(page).to have_text(price)
+    expect(page).to have_text('12.34 €')
   end
 end

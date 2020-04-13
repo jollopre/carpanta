@@ -19,13 +19,26 @@ RSpec.describe Carpanta::Controllers::Sessions do
       expect(last_response.body).to have_xpath('//h2', text: 'New Session')
     end
 
-    it 'returns form for filling session' do
-      get '/customers/1/sessions/new'
+    context 'rendered form' do
+      it 'includes action, method and submit' do
+        get '/customers/1/sessions/new'
 
-      expect(last_response.body).to have_xpath("//form[@action = '/customers/1/sessions' and @method = 'post']")
-      expect(last_response.body).to have_field('session[price]', type: 'number')
-      expect(last_response.body).to have_select('session[task_id]', options: ['Dyeing Hair'])
-      expect(last_response.body).to have_button('Create')
+        expect(last_response.body).to have_xpath("//form[@action = '/customers/1/sessions' and @method = 'post']")
+        expect(last_response.body).to have_button('Create')
+      end
+
+      it 'includes price field' do
+        get '/customers/1/sessions/new'
+
+        expect(last_response.body).to have_field('session[price]', type: 'number')
+      end
+
+      it 'includes select for task' do
+        get '/customers/1/sessions/new'
+
+        expect(last_response.body).to have_select('session[task_id]', options: ['Dyeing Hair'])
+        expect(last_response.body).to have_xpath("//select/option[1][@data-price = '1500']")
+      end
     end
 
     it 'includes cancel link' do

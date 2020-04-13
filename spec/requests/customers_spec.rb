@@ -96,6 +96,12 @@ RSpec.describe Carpanta::Controllers::Customers do
       let(:task) { FactoryBot.create(:task) }
       let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
 
+      it 'returns 200 status' do
+        get "/customers/#{customer.id}"
+
+        expect(last_response.status).to eq(200)
+      end
+
       it 'returns the details for a customer' do
         get "/customers/#{customer.id}"
 
@@ -115,14 +121,24 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_link('Back', href: '/customers')
       end
 
-      it 'returns the sessions for a customer' do
-        get "/customers/#{customer.id}"
+      context 'session list' do
+        it 'includes task name' do
+          get "/customers/#{customer.id}"
 
-        expect(last_response.status).to eq(200)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: task.name)
+        end
 
-        expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: task.name)
-        expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: session.price)
-        expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: session.created_at)
+        it 'includes price formatted' do
+          get "/customers/#{customer.id}"
+
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', exact_text: '15.00 €')
+        end
+
+        it 'includes created_at' do
+          get "/customers/#{customer.id}"
+
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: session.created_at)
+        end
       end
 
       it 'permits adding new session' do

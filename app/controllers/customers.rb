@@ -5,6 +5,7 @@ require 'app/queries/find_customers'
 require 'app/queries/find_sessions'
 require 'app/services/errors'
 require 'app/actions/errors'
+require 'app/presenters/customer'
 
 module Carpanta
   module Controllers
@@ -33,7 +34,7 @@ module Carpanta
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
 
-          haml :'customers/show', locals: { customer: customer, sessions: sessions }
+          haml :'customers/show', locals: Presenters::Customer.new(customer: customer, sessions: sessions).attributes
         rescue Actions::Errors::RecordNotFound
           body 'Customer not found'
           status 404
