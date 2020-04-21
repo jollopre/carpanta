@@ -9,6 +9,9 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
       expect(customer.surname).to eq('Duck')
       expect(customer.email).to eq('donald.duck@carpanta.com')
       expect(customer.phone).to eq('666111222')
+      expect(customer.id).to be_nil
+      expect(customer.created_at).to be_nil
+      expect(customer.updated_at).to be_nil
     end
 
     describe 'name' do
