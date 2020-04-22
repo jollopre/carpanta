@@ -10,6 +10,12 @@ module Carpanta
         def attributes
           { id: id, created_at: created_at, updated_at: updated_at }
         end
+
+        def ==(entity)
+          return false unless entity.respond_to?(:id)
+
+          id == entity.id
+        end
       end
     end
   end
