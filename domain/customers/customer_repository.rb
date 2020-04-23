@@ -1,3 +1,5 @@
+require_relative 'customer'
+
 module Carpanta
   module Domain
     module Customers

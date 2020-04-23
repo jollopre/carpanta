@@ -51,10 +51,6 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
           )
         )
       end
-
-      it 'must be unique in the system' do
-        skip('TO DECIDE whether or not this validation goes into the model')
-      end
     end
   end
 
