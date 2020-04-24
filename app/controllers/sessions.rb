@@ -1,10 +1,10 @@
 require_relative 'base'
 require 'app/entities/session'
 require 'app/queries/find_tasks'
-require 'app/queries/find_customers'
 require 'app/actions/errors'
 require 'app/services/sessions'
 require 'app/services/errors'
+require 'domain/customers/customer_service'
 
 module Carpanta
   module Controllers
@@ -15,15 +15,14 @@ module Carpanta
 
       post '/customers/:customer_id/sessions' do
         begin
-          customer_id = params[:customer_id]
-          customer = Queries::FindCustomers.call(id: customer_id).first
+          customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
           raise Actions::Errors::RecordNotFound unless customer
 
           task = Queries::FindTasks.call(id: [session_params[:task_id]]).first
           raise Actions::Errors::RecordNotFound unless task
 
-          Services::Sessions.create!(session_params.merge(customer_id: customer_id))
-          redirect("/customers/#{customer_id}")
+          Services::Sessions.create!(session_params.merge(customer_id: customer.id))
+          redirect("/customers/#{customer.id}")
         rescue Actions::Errors::RecordNotFound, Services::Errors::RecordInvalid
           status 422
         end

@@ -67,10 +67,16 @@ RSpec.describe Carpanta::Controllers::Customers do
 
         expect(last_response.status).to eq(422)
       end
+
+      context 'since email is not unique' do
+        it 'returns 422' do
+          skip 'will be addressed by #26'
+        end
+      end
     end
 
     it 'creates a customer' do
-      post '/customers', { customer: { email: 'donald.duck@carpanta.com' }}
+      post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
 
       expect(last_response.status).to eq(302)
     end

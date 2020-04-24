@@ -3,7 +3,7 @@ require 'domain/customers/customer_repository'
 
 RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
   let(:customer) do
-    Carpanta::Domain::Customers::Customer.from_params(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+    Carpanta::Domain::Customers::Customer.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
   end
 
   describe '.create!' do
@@ -50,6 +50,24 @@ RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
       result = described_class.find_all
 
       expect(result).to include(customer)
+    end
+  end
+
+  describe '.find_by_id' do
+    it 'returns a customer instance' do
+      persisted_customer = described_class.create!(customer)
+
+      result = described_class.find_by_id(persisted_customer.id)
+
+      expect(result).to eq(persisted_customer)
+    end
+
+    context 'when there is no customer for the id' do
+      it 'returns nil' do
+        result = described_class.find_by_id('an_id')
+
+        expect(result).to be_nil
+      end
     end
   end
 end

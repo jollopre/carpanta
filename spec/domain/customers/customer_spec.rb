@@ -1,9 +1,9 @@
 require 'domain/customers/customer'
 
 RSpec.describe Carpanta::Domain::Customers::Customer do
-  describe '.from_params' do
+  describe '.build' do
     it 'returns a customer' do
-      customer = described_class.from_params(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+      customer = described_class.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
 
       expect(customer.name).to eq('Donald')
       expect(customer.surname).to eq('Duck')
@@ -16,7 +16,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'name' do
       it 'needs to be present' do
-        customer = described_class.from_params(name: nil)
+        customer = described_class.build(name: nil)
 
         expect(customer.errors).to include(:name)
         expect(customer.errors.details).to include(
@@ -29,7 +29,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'surname' do
       it 'needs to be present' do
-        customer = described_class.from_params(surname: nil)
+        customer = described_class.build(surname: nil)
 
         expect(customer.errors).to include(:surname)
         expect(customer.errors.details).to include(
@@ -42,7 +42,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'email' do
       it 'needs to be a valid format' do
-        customer = described_class.from_params(email: 'wadus@carpanta')
+        customer = described_class.build(email: 'wadus@carpanta')
 
         expect(customer.errors).to include(:email)
         expect(customer.errors.details).to include(
@@ -56,7 +56,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
   describe '#serializable_hash' do
     it 'returns a customer hash' do
-      customer = described_class.from_params(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+      customer = described_class.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
 
       expect(customer.serializable_hash).to include(
         name: 'Donald',

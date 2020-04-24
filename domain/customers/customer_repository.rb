@@ -20,22 +20,33 @@ module Carpanta
           end
 
           def find_all
-            entries = CustomerStorage.all.offset(0).limit(100).order(:id)
-            entries.map do |entry|
-              attrs = entry.attributes.symbolize_keys.reject{ |k| PERSISTENCE_KEYS.include?(k) }
-              customer = Customer.from_params(attrs)
-              with_persistence_attrs(entry, customer)
-              customer
+            records = CustomerStorage.all.offset(0).limit(100).order(:id)
+            records.map do |record|
+              build_from_storage(record)
             end
+          end
+
+          def find_by_id(id)
+            record = CustomerStorage.find(id)
+            build_from_storage(record)
+          rescue ActiveRecord::RecordNotFound
+            nil
           end
 
           private
 
-          def with_persistence_attrs(result, customer)
+          def with_persistence_attrs(record, customer)
             PERSISTENCE_KEYS.each do |key|
-              value = result.send(key)
+              value = record.send(key)
               customer.send("#{key}=", value)
             end
+          end
+
+          def build_from_storage(record)
+            attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
+            customer = Customer.build(attrs)
+            with_persistence_attrs(record, customer)
+            customer
           end
         end
       end

@@ -11,7 +11,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerService do
     Carpanta::Domain::Customers::Customer
   end
   let(:customer_instance) do
-    customer_class.from_params(default_attributes)
+    customer_class.build(default_attributes)
   end
   let(:invalid_class) do
     Carpanta::Domain::Customers::InvalidCustomer
@@ -58,6 +58,28 @@ RSpec.describe Carpanta::Domain::Customers::CustomerService do
         expect(repository_class).to have_received(:create!)
         expect(result).to be_an_instance_of(customer_class)
       end
+    end
+  end
+
+  describe '.find_all' do
+    it 'returns the first 100 customers' do
+      allow(repository_class).to receive(:find_all).and_return([customer_instance])
+
+      result = described_class.find_all
+
+      expect(repository_class).to have_received(:find_all)
+      expect(result).to all(be_an_instance_of(customer_class))
+    end
+  end
+
+  describe '.find_by_id' do
+    it 'forwards into its repository' do
+      allow(repository_class).to receive(:find_by_id).and_return(customer_instance)
+
+      result = described_class.find_by_id('an_id')
+
+      expect(repository_class).to have_received(:find_by_id).with('an_id')
+      expect(result).to eq(customer_instance)
     end
   end
 end

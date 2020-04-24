@@ -25,7 +25,7 @@ module Carpanta
         end
 
         class << self
-          def from_params(name: nil, surname: nil, email: nil, phone: nil)
+          def build(name: nil, surname: nil, email: nil, phone: nil)
             customer = new(name: name, surname: surname, email: email, phone: phone)
 
             customer.validate

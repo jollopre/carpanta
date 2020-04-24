@@ -1,35 +1,32 @@
 require_relative 'base'
-require 'app/entities/customer'
-require 'app/services/customers'
-require 'app/queries/find_customers'
 require 'app/queries/find_sessions'
-require 'app/services/errors'
 require 'app/actions/errors'
 require 'app/presenters/customer'
+require 'domain/customers/customer_service'
 
 module Carpanta
   module Controllers
     class Customers < Base
       get '/customers' do
-        haml :'customers/index', locals: { customers: Queries::FindCustomers.call }
+        haml :'customers/index', locals: { customers: Domain::Customers::CustomerService.find_all }
       end
 
       get '/customers/new' do
-        haml :'customers/new', locals: { customer:  Entities::Customer.new }
+        haml :'customers/new', locals: { customer: Domain::Customers::Customer.build }
       end
 
       post '/customers' do
         begin
-          Services::Customers.create!(customer_params)
+          Domain::Customers::CustomerService.create!(customer_params)
           redirect('/customers')
-        rescue Services::Errors::RecordInvalid
+        rescue Domain::Customers::InvalidCustomer
           status 422
         end
       end
 
       get '/customers/:customer_id' do
         begin
-          customer = Queries::FindCustomers.call(id: params[:customer_id]).first
+          customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
           raise Actions::Errors::RecordNotFound unless customer
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
@@ -44,7 +41,13 @@ module Carpanta
       private
 
       def customer_params
-        params[:customer]
+        attrs = params.fetch(:customer, {})
+        customer = {}
+        customer[:name] = attrs['name']
+        customer[:surname] = attrs['surname']
+        customer[:email] = attrs['email']
+        customer[:phone] = attrs['phone']
+        customer
       end
     end
   end
