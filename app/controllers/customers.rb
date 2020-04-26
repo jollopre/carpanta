@@ -2,6 +2,7 @@ require_relative 'base'
 require 'app/queries/find_sessions'
 require 'app/presenters/customer'
 require 'domain/customers/service'
+require 'domain/customers/errors'
 
 module Carpanta
   module Controllers
@@ -18,7 +19,7 @@ module Carpanta
         begin
           Domain::Customers::Service.create!(customer_params)
           redirect('/customers')
-        rescue Domain::Customers::Errors::Invalid
+        rescue Domain::Customers::Errors::Invalid, Domain::Customers::Errors::EmailNotUnique
           status 422
         end
       end

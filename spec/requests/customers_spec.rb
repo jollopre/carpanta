@@ -69,8 +69,14 @@ RSpec.describe Carpanta::Controllers::Customers do
       end
 
       context 'since email is not unique' do
+        before do
+          FactoryBot.create(:customer, email: 'donald.duck@carpanta.com')
+        end
+
         it 'returns 422' do
-          skip 'will be addressed by #26'
+          post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
+
+          expect(last_response.status).to eq(422)
         end
       end
     end
