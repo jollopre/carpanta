@@ -27,7 +27,7 @@ module Carpanta
             end
           end
 
-          def find_by_id(id)
+          def find_by_id!(id)
             record = CustomerStorage.find(id)
             build_from_storage(record)
           rescue ActiveRecord::RecordNotFound

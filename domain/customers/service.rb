@@ -21,8 +21,8 @@ module Carpanta
             Repository.find_all
           end
 
-          def find_by_id(id)
-            Repository.find_by_id(id)
+          def find_by_id!(id)
+            Repository.find_by_id!(id)
           end
         end
       end

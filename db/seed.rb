@@ -1,4 +1,4 @@
-require 'app/services/customers'
+require 'domain/customers/service'
 require 'app/services/sessions'
 require 'app/queries/find_tasks'
 
@@ -57,7 +57,7 @@ lambda do
   end
 
   tasks = tasks.call.map { |task| Carpanta::Services::Tasks.create!(task) }
-  customers = customers.call.map { |customer| Carpanta::Services::Customers.create!(customer) }
+  customers = customers.call.map { |customer| Carpanta::Domain::Customers::Service.create!(customer) }
 
   customers.each do |customer|
     (1..10).each do

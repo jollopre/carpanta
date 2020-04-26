@@ -57,11 +57,11 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
   end
 
-  describe '.find_by_id' do
+  describe '.find_by_id!' do
     it 'returns a customer instance' do
       persisted_customer = described_class.create!(customer)
 
-      result = described_class.find_by_id(persisted_customer.id)
+      result = described_class.find_by_id!(persisted_customer.id)
 
       expect(result).to eq(persisted_customer)
     end
@@ -69,7 +69,7 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     context 'when there is no customer for the id' do
       it 'raises NotFound' do
         expect do
-          described_class.find_by_id('non_existent')
+          described_class.find_by_id!('non_existent')
         end.to raise_error(not_found_class)
       end
     end

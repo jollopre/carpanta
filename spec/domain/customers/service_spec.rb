@@ -72,13 +72,13 @@ RSpec.describe Carpanta::Domain::Customers::Service do
     end
   end
 
-  describe '.find_by_id' do
+  describe '.find_by_id!' do
     it 'forwards into its repository' do
-      allow(repository_class).to receive(:find_by_id).and_return(customer_instance)
+      allow(repository_class).to receive(:find_by_id!).and_return(customer_instance)
 
-      result = described_class.find_by_id('an_id')
+      result = described_class.find_by_id!('an_id')
 
-      expect(repository_class).to have_received(:find_by_id).with('an_id')
+      expect(repository_class).to have_received(:find_by_id!).with('an_id')
       expect(result).to eq(customer_instance)
     end
   end

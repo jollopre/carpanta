@@ -15,7 +15,7 @@ module Carpanta
 
       post '/customers/:customer_id/sessions' do
         begin
-          customer = Domain::Customers::Service.find_by_id(params[:customer_id])
+          customer = Domain::Customers::Service.find_by_id!(params[:customer_id])
 
           task = Queries::FindTasks.call(id: [session_params[:task_id]]).first
           raise Actions::Errors::RecordNotFound unless task

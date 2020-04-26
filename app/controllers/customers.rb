@@ -25,7 +25,7 @@ module Carpanta
 
       get '/customers/:customer_id' do
         begin
-          customer = Domain::Customers::Service.find_by_id(params[:customer_id])
+          customer = Domain::Customers::Service.find_by_id!(params[:customer_id])
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
 
