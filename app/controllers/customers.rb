@@ -1,6 +1,5 @@
 require_relative 'base'
 require 'app/queries/find_sessions'
-require 'app/actions/errors'
 require 'app/presenters/customer'
 require 'domain/customers/customer_service'
 
@@ -19,7 +18,7 @@ module Carpanta
         begin
           Domain::Customers::CustomerService.create!(customer_params)
           redirect('/customers')
-        rescue Domain::Customers::InvalidCustomer
+        rescue Domain::Customers::Errors::Invalid
           status 422
         end
       end
@@ -27,12 +26,11 @@ module Carpanta
       get '/customers/:customer_id' do
         begin
           customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
-          raise Actions::Errors::RecordNotFound unless customer
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
 
           haml :'customers/show', locals: Presenters::Customer.new(customer: customer, sessions: sessions).attributes
-        rescue Actions::Errors::RecordNotFound
+        rescue Domain::Customers::Errors::NotFound
           body 'Customer not found'
           status 404
         end

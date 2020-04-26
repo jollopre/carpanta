@@ -1,9 +1,13 @@
 require 'domain/customers/customer'
 require 'domain/customers/customer_repository'
+require 'domain/customers/errors'
 
 RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
   let(:customer) do
     FactoryBot.build(:customer)
+  end
+  let(:not_found_class) do
+    Carpanta::Domain::Customers::Errors::NotFound
   end
 
   describe '.create!' do
@@ -63,14 +67,10 @@ RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
     end
 
     context 'when there is no customer for the id' do
-      it 'returns nil' do
-        result = described_class.find_by_id('an_id')
-
-        expect(result).to be_nil
-      end
-
       it 'raises NotFound' do
-        skip('TODO raising NotFound instead of nil when not found')
+        expect do
+          described_class.find_by_id('non_existent')
+        end.to raise_error(not_found_class)
       end
     end
   end

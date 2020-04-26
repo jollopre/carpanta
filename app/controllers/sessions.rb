@@ -16,14 +16,13 @@ module Carpanta
       post '/customers/:customer_id/sessions' do
         begin
           customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
-          raise Actions::Errors::RecordNotFound unless customer
 
           task = Queries::FindTasks.call(id: [session_params[:task_id]]).first
           raise Actions::Errors::RecordNotFound unless task
 
           Services::Sessions.create!(session_params.merge(customer_id: customer.id))
           redirect("/customers/#{customer.id}")
-        rescue Actions::Errors::RecordNotFound, Services::Errors::RecordInvalid
+        rescue Actions::Errors::RecordNotFound, Services::Errors::RecordInvalid, Domain::Customers::Errors::NotFound
           status 422
         end
       end

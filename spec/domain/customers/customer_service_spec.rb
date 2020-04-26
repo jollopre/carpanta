@@ -1,6 +1,6 @@
 require 'domain/customers/customer_service'
 require 'domain/customers/customer'
-require 'domain/customers/customer_errors'
+require 'domain/customers/errors'
 require 'domain/customers/customer_repository'
 
 RSpec.describe Carpanta::Domain::Customers::CustomerService do
@@ -14,7 +14,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerService do
     customer_class.build(default_attributes)
   end
   let(:invalid_class) do
-    Carpanta::Domain::Customers::InvalidCustomer
+    Carpanta::Domain::Customers::Errors::Invalid
   end
   let(:repository_class) do
     class_double(Carpanta::Domain::Customers::CustomerRepository).as_stubbed_const
@@ -36,7 +36,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerService do
 
       context 'validating uniqueness for email' do
         let(:email_not_unique_class) do
-          Carpanta::Domain::Customers::EmailNotUnique
+          Carpanta::Domain::Customers::Errors::EmailNotUnique
         end
 
         it 'raises EmailNotUnique' do

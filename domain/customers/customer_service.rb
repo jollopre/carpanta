@@ -1,5 +1,5 @@
 require_relative 'customer'
-require_relative 'customer_errors'
+require_relative 'errors'
 require_relative 'customer_repository'
 
 module Carpanta
@@ -10,9 +10,9 @@ module Carpanta
           def create!(attributes)
             customer = Customer.build(attributes)
 
-            raise InvalidCustomer unless customer.errors.empty?
+            raise Errors::Invalid unless customer.errors.empty?
 
-            raise EmailNotUnique if CustomerRepository.exists?(customer)
+            raise Errors::EmailNotUnique if CustomerRepository.exists?(customer)
 
             CustomerRepository.create!(customer)
           end

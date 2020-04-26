@@ -1,4 +1,5 @@
 require_relative 'customer'
+require_relative 'errors'
 
 module Carpanta
   module Domain
@@ -30,7 +31,7 @@ module Carpanta
             record = CustomerStorage.find(id)
             build_from_storage(record)
           rescue ActiveRecord::RecordNotFound
-            nil
+            raise Errors::NotFound
           end
 
           private
