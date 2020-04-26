@@ -1,7 +1,7 @@
 require 'app/entities/customer'
 
 FactoryBot.define do
-  factory :customer, class: Carpanta::Entities::Customer do
+  factory :legacy_customer, class: Carpanta::Entities::Customer do
     name { 'Donald' }
     surname { 'Duck' }
     email { 'donald.duck@carpanta.com' }

@@ -3,7 +3,7 @@ require 'domain/customers/customer_repository'
 
 RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
   let(:customer) do
-    Carpanta::Domain::Customers::Customer.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+    FactoryBot.build(:customer)
   end
 
   describe '.create!' do
@@ -67,6 +67,10 @@ RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
         result = described_class.find_by_id('an_id')
 
         expect(result).to be_nil
+      end
+
+      it 'raises NotFound' do
+        skip('TODO raising NotFound instead of nil when not found')
       end
     end
   end

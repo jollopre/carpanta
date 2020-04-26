@@ -3,12 +3,12 @@ require 'domain/customers/customer'
 RSpec.describe Carpanta::Domain::Customers::Customer do
   describe '.build' do
     it 'returns a customer' do
-      customer = described_class.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+      customer = FactoryBot.build(:customer)
 
       expect(customer.name).to eq('Donald')
       expect(customer.surname).to eq('Duck')
       expect(customer.email).to eq('donald.duck@carpanta.com')
-      expect(customer.phone).to eq('666111222')
+      expect(customer.phone).to eq('600111222')
       expect(customer.id).to be_nil
       expect(customer.created_at).to be_nil
       expect(customer.updated_at).to be_nil
@@ -16,7 +16,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'name' do
       it 'needs to be present' do
-        customer = described_class.build(name: nil)
+        customer = FactoryBot.build(:customer, name: nil)
 
         expect(customer.errors).to include(:name)
         expect(customer.errors.details).to include(
@@ -29,11 +29,11 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'surname' do
       it 'needs to be present' do
-        customer = described_class.build(surname: nil)
+        customer = FactoryBot.build(:customer, surname: nil)
 
         expect(customer.errors).to include(:surname)
         expect(customer.errors.details).to include(
-          name: include(
+          surname: include(
             error: :blank
           )
         )
@@ -42,7 +42,7 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
     describe 'email' do
       it 'needs to be a valid format' do
-        customer = described_class.build(email: 'wadus@carpanta')
+        customer = FactoryBot.build(:customer, email: 'wadus@carpanta')
 
         expect(customer.errors).to include(:email)
         expect(customer.errors.details).to include(
@@ -56,13 +56,13 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
 
   describe '#serializable_hash' do
     it 'returns a customer hash' do
-      customer = described_class.build(name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222')
+      customer = FactoryBot.build(:customer)
 
       expect(customer.serializable_hash).to include(
         name: 'Donald',
         surname: 'Duck',
         email: 'donald.duck@carpanta.com',
-        phone: '666111222',
+        phone: '600111222',
         id: anything,
         created_at: anything,
         updated_at: anything
