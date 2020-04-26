@@ -1,4 +1,3 @@
-require 'app/services/customers'
 require 'app/services/tasks'
 require 'app/repositories/session'
 require 'app/entities/session'
