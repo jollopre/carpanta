@@ -4,7 +4,7 @@ require 'app/queries/find_tasks'
 require 'app/actions/errors'
 require 'app/services/sessions'
 require 'app/services/errors'
-require 'domain/customers/customer_service'
+require 'domain/customers/service'
 
 module Carpanta
   module Controllers
@@ -15,7 +15,7 @@ module Carpanta
 
       post '/customers/:customer_id/sessions' do
         begin
-          customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
+          customer = Domain::Customers::Service.find_by_id(params[:customer_id])
 
           task = Queries::FindTasks.call(id: [session_params[:task_id]]).first
           raise Actions::Errors::RecordNotFound unless task

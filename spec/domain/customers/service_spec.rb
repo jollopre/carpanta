@@ -1,9 +1,9 @@
-require 'domain/customers/customer_service'
+require 'domain/customers/service'
 require 'domain/customers/customer'
 require 'domain/customers/errors'
 require 'domain/customers/repository'
 
-RSpec.describe Carpanta::Domain::Customers::CustomerService do
+RSpec.describe Carpanta::Domain::Customers::Service do
   let(:default_attributes) do
     { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222' }
   end

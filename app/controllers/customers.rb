@@ -1,13 +1,13 @@
 require_relative 'base'
 require 'app/queries/find_sessions'
 require 'app/presenters/customer'
-require 'domain/customers/customer_service'
+require 'domain/customers/service'
 
 module Carpanta
   module Controllers
     class Customers < Base
       get '/customers' do
-        haml :'customers/index', locals: { customers: Domain::Customers::CustomerService.find_all }
+        haml :'customers/index', locals: { customers: Domain::Customers::Service.find_all }
       end
 
       get '/customers/new' do
@@ -16,7 +16,7 @@ module Carpanta
 
       post '/customers' do
         begin
-          Domain::Customers::CustomerService.create!(customer_params)
+          Domain::Customers::Service.create!(customer_params)
           redirect('/customers')
         rescue Domain::Customers::Errors::Invalid
           status 422
@@ -25,7 +25,7 @@ module Carpanta
 
       get '/customers/:customer_id' do
         begin
-          customer = Domain::Customers::CustomerService.find_by_id(params[:customer_id])
+          customer = Domain::Customers::Service.find_by_id(params[:customer_id])
 
           sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
 

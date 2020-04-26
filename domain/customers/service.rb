@@ -5,7 +5,7 @@ require_relative 'repository'
 module Carpanta
   module Domain
     module Customers
-      class CustomerService
+      class Service
         class << self
           def create!(attributes)
             customer = Customer.build(attributes)
