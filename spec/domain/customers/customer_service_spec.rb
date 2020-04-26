@@ -1,7 +1,7 @@
 require 'domain/customers/customer_service'
 require 'domain/customers/customer'
 require 'domain/customers/errors'
-require 'domain/customers/customer_repository'
+require 'domain/customers/repository'
 
 RSpec.describe Carpanta::Domain::Customers::CustomerService do
   let(:default_attributes) do
@@ -17,7 +17,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerService do
     Carpanta::Domain::Customers::Errors::Invalid
   end
   let(:repository_class) do
-    class_double(Carpanta::Domain::Customers::CustomerRepository).as_stubbed_const
+    class_double(Carpanta::Domain::Customers::Repository).as_stubbed_const
   end
 
   describe '.create!' do

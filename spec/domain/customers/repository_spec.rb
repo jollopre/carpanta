@@ -1,8 +1,8 @@
 require 'domain/customers/customer'
-require 'domain/customers/customer_repository'
+require 'domain/customers/repository'
 require 'domain/customers/errors'
 
-RSpec.describe Carpanta::Domain::Customers::CustomerRepository do
+RSpec.describe Carpanta::Domain::Customers::Repository do
   let(:customer) do
     FactoryBot.build(:customer)
   end

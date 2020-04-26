@@ -4,7 +4,7 @@ require_relative 'errors'
 module Carpanta
   module Domain
     module Customers
-      class CustomerRepository
+      class Repository
         PERSISTENCE_KEYS = [:id, :created_at, :updated_at].freeze
 
         class << self

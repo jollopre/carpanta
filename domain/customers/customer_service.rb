@@ -1,6 +1,6 @@
 require_relative 'customer'
 require_relative 'errors'
-require_relative 'customer_repository'
+require_relative 'repository'
 
 module Carpanta
   module Domain
@@ -12,17 +12,17 @@ module Carpanta
 
             raise Errors::Invalid unless customer.errors.empty?
 
-            raise Errors::EmailNotUnique if CustomerRepository.exists?(customer)
+            raise Errors::EmailNotUnique if Repository.exists?(customer)
 
-            CustomerRepository.create!(customer)
+            Repository.create!(customer)
           end
 
           def find_all
-            CustomerRepository.find_all
+            Repository.find_all
           end
 
           def find_by_id(id)
-            CustomerRepository.find_by_id(id)
+            Repository.find_by_id(id)
           end
         end
       end

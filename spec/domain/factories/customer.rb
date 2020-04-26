@@ -1,5 +1,5 @@
 require 'domain/customers/customer'
-require 'domain/customers/customer_repository'
+require 'domain/customers/repository'
 
 FactoryBot.define do
   factory :customer, class: Carpanta::Domain::Customers::Customer do
@@ -13,7 +13,7 @@ FactoryBot.define do
     end
 
     to_create do |instance|
-      Carpanta::Domain::Customers::CustomerRepository.create!(instance)
+      Carpanta::Domain::Customers::Repository.create!(instance)
     end
   end
 end
