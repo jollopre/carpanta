@@ -54,11 +54,11 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
     end
   end
 
-  describe '#serializable_hash' do
+  describe '#attributes' do
     it 'returns a customer hash' do
       customer = FactoryBot.build(:customer)
 
-      expect(customer.serializable_hash).to include(
+      expect(customer.attributes).to include(
         name: 'Donald',
         surname: 'Duck',
         email: 'donald.duck@carpanta.com',

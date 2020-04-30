@@ -14,6 +14,10 @@ module Carpanta
           tasks.to_sentence
         end
 
+        def attributes
+          super.merge({ tasks: tasks, price: price })
+        end
+
         private
 
         def initialize(tasks: nil, price: nil)

@@ -12,9 +12,9 @@ module Carpanta
         end
 
         def ==(entity)
-          return false unless entity.respond_to?(:id)
+          return false unless entity.respond_to?(:attributes)
 
-          id == entity.id
+          attributes == entity.attributes
         end
       end
     end

@@ -11,24 +11,20 @@ RSpec.describe Carpanta::Domain::Shared::Entity do
     end
   end
 
-  describe '==' do
+  describe '#==' do
     let(:entity) do
       described_class.new(id: 1, created_at: Time.now, updated_at: Time.now)
     end
 
-    context 'when the ids are equal' do
-      let(:another_entity) do
-        described_class.new(id: 1, created_at: Time.now, updated_at: Time.now)
-      end
+    it 'returns true' do
+      another_entity = described_class.new(id: entity.id, created_at: entity.created_at, updated_at: entity.updated_at)
 
-      it 'returns true' do
-        result = entity == another_entity
+      result = entity == another_entity
 
-        expect(result).to eq(true)
-      end
+      expect(result).to eq(true)
     end
 
-    context 'when the object passed does not respond to id' do
+    context 'when the object passed does not respond to attributes' do
       it 'returns false' do
         result = entity == nil
 
@@ -36,12 +32,14 @@ RSpec.describe Carpanta::Domain::Shared::Entity do
       end
     end
 
-    it 'returns false' do
-      another_entity = described_class.new(id: 2)
+    context 'when any of its attributes is different' do
+      it 'returns false' do
+        another_entity = described_class.new(id: 2)
 
-      result = entity == another_entity
+        result = entity == another_entity
 
-      expect(result).to eq(false)
+        expect(result).to eq(false)
+      end
     end
   end
 end
