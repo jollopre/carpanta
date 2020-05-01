@@ -9,6 +9,7 @@ module Carpanta
 
         validates_presence_of :tasks, :price
         validates_numericality_of :price, only_integer: true, greater_than: ZERO
+        validates_array_of :tasks, only_string: true
 
         def name
           tasks.to_sentence

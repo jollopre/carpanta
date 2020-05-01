@@ -1,9 +1,12 @@
+require_relative 'custom_validators'
+
 module Carpanta
   module Domain
     module Shared
       class Entity
         include ActiveModel::Model
         include ActiveModel::Serialization
+        extend Shared::CustomValidators
 
         attr_accessor :id, :created_at, :updated_at
 

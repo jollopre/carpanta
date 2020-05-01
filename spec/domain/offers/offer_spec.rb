@@ -22,8 +22,40 @@ RSpec.describe Carpanta::Domain::Offers::Offer do
       )
     end
 
-    it 'needs to be a collection of string' do
-      skip('TODO')
+    it 'needs to be an array' do
+      offer = FactoryBot.build(:offer, tasks: 'foo')
+
+      expect(offer.errors).to include(:tasks)
+      expect(offer.errors.details).to include(
+        tasks: include(
+          error: :not_an_array,
+          value: 'foo'
+        )
+      )
+    end
+
+    context 'when it is an array' do
+      context 'but any of its objects is not string' do
+        it 'returns error, value and index' do
+          offer = FactoryBot.build(:offer, tasks: ['foo', nil, {}])
+
+          expect(offer.errors).to include(:tasks)
+          expect(offer.errors.details).to include(
+            tasks: include(
+              error: :not_a_string,
+              value: nil,
+              index: 1
+            )
+          )
+          expect(offer.errors.details).to include(
+            tasks: include(
+              error: :not_a_string,
+              value: {},
+              index: 2
+            )
+          )
+        end
+      end
     end
   end
 
