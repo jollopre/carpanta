@@ -1,3 +1,4 @@
+require 'forwardable'
 require_relative 'customer'
 require_relative 'errors'
 require_relative 'repository'
@@ -7,6 +8,8 @@ module Carpanta
     module Customers
       class Service
         class << self
+          extend Forwardable
+
           def create!(attributes)
             customer = Customer.build(attributes)
 
@@ -17,13 +20,7 @@ module Carpanta
             Repository.create!(customer)
           end
 
-          def find_all
-            Repository.find_all
-          end
-
-          def find_by_id!(id)
-            Repository.find_by_id!(id)
-          end
+          def_delegators Repository, :find_all, :find_by_id!
         end
       end
     end
