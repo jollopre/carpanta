@@ -17,14 +17,14 @@ RSpec.describe Carpanta::Domain::Shared::Entity do
     end
 
     it 'returns true' do
-      another_entity = described_class.new(id: entity.id, created_at: entity.created_at, updated_at: entity.updated_at)
+      another_entity = described_class.new(id: entity.id, created_at: Time.now, updated_at: Time.now)
 
       result = entity == another_entity
 
       expect(result).to eq(true)
     end
 
-    context 'when the object passed does not respond to attributes' do
+    context 'when the object passed is not a class of Entity' do
       it 'returns false' do
         result = entity == nil
 

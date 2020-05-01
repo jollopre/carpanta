@@ -4,6 +4,8 @@ module Carpanta
   module Domain
     module Shared
       class Entity
+        TIMESTAMPS = [:created_at, :updated_at].freeze
+
         include ActiveModel::Model
         include ActiveModel::Serialization
         extend Shared::CustomValidators
@@ -15,9 +17,18 @@ module Carpanta
         end
 
         def ==(entity)
-          return false unless entity.respond_to?(:attributes)
+          return false unless entity.is_a?(Entity)
 
-          attributes == entity.attributes
+          attrs = exclude_timestamps(attributes)
+          entity_attrs = exclude_timestamps(entity.attributes)
+
+          attrs == entity_attrs
+        end
+
+        private
+
+        def exclude_timestamps(attributes)
+          attributes.reject{ |k,_| TIMESTAMPS.include?(k) }
         end
       end
     end
