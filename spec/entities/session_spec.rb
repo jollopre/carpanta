@@ -57,16 +57,6 @@ RSpec.describe Carpanta::Entities::Session do
       end
     end
 
-    context 'when customer_id is not integer' do
-      it 'errors includes customer_id' do
-        session = FactoryBot.build(:session, customer_id: 'wadus')
-
-        session.valid?
-
-        expect(session.errors).to include(:customer_id)
-      end
-    end
-
     context 'when task_id is not integer' do
       it 'errors includes task_id' do
         session = FactoryBot.build(:session, task_id: 'wadus')

@@ -10,12 +10,14 @@ module Carpanta
         class << self
           extend Forwardable
 
-          def create!(attributes)
+          def save!(attributes)
             offer = Offer.build(attributes)
 
             raise Errors::Invalid unless offer.errors.empty?
 
-            Repository.create!(offer)
+            Repository.save!(offer)
+
+            offer
           end
 
           def_delegators Repository, :find_by_id!

@@ -10,24 +10,21 @@ RSpec.describe Carpanta::Domain::Offers::Repository do
     Carpanta::Domain::Offers::Errors::NotFound
   end
 
-  describe '.create!' do
-    it 'inserts an offer into its repository' do
-      result = described_class.create!(offer)
+  describe '.save!' do
+    it 'returns true' do
+      result = described_class.save!(offer)
 
-      expect(result.id).not_to be_nil
-      expect(result.created_at).not_to be_nil
-      expect(result.updated_at).not_to be_nil
-      expect(result).to be_an_instance_of(Carpanta::Domain::Offers::Offer)
+      expect(result).to eq(true)
     end
   end
 
   describe '.find_by_id!' do
     it 'returns an offer instance' do
-      persisted_offer = described_class.create!(offer)
+      described_class.save!(offer)
 
-      result = described_class.find_by_id!(persisted_offer.id)
+      result = described_class.find_by_id!(offer.id)
 
-      expect(result).to eq(persisted_offer)
+      expect(result).to eq(offer)
     end
 
     context 'when there is no offer for the id' do

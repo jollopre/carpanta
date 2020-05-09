@@ -16,12 +16,13 @@ module Carpanta
         end
 
         def attributes
-          super.merge({ tasks: tasks, price: price })
+          { id: id, tasks: tasks, price: price }
         end
 
         private
 
         def initialize(tasks: nil, price: nil)
+          super()
           @tasks = tasks
           @price = price
         end

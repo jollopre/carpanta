@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_075710) do
+ActiveRecord::Schema.define(version: 2020_05_09_183112) do
 
   create_table "appointments", force: :cascade do |t|
     t.integer "customer_id", null: false
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_075710) do
     t.index ["customer_id"], name: "index_appointments_on_customer_id"
   end
 
-  create_table "customers", force: :cascade do |t|
+  create_table "customers", id: :string, limit: 36, force: :cascade do |t|
     t.string "name"
     t.string "surname"
     t.string "email"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_075710) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "offers", force: :cascade do |t|
+  create_table "offers", id: :string, limit: 36, force: :cascade do |t|
     t.string "tasks"
     t.integer "price"
     t.datetime "created_at", null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_075710) do
 
   create_table "sessions", force: :cascade do |t|
     t.integer "price"
-    t.integer "customer_id"
+    t.string "customer_id", limit: 36
     t.integer "task_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

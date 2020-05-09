@@ -13,7 +13,7 @@ FactoryBot.define do
     end
 
     to_create do |instance|
-      Carpanta::Domain::Customers::Repository.create!(instance)
+      Carpanta::Domain::Customers::Repository.save!(instance)
     end
   end
 end

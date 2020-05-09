@@ -20,7 +20,7 @@ RSpec.describe Carpanta::Domain::Customers::Service do
     class_double(Carpanta::Domain::Customers::Repository).as_stubbed_const
   end
 
-  describe '.create!' do
+  describe '.save!' do
     context 'when there are errors' do
       context 'validating the domain instance' do
         let(:attributes) do
@@ -29,7 +29,7 @@ RSpec.describe Carpanta::Domain::Customers::Service do
 
         it 'raises Invalid' do
           expect do
-            described_class.create!(attributes)
+            described_class.save!(attributes)
           end.to raise_error(invalid_class)
         end
       end
@@ -43,19 +43,19 @@ RSpec.describe Carpanta::Domain::Customers::Service do
           allow(repository_class).to receive(:exists?).and_return(true)
 
           expect do
-            described_class.create!(default_attributes)
+            described_class.save!(default_attributes)
           end.to raise_error(email_not_unique_class)
         end
       end
 
       it 'creates a customers' do
-        allow(repository_class).to receive(:create!).and_return(customer_instance)
+        allow(repository_class).to receive(:save!).and_return(true)
         allow(repository_class).to receive(:exists?).and_return(false)
 
-        result = described_class.create!(default_attributes)
+        result = described_class.save!(default_attributes)
 
         expect(repository_class).to have_received(:exists?)
-        expect(repository_class).to have_received(:create!)
+        expect(repository_class).to have_received(:save!)
         expect(result).to be_an_instance_of(customer_class)
       end
     end

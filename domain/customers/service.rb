@@ -10,14 +10,16 @@ module Carpanta
         class << self
           extend Forwardable
 
-          def create!(attributes)
+          def save!(attributes)
             customer = Customer.build(attributes)
 
             raise Errors::Invalid unless customer.errors.empty?
 
             raise Errors::EmailNotUnique if Repository.exists?(customer)
 
-            Repository.create!(customer)
+            Repository.save!(customer)
+
+            customer
           end
 
           def_delegators Repository, :find_all, :find_by_id!

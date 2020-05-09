@@ -6,6 +6,9 @@ RSpec.describe Carpanta::Domain::Offers::Service do
   let(:invalid_class) do
     Carpanta::Domain::Offers::Errors::Invalid
   end
+  let(:offer_class) do
+    Carpanta::Domain::Offers::Offer
+  end
   let(:repository_class) do
     class_double(Carpanta::Domain::Offers::Repository).as_stubbed_const
   end
@@ -16,7 +19,7 @@ RSpec.describe Carpanta::Domain::Offers::Service do
     FactoryBot.build(:offer, default_attributes)
   end
 
-  describe '.create!' do
+  describe '.save!' do
     context 'when there are errors' do
       context 'validating the domain instance' do
         let(:attributes) do
@@ -25,18 +28,19 @@ RSpec.describe Carpanta::Domain::Offers::Service do
 
         it 'raises Invalid' do
           expect do
-            described_class.create!(attributes)
+            described_class.save!(attributes)
           end.to raise_error(invalid_class)
         end
       end
     end
 
     it 'creates an offer' do
-      allow(repository_class).to receive(:create!)
+      allow(repository_class).to receive(:save!)
 
-      described_class.create!(default_attributes)
+      result = described_class.save!(default_attributes)
 
-      expect(repository_class).to have_received(:create!).with(offer)
+      expect(repository_class).to have_received(:save!)
+      expect(result).to be_an_instance_of(offer_class)
     end
   end
 

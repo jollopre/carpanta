@@ -5,13 +5,17 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
     it 'returns a customer' do
       customer = FactoryBot.build(:customer)
 
+      expect(customer.id).not_to be_nil
       expect(customer.name).to eq('Donald')
       expect(customer.surname).to eq('Duck')
       expect(customer.email).to eq('donald.duck@carpanta.com')
       expect(customer.phone).to eq('600111222')
-      expect(customer.id).to be_nil
-      expect(customer.created_at).to be_nil
-      expect(customer.updated_at).to be_nil
+    end
+
+    it 'there are no errors' do
+      customer = FactoryBot.build(:customer)
+
+      expect(customer.errors).to be_empty
     end
 
     describe 'name' do
@@ -64,8 +68,6 @@ RSpec.describe Carpanta::Domain::Customers::Customer do
         email: 'donald.duck@carpanta.com',
         phone: '600111222',
         id: anything,
-        created_at: anything,
-        updated_at: anything
       )
     end
   end

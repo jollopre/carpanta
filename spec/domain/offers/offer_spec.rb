@@ -133,41 +133,10 @@ RSpec.describe Carpanta::Domain::Offers::Offer do
       offer = FactoryBot.build(:offer)
 
       expect(offer.attributes).to include(
+        id: an_instance_of(String),
         tasks: ['Cutting with scissor', 'Shampooing'],
         price: 2200
       )
-    end
-  end
-
-  describe '#==' do
-    let(:offer) { FactoryBot.build(:offer) }
-
-    context 'when the object passed does not respond to attributes' do
-      it 'returns false' do
-        another_offer = nil
-
-        result = offer == another_offer
-
-        expect(result).to eq(false)
-      end
-    end
-
-    context 'when any of its attributes is different' do
-      it 'returns false' do
-        another_offer = FactoryBot.build(:offer, tasks: ['foo'])
-
-        result = offer == another_offer
-
-        expect(result).to eq(false)
-      end
-    end
-
-    it 'returns true' do
-      another_offer = FactoryBot.build(:offer)
-
-      result = offer == another_offer
-
-      expect(result).to eq(true)
     end
   end
 end

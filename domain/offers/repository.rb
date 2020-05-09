@@ -13,12 +13,9 @@ module Carpanta
         DESERIALIZATION_HANDLERS.freeze
 
         class << self
-          def create!(offer)
-            result = OfferStorage.create!(offer.attributes)
-
-            with_persistence_attrs(result, offer)
-
-            offer
+          def save!(offer)
+            OfferStorage.create!(offer.attributes)
+            true
           end
 
           def find_by_id!(id)
@@ -30,18 +27,11 @@ module Carpanta
 
           private
 
-          def with_persistence_attrs(record, offer)
-            PERSISTENCE_KEYS.each do |key|
-              value = record.send(key)
-              offer.send("#{key}=", value)
-            end
-          end
-
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
             deserialized_attrs = attrs.reduce({}) { |acc, (k,v)| acc[k] = DESERIALIZATION_HANDLERS[k].call(v); acc }
             offer = Offer.build(deserialized_attrs)
-            with_persistence_attrs(record, offer)
+            offer.send(:id=, record.id)
             offer
           end
         end

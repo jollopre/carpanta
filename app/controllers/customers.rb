@@ -17,7 +17,7 @@ module Carpanta
 
       post '/customers' do
         begin
-          Domain::Customers::Service.create!(customer_params)
+          Domain::Customers::Service.save!(customer_params)
           redirect('/customers')
         rescue Domain::Customers::Errors::Invalid, Domain::Customers::Errors::EmailNotUnique
           status 422

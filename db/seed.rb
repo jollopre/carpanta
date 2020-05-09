@@ -37,7 +37,7 @@ lambda do
     ]
   end
 
-  customers = lambda do
+  customers_attrs = lambda do
     [
       { name: 'Ben', surname: 'Dover', email: 'ben.dover@carpanta.com', phone: '600111222' },
       { name: 'Hermione', surname: 'Byrne', email: 'hermione.byrne@carpanta.com', phone: '600111222' },
@@ -57,7 +57,7 @@ lambda do
   end
 
   tasks = tasks.call.map { |task| Carpanta::Services::Tasks.create!(task) }
-  customers = customers.call.map { |customer| Carpanta::Domain::Customers::Service.create!(customer) }
+  customers = customers_attrs.call.map { |customer_attrs| Carpanta::Domain::Customers::Service.save!(customer_attrs) }
 
   customers.each do |customer|
     (1..10).each do

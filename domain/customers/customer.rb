@@ -12,12 +12,13 @@ module Carpanta
         validates :email, format: { with: EMAIL_REGEX }
 
         def attributes
-          super.merge({ name: name, surname: surname, email: email, phone: phone })
+          { id: id, name: name, surname: surname, email: email, phone: phone }
         end
 
         private
 
         def initialize(name: nil, surname: nil, email: nil, phone: nil)
+          super()
           @name = name
           @surname = surname
           @email = email

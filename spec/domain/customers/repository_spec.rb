@@ -10,21 +10,18 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     Carpanta::Domain::Customers::Errors::NotFound
   end
 
-  describe '.create!' do
-    it 'inserts a customer into its repository' do
-      result = described_class.create!(customer)
+  describe '.save!' do
+    it 'returns true' do
+      result = described_class.save!(customer)
 
-      expect(result.id).not_to be_nil
-      expect(result.created_at).not_to be_nil
-      expect(result.updated_at).not_to be_nil
-      expect(result).to be_an_instance_of(Carpanta::Domain::Customers::Customer)
+      expect(result).to eq(true)
     end
   end
 
   describe '.exists?' do
     context 'when customer email already exists' do
       before do
-        described_class.create!(customer)
+        described_class.save!(customer)
       end
 
       it 'returns true' do
@@ -47,7 +44,7 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
 
     before do
-      described_class.create!(customer)
+      described_class.save!(customer)
     end
 
     it 'returns customers' do
@@ -59,11 +56,11 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
 
   describe '.find_by_id!' do
     it 'returns a customer instance' do
-      persisted_customer = described_class.create!(customer)
+      described_class.save!(customer)
 
-      result = described_class.find_by_id!(persisted_customer.id)
+      result = described_class.find_by_id!(customer.id)
 
-      expect(result).to eq(persisted_customer)
+      expect(result).to eq(customer)
     end
 
     context 'when there is no customer for the id' do
