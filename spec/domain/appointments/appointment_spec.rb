@@ -1,20 +1,20 @@
 require 'domain/appointments/appointment'
 
 RSpec.describe Carpanta::Domain::Appointments::Appointment do
+  let(:appointment) do
+    FactoryBot.build(:appointment)
+  end
+
   describe '.build' do
     it 'returns an appointment' do
-      appointment = FactoryBot.build(:appointment)
-
       expect(appointment.id).not_to be_nil
       expect(appointment.starting_at).to eq(Time.new(2020, 05, 06, 8, 25, 12))
-      expect(appointment.customer_id).to eq(1)
-      expect(appointment.offer_id).to eq(1)
+      expect(appointment.customer_id).not_to be_nil
+      expect(appointment.offer_id).not_to be_nil
       expect(appointment.duration).to be_nil
     end
 
     it 'there are no errors' do
-      appointment = FactoryBot.build(:appointment)
-
       expect(appointment.errors).to be_empty
     end
 
@@ -98,9 +98,15 @@ RSpec.describe Carpanta::Domain::Appointments::Appointment do
     end
   end
 
-  describe '#==' do
-    it 'returns true' do
-      skip
+  describe '#attributes' do
+    it 'returns an appointment hash' do
+      expect(appointment.attributes).to include(
+        id: an_instance_of(String),
+        starting_at: an_instance_of(Time),
+        duration: anything,
+        customer_id: anything,
+        offer_id: anything
+      )
     end
   end
 end

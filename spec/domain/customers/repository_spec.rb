@@ -39,10 +39,6 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
   end
 
   describe '.find_all' do
-    let(:storage) do
-      Carpanta::Domain::Customers::CustomerStorage
-    end
-
     before do
       described_class.save!(customer)
     end

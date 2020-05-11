@@ -12,14 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2020_05_09_183112) do
 
-  create_table "appointments", force: :cascade do |t|
-    t.integer "customer_id", null: false
-    t.integer "offer_id", null: false
+  create_table "appointments", id: :string, limit: 36, force: :cascade do |t|
+    t.string "customer_id", limit: 36
+    t.string "offer_id", limit: 36
     t.datetime "starting_at"
     t.integer "duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["customer_id"], name: "index_appointments_on_customer_id"
+    t.index ["starting_at"], name: "index_appointments_on_starting_at"
   end
 
   create_table "customers", id: :string, limit: 36, force: :cascade do |t|
