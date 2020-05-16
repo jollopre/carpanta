@@ -54,7 +54,7 @@ RSpec.describe Carpanta::Domain::Appointments::Appointment do
       end
 
       it 'needs to be a time instance' do
-        skip
+        skip('check the gem https://github.com/adzap/validates_timeliness')
       end
     end
 
