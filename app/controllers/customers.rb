@@ -3,6 +3,7 @@ require 'app/queries/find_sessions'
 require 'app/presenters/customer'
 require 'domain/customers/service'
 require 'domain/customers/errors'
+require 'app/commands/create_appointment'
 
 module Carpanta
   module Controllers
@@ -37,6 +38,17 @@ module Carpanta
         end
       end
 
+      post '/customers/:customer_id/appointments' do
+        result = Commands::CreateAppointment.call(appointment_params)
+        result.success do
+          redirect("/customers/#{appointment_params[:customer_id]}")
+        end
+        result.failure do |errors|
+          body(errors.to_json)
+          status 422
+        end
+      end
+
       private
 
       def customer_params
@@ -47,6 +59,13 @@ module Carpanta
         customer[:email] = attrs['email']
         customer[:phone] = attrs['phone']
         customer
+      end
+
+      def appointment_params
+        appointment = params.fetch(:appointment, {}).deep_symbolize_keys
+        appointment[:customer_id] = params['customer_id']
+
+        appointment
       end
     end
   end

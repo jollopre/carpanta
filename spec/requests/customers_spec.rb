@@ -160,4 +160,32 @@ RSpec.describe Carpanta::Controllers::Customers do
       end
     end
   end
+
+  describe 'POST /customers/:customer_id/appointments' do
+    let(:customer) { FactoryBot.create(:customer) }
+    let(:offer) { FactoryBot.create(:offer) }
+    let(:starting_at) { Time.now.iso8601 }
+
+    it 'creates an appointment for a customer' do
+      post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: starting_at } }
+
+      expect(last_response.status).to eq(302)
+      expect(last_response.headers).to include("Location" => include("/customers/#{customer.id}"))
+    end
+
+    context 'when the appointment is invalid' do
+      it 'returns 422' do
+        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'body includes errors' do
+        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+
+        expected_errors = { starting_at: [{ error: :blank }]}.to_json
+        expect(last_response.body).to include(expected_errors)
+      end
+    end
+  end
 end
