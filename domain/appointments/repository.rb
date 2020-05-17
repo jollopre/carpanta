@@ -1,3 +1,4 @@
+require 'infra/orm'
 require_relative 'appointment'
 
 module Carpanta
@@ -8,18 +9,22 @@ module Carpanta
 
         class << self
           def save!(appointment)
-            AppointmentStorage.create!(appointment.attributes)
+            storage.create!(appointment.attributes)
             true
           end
 
           def find_all
-            records = AppointmentStorage.offset(0).limit(100).order(created_at: :desc)
+            records = storage.offset(0).limit(100).order(created_at: :desc)
             records.map do |record|
               build_from_storage(record)
             end
           end
 
           private
+
+          def storage
+            Infra::ORM::Appointment
+          end
 
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
@@ -28,10 +33,6 @@ module Carpanta
             appointment
           end
         end
-      end
-
-      class AppointmentStorage < ActiveRecord::Base
-        self.table_name = 'appointments'
       end
     end
   end

@@ -1,3 +1,4 @@
+require 'infra/orm'
 require_relative 'offer'
 require_relative 'errors'
 
@@ -14,18 +15,22 @@ module Carpanta
 
         class << self
           def save!(offer)
-            OfferStorage.create!(offer.attributes)
+            storage.create!(offer.attributes)
             true
           end
 
           def find_by_id!(id)
-            record = OfferStorage.find(id)
+            record = storage.find(id)
             build_from_storage(record)
           rescue ActiveRecord::RecordNotFound
             raise Errors::NotFound
           end
 
           private
+
+          def storage
+            Infra::ORM::Offer
+          end
 
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
@@ -35,10 +40,6 @@ module Carpanta
             offer
           end
         end
-      end
-
-      class OfferStorage < ActiveRecord::Base
-        self.table_name = 'offers'
       end
     end
   end
