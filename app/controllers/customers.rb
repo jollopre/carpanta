@@ -4,6 +4,7 @@ require 'app/presenters/customer'
 require 'domain/customers/service'
 require 'domain/customers/errors'
 require 'app/commands/create_appointment'
+require 'app/queries/offers_query'
 
 module Carpanta
   module Controllers
@@ -47,6 +48,10 @@ module Carpanta
           body(errors.to_json)
           status 422
         end
+      end
+
+      get '/customers/:customer_id/appointments/new' do
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: Queries::OffersQuery.new.to_a }
       end
 
       private

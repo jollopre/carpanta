@@ -188,4 +188,56 @@ RSpec.describe Carpanta::Controllers::Customers do
       end
     end
   end
+
+  describe 'GET /customers/:customer_id/appointments/new' do
+    let(:customer) { FactoryBot.create(:customer) }
+
+    it 'returns 200' do
+      get "/customers/#{customer.id}/appointments/new"
+
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'returns heading' do
+      get "/customers/#{customer.id}/appointments/new"
+
+      expect(last_response.body).to have_xpath('//h2', text: 'New Appointment')
+    end
+
+    context 'rendered form' do
+      let!(:offer) { FactoryBot.create(:offer) }
+
+      it 'includes action, method and submit' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expected_url = "/customers/#{customer.id}/appointments"
+        expect(last_response.body).to have_xpath("//form[@action = '#{expected_url}' and @method = 'post']")
+        expect(last_response.body).to have_button('Create')
+      end
+
+      it 'includes starting_at_date field' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_field('appointment[starting_at_date]', type: 'date')
+      end
+
+      it 'includes starting_at_time field' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_field('appointment[starting_at_time]', type: 'time')
+      end
+
+      it 'includes select for offers' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_select('appointment[offer_id]', options: ['Cutting with scissor and Shampooing'])
+      end
+
+      it 'includes cancel link' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_link('Cancel', href: "/customers/#{customer.id}")
+      end
+    end
+  end
 end
