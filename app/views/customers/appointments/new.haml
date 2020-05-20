@@ -4,11 +4,8 @@
     %form{ action: "/customers/#{customer_id}/appointments", method: :post, class: 'pure-form pure-form-stacked' }
       %fieldset
         %div{ class: 'pure-control-group' }
-          %label{ for: 'starting_at_date' } Starting at date
-          %input{ type: 'date', name: 'appointment[starting_at_date]' }
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'starting_at_time' } Starting at time
-          %input{ type: 'time', name: 'appointment[starting_at_time]' }
+          %label{ for: 'starting_at' } Starting at date
+          %input{ type: 'datetime-local', name: 'appointment[starting_at]' }
         %div{ class: 'pure-control-group' }
           %label{ for: 'offer_id' } Offer
           %select{ id: 'task_id', name: 'appointment[offer_id]' }

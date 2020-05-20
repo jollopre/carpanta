@@ -22,7 +22,6 @@ RSpec.describe Carpanta::Domain::Appointments::Repository do
       result = described_class.find_all
 
       expect(result).to include(appointment)
-      puts result.inspect
     end
   end
 end

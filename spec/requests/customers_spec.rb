@@ -215,16 +215,10 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_button('Create')
       end
 
-      it 'includes starting_at_date field' do
+      it 'includes starting_at field' do
         get "/customers/#{customer.id}/appointments/new"
 
-        expect(last_response.body).to have_field('appointment[starting_at_date]', type: 'date')
-      end
-
-      it 'includes starting_at_time field' do
-        get "/customers/#{customer.id}/appointments/new"
-
-        expect(last_response.body).to have_field('appointment[starting_at_time]', type: 'time')
+        expect(last_response.body).to have_field('appointment[starting_at]', type: 'datetime-local')
       end
 
       it 'includes select for offers' do

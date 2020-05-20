@@ -1,4 +1,5 @@
 require 'domain/appointments/appointment'
+require 'domain/appointments/repository'
 
 FactoryBot.define do
   factory :appointment, class: Carpanta::Domain::Appointments::Appointment do
@@ -8,6 +9,10 @@ FactoryBot.define do
 
     initialize_with do
       Carpanta::Domain::Appointments::Appointment.build(attributes)
+    end
+
+    to_create do |instance|
+      Carpanta::Domain::Appointments::Repository.save!(instance)
     end
   end
 end

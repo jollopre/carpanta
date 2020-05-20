@@ -11,7 +11,7 @@ module Carpanta
 
       def to_a
         relation.pluck(:id, :tasks, :price).map do |attrs|
-          Offer.new(id: attrs[0], tasks: JSON.parse(attrs[1]), price: attrs[2])
+          Offer.new(id: attrs[0], tasks: attrs[1], price: attrs[2])
         end
       end
     end
