@@ -36,5 +36,13 @@ RSpec.describe Carpanta::Queries::ShowCustomer do
         expect(result.appointments.first.offer.name).to eq('Cutting with scissor and Shampooing')
       end
     end
+
+    context 'when customer DOES NOT exist' do
+      it 'returns nil' do
+        result = subject.call('non_existent')
+
+        expect(result).to be_nil
+      end
+    end
   end
 end

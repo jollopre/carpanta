@@ -7,8 +7,11 @@
           %label{ for: 'starting_at' } Starting at date
           %input{ type: 'datetime-local', name: 'appointment[starting_at]' }
         %div{ class: 'pure-control-group' }
+          %label{ for: 'duration' } Duration
+          %input{ type: 'number', name: 'appointment[duration]' }
+        %div{ class: 'pure-control-group' }
           %label{ for: 'offer_id' } Offer
-          %select{ id: 'task_id', name: 'appointment[offer_id]' }
+          %select{ id: 'offer_id', name: 'appointment[offer_id]' }
             - offers.each do |offer|
               %option{ value: offer.id }= offer.name
         %div{ class: 'pure-controls' }

@@ -13,6 +13,8 @@ module Carpanta
 
       def call(id)
         customer = relation.where(id: id).includes(:appointments).first
+        return unless customer
+
         Customer.new(customer)
       end
 

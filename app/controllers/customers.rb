@@ -1,10 +1,9 @@
 require_relative 'base'
-require 'app/queries/find_sessions'
-require 'app/presenters/customer'
 require 'domain/customers/service'
 require 'domain/customers/errors'
 require 'app/commands/create_appointment'
 require 'app/queries/offers_query'
+require 'app/queries/show_customer'
 
 module Carpanta
   module Controllers
@@ -27,13 +26,11 @@ module Carpanta
       end
 
       get '/customers/:customer_id' do
-        begin
-          customer = Domain::Customers::Service.find_by_id!(params[:customer_id])
+        customer = Queries::ShowCustomer.new.call(params[:customer_id])
 
-          sessions = Queries::FindSessions.call(customer_id: customer.id, include: :task)
-
-          haml :'customers/show', locals: Presenters::Customer.new(customer: customer, sessions: sessions).attributes
-        rescue Domain::Customers::Errors::NotFound
+        if customer
+          haml :'customers/show', locals: { customer: customer }
+        else
           body 'Customer not found'
           status 404
         end

@@ -105,8 +105,8 @@ RSpec.describe Carpanta::Controllers::Customers do
 
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:task) { FactoryBot.create(:task) }
-      let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
+      let(:offer) { FactoryBot.create(:offer) }
+      let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
 
       it 'returns 200 status' do
         get "/customers/#{customer.id}"
@@ -133,30 +133,30 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_link('Back', href: '/customers')
       end
 
-      context 'session list' do
-        it 'includes task name' do
+      context 'appointment list' do
+        it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: task.name)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: offer.name)
         end
 
-        it 'includes price formatted' do
+        it 'includes starting_at' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', exact_text: '15.00 €')
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: appointment.starting_at.utc)
         end
 
-        it 'includes created_at' do
+        it 'includes duration' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: session.created_at)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: appointment.duration)
         end
       end
 
-      it 'permits adding new session' do
+      it 'permits adding new appointment' do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_link('New Session', href: "/customers/#{customer.id}/sessions/new")
+        expect(last_response.body).to have_link('New Appointment', href: "/customers/#{customer.id}/appointments/new")
       end
     end
   end
@@ -219,6 +219,12 @@ RSpec.describe Carpanta::Controllers::Customers do
         get "/customers/#{customer.id}/appointments/new"
 
         expect(last_response.body).to have_field('appointment[starting_at]', type: 'datetime-local')
+      end
+
+      it 'includes duration field' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_field('appointment[duration]', type: 'number')
       end
 
       it 'includes select for offers' do
