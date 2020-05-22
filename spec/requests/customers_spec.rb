@@ -67,10 +67,22 @@ RSpec.describe Carpanta::Controllers::Customers do
 
         expect(last_response.status).to eq(422)
       end
+
+      context 'since email is not unique' do
+        before do
+          FactoryBot.create(:customer, email: 'donald.duck@carpanta.com')
+        end
+
+        it 'returns 422' do
+          post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
+
+          expect(last_response.status).to eq(422)
+        end
+      end
     end
 
     it 'creates a customer' do
-      post '/customers', { customer: { email: 'donald.duck@carpanta.com' }}
+      post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
 
       expect(last_response.status).to eq(302)
     end
@@ -93,8 +105,8 @@ RSpec.describe Carpanta::Controllers::Customers do
 
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:task) { FactoryBot.create(:task) }
-      let!(:session) { FactoryBot.create(:session, customer_id: customer.id, task_id: task.id, price: 1500) }
+      let(:offer) { FactoryBot.create(:offer) }
+      let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
 
       it 'returns 200 status' do
         get "/customers/#{customer.id}"
@@ -121,30 +133,110 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_link('Back', href: '/customers')
       end
 
-      context 'session list' do
-        it 'includes task name' do
+      context 'appointment list' do
+        it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: task.name)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: offer.name)
         end
 
-        it 'includes price formatted' do
+        it 'includes starting_at' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', exact_text: '15.00 €')
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: appointment.starting_at.utc)
         end
 
-        it 'includes created_at' do
+        it 'includes duration' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: session.created_at)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: appointment.duration)
         end
       end
 
-      it 'permits adding new session' do
+      it 'permits adding new appointment' do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_link('New Session', href: "/customers/#{customer.id}/sessions/new")
+        expect(last_response.body).to have_link('New Appointment', href: "/customers/#{customer.id}/appointments/new")
+      end
+    end
+  end
+
+  describe 'POST /customers/:customer_id/appointments' do
+    let(:customer) { FactoryBot.create(:customer) }
+    let(:offer) { FactoryBot.create(:offer) }
+    let(:starting_at) { Time.now.iso8601 }
+
+    it 'creates an appointment for a customer' do
+      post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: starting_at } }
+
+      expect(last_response.status).to eq(302)
+      expect(last_response.headers).to include("Location" => include("/customers/#{customer.id}"))
+    end
+
+    context 'when the appointment is invalid' do
+      it 'returns 422' do
+        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+
+        expect(last_response.status).to eq(422)
+      end
+
+      it 'body includes errors' do
+        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+
+        expected_errors = { starting_at: [{ error: :blank }]}.to_json
+        expect(last_response.body).to include(expected_errors)
+      end
+    end
+  end
+
+  describe 'GET /customers/:customer_id/appointments/new' do
+    let(:customer) { FactoryBot.create(:customer) }
+
+    it 'returns 200' do
+      get "/customers/#{customer.id}/appointments/new"
+
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'returns heading' do
+      get "/customers/#{customer.id}/appointments/new"
+
+      expect(last_response.body).to have_xpath('//h2', text: 'New Appointment')
+    end
+
+    context 'rendered form' do
+      let!(:offer) { FactoryBot.create(:offer) }
+
+      it 'includes action, method and submit' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expected_url = "/customers/#{customer.id}/appointments"
+        expect(last_response.body).to have_xpath("//form[@action = '#{expected_url}' and @method = 'post']")
+        expect(last_response.body).to have_button('Create')
+      end
+
+      it 'includes starting_at field' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_field('appointment[starting_at]', type: 'datetime-local')
+      end
+
+      it 'includes duration field' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_field('appointment[duration]', type: 'number')
+      end
+
+      it 'includes select for offers' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_select('appointment[offer_id]', options: ['Cutting with scissor and Shampooing'])
+      end
+
+      it 'includes cancel link' do
+        get "/customers/#{customer.id}/appointments/new"
+
+        expect(last_response.body).to have_link('Cancel', href: "/customers/#{customer.id}")
       end
     end
   end
