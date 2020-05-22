@@ -1,5 +1,4 @@
 require 'app/queries/show_customer'
-require 'app/commands/create_appointment'
 
 RSpec.describe Carpanta::Queries::ShowCustomer do
   let(:customer) { FactoryBot.create(:customer) }

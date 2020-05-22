@@ -2,6 +2,7 @@ require_relative 'base'
 require 'domain/customers/service'
 require 'domain/customers/errors'
 require 'app/commands/create_appointment'
+require 'app/queries/show_customers'
 require 'app/queries/offers_query'
 require 'app/queries/show_customer'
 
@@ -9,7 +10,7 @@ module Carpanta
   module Controllers
     class Customers < Base
       get '/customers' do
-        haml :'customers/index', locals: { customers: Domain::Customers::Service.find_all }
+        haml :'customers/index', locals: { customers: Queries::ShowCustomers.new.call }
       end
 
       get '/customers/new' do

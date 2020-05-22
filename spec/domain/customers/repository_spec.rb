@@ -38,18 +38,6 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
   end
 
-  describe '.find_all' do
-    before do
-      described_class.save!(customer)
-    end
-
-    it 'returns customers' do
-      result = described_class.find_all
-
-      expect(result).to include(customer)
-    end
-  end
-
   describe '.find_by_id!' do
     it 'returns a customer instance' do
       described_class.save!(customer)

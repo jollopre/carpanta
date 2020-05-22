@@ -61,17 +61,6 @@ RSpec.describe Carpanta::Domain::Customers::Service do
     end
   end
 
-  describe '.find_all' do
-    it 'returns the first 100 customers' do
-      allow(repository_class).to receive(:find_all).and_return([customer_instance])
-
-      result = described_class.find_all
-
-      expect(repository_class).to have_received(:find_all)
-      expect(result).to all(be_an_instance_of(customer_class))
-    end
-  end
-
   describe '.find_by_id!' do
     it 'forwards into its repository' do
       allow(repository_class).to receive(:find_by_id!).and_return(customer_instance)

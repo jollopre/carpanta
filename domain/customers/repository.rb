@@ -18,13 +18,6 @@ module Carpanta
             storage.exists?(email: customer.email)
           end
 
-          def find_all
-            records = storage.all.offset(0).limit(100).order(:created_at)
-            records.map do |record|
-              build_from_storage(record)
-            end
-          end
-
           def find_by_id!(id)
             record = storage.find(id)
             build_from_storage(record)

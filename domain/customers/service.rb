@@ -22,7 +22,7 @@ module Carpanta
             customer
           end
 
-          def_delegators Repository, :find_all, :find_by_id!
+          def_delegators Repository, :find_by_id!
         end
       end
     end
