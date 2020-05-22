@@ -1,5 +1,4 @@
-require 'domain/offers/offer'
-require 'domain/offers/repository'
+require 'domain/offers/service'
 require 'domain/customers/service'
 require 'app/commands/create_appointment'
 
@@ -52,11 +51,7 @@ lambda do
   ]
 
   offers = offers_attrs.map do |offer_attrs|
-    offer = Carpanta::Domain::Offers::Offer.build(offer_attrs)
-    raise "Error building offer. Details: #{offer.errors.to_h}" unless offer.errors.empty?
-
-    Carpanta::Domain::Offers::Repository.save!(offer)
-    offer
+    Carpanta::Domain::Offers::Service.save!(offer_attrs)
   end
 
   customers = customers_attrs.map do |customer_attrs|
