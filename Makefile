@@ -14,6 +14,8 @@ build:
 test:
 	@docker-compose ${COMPOSE_FILES_TEST} build
 	@docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake spec
+clean:
+	@docker-compose -f docker-compose.base.yml down --rmi local --volumes
 shell:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bash
 console:
