@@ -10,6 +10,10 @@ module Carpanta
         send_file File.join(Carpanta.root, 'app', 'assets', 'carpanta.css')
       end
 
+      get '/main.js' do
+        send_file File.join(Carpanta.root, 'app', 'assets', 'main.js')
+      end
+
       get '/' do
         redirect('/customers')
       end
