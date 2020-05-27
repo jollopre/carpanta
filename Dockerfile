@@ -8,11 +8,11 @@ ENTRYPOINT ["infra/entrypoint.sh"]
 FROM node:alpine3.11 as assets
 WORKDIR /usr/src
 COPY ./app/assets/package*.json ./
-RUN npm install
+COPY ./app/assets/carpanta.css ./
+RUN npm install && npm run bundle
 
 FROM base as test
-COPY --from=assets /usr/src/node_modules/purecss/build/pure-min.css ./app/public/
-COPY --from=assets /usr/src/node_modules/purecss/build/grids-responsive-min.css ./app/public/
+COPY --from=assets /usr/src/dist ./app/public/
 RUN bundle install -j 10
 CMD bundle exec puma -p $PORT
 

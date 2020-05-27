@@ -5,7 +5,7 @@ RSpec.describe 'Appointments resource', type: :feature do
 
   let(:customer) { FactoryBot.create(:customer) }
   let!(:offer) { FactoryBot.create(:offer) }
-  let(:starting_at) { Time.now.utc }
+  let(:starting_at) { Time.new(2020,05,26,07,45,12) }
   let(:duration) { 50 }
 
   it 'creates an appointment' do
@@ -18,7 +18,7 @@ RSpec.describe 'Appointments resource', type: :feature do
     click_button 'Create'
 
     expect(page).to have_text(offer.name)
-    expect(page).to have_text(starting_at)
+    expect(page).to have_text('2020-05-26T07:45:12Z')
     expect(page).to have_text(duration)
   end
 end
