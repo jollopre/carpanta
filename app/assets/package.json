@@ -4,8 +4,8 @@
   "description": "Carpanta assets",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "parcel build carpanta.css"
+    "test": "jest --silent=false",
+    "bundle": "parcel build carpanta.css carpanta.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,11 @@
     "purecss": "~1.0.1"
   },
   "devDependencies": {
+    "jest": "^26.0.1",
+    "jsdom": "^16.2.2",
     "parcel-bundler": "~1.12.4"
+  },
+  "jest": {
+    "verbose": true
   }
 }

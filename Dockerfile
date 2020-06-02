@@ -7,8 +7,7 @@ ENTRYPOINT ["infra/entrypoint.sh"]
 
 FROM node:alpine3.11 as assets
 WORKDIR /usr/src
-COPY ./app/assets/package*.json ./
-COPY ./app/assets/carpanta.css ./
+COPY ./app/assets ./
 RUN npm install && npm run bundle
 
 FROM base as test
