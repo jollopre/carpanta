@@ -1,7 +1,7 @@
 %h2{ class: 'content-head is-center' }= 'New Appointment'
 %div{ class: 'pure-g' }
   %div{ class: 'pure-u-1 l-box-lrg' }
-    %form{ action: "/customers/#{customer_id}/appointments", method: :post, class: 'pure-form pure-form-stacked' }
+    %form{ action: "/customers/#{customer_id}/appointments", method: :post, class: 'pure-form pure-form-stacked', "data-ref": 'customer_appointment_new' }
       %fieldset
         %div{ class: 'pure-control-group' }
           %label{ for: 'starting_at' } Starting at date
