@@ -13,7 +13,7 @@ const onSubmitHandler = (event) => {
 const addSubmitHandler = () => {
   const form = document.querySelector('form[data-ref="customer_appointment_new"]');
   if (form) {
-    form.onsubmit = onSubmitHandler;
+    form.addEventListener('submit', onSubmitHandler);
   }
 };
 
