@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "jest": "^26.0.1",
-    "jsdom": "^16.2.2",
     "parcel-bundler": "~1.12.4"
   },
   "jest": {
