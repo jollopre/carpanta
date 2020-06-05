@@ -106,7 +106,8 @@ RSpec.describe Carpanta::Controllers::Customers do
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
       let(:offer) { FactoryBot.create(:offer) }
-      let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
+      let(:starting_at) { Time.new(2020,05,26,07,45,12) }
+      let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
       it 'returns 200 status' do
         get "/customers/#{customer.id}"
@@ -143,7 +144,10 @@ RSpec.describe Carpanta::Controllers::Customers do
         it 'includes starting_at' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: appointment.starting_at.utc)
+          time_path = '//table/tr[2]/td[2]/time'
+          starting_at_iso8601 = '2020-05-26T07:45:12Z'
+          expect(last_response.body).to have_xpath("#{time_path}[@datetime='#{starting_at_iso8601}']")
+          expect(last_response.body).to have_xpath(time_path, text: starting_at_iso8601)
         end
 
         it 'includes duration' do

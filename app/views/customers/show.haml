@@ -25,5 +25,6 @@
       - customer.appointments.each do |appointment|
         %tr
           %td= appointment.offer.name
-          %td= appointment.starting_at
+          %td
+            %time{ datetime: appointment.starting_at.iso8601 }= appointment.starting_at.iso8601
           %td= appointment.duration

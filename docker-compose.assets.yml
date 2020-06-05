@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+  assets:
+    build:
+      target: assets
+      context: .
+    volumes:
+      - ./app/assets:/usr/src
+      - /usr/src/node_modules
