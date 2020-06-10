@@ -4,7 +4,7 @@ COMPOSE_FILES_ASSETS=-f docker-compose.assets.yml
 COMPOSE_FILES_TEST=-f docker-compose.base.yml -f docker-compose.test.yml
 COMPOSE_FILES_DEVELOPMENT=-f docker-compose.base.yml -f docker-compose.devel.yml
 COMPOSE_FILES_PRODUCTION=-f docker-compose.base.yml -f docker-compose.prod.yml
-TAG=$(shell git log --pretty=format:%H -n 1)
+SHA=$(shell git log --pretty=format:%H -n 1)
 
 up:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
@@ -33,3 +33,6 @@ start:
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} up -d
 stop:
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} down
+release:
+	TAG=:${SHA} docker-compose ${COMPOSE_FILES_PRODUCTION} build
+	@docker push jollopre/carpanta:${SHA}

@@ -3,6 +3,7 @@ services:
   app:
     build:
       target: production
+    image: jollopre/carpanta${TAG}
     ports:
       - "80:80"
     env_file:
