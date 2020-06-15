@@ -1,5 +1,6 @@
 /db/*.sqlite
 /infra/*.env
+/infra/deploy
 /spec/examples.txt
 docker-compose*
 .dockerignore
