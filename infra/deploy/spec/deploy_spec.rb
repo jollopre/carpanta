@@ -6,4 +6,5 @@ RSpec.describe Deploy do
   end
 
   it_behaves_like 'configurable object'
+  it_behaves_like 'loggable object'
 end

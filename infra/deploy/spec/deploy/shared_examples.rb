@@ -7,3 +7,9 @@ RSpec.shared_examples 'configurable object' do
     expect(subject).to respond_to(:configuration)
   end
 end
+
+RSpec.shared_examples 'loggable object' do
+  it 'responds to logger' do
+    expect(subject).to respond_to(:logger)
+  end
+end
