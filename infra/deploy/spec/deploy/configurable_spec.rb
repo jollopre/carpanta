@@ -61,5 +61,6 @@ RSpec.describe Deploy::Configurable do
     it_behaves_like 'accessor for', :aws_secret_access_key
     it_behaves_like 'accessor for', :region
     it_behaves_like 'accessor for', :output
+    it_behaves_like 'accessor for', :cluster_name
   end
 end
