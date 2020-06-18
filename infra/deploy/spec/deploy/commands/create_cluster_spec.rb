@@ -8,6 +8,7 @@ RSpec.describe Deploy::Commands::CreateCluster do
   let(:client) do
     Aws::ECS::Client.new(stub_responses: true)
   end
+  let(:cluster_arn) { 'a_cluster_arn' }
 
   before do
     client.stub_responses(:create_cluster, response)
@@ -16,7 +17,7 @@ RSpec.describe Deploy::Commands::CreateCluster do
   let(:response) do
     client.stub_data(:create_cluster, {
       cluster: {
-        cluster_arn: 'a_cluster_arn'
+        cluster_arn: cluster_arn
       }
     })
   end
@@ -37,7 +38,9 @@ RSpec.describe Deploy::Commands::CreateCluster do
     end
 
     it 'logs its arn' do
-      pending
+      expect(Deploy.logger).to receive(:info).with("Deploy::Commands::CreateCluster with arn: #{cluster_arn}")
+
+      described_class.call(client)
     end
   end
 end
