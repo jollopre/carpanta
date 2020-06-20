@@ -26,9 +26,6 @@ RSpec.describe Deploy::Configurable do
     it 'sets a configuration object based on environment variables' do
       subject.load_from_environment!
 
-      expect(subject.configuration.aws_access_key_id).to eq('an_access_key')
-      expect(subject.configuration.aws_secret_access_key).to eq('a_secret')
-      expect(subject.configuration.region).to eq('us-east-2')
       expect(subject.configuration.cluster_name).to eq('a_cluster_name')
     end
 
@@ -45,9 +42,6 @@ RSpec.describe Deploy::Configurable do
         end
       end
 
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'AWS_ACCESS_KEY_ID'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'AWS_SECRET_ACCESS_KEY'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'REGION'
       it_behaves_like 'raising EnvironmentVariableNotSet', 'CLUSTER_NAME'
     end
   end
@@ -102,10 +96,6 @@ RSpec.describe Deploy::Configurable do
       end
     end
 
-    it_behaves_like 'accessor for', :aws_access_key_id
-    it_behaves_like 'accessor for', :aws_secret_access_key
-    it_behaves_like 'accessor for', :region
-    it_behaves_like 'accessor for', :output
     it_behaves_like 'accessor for', :cluster_name
   end
 end

@@ -1,26 +1,34 @@
 module Deploy
   module Commands
     class CreateCluster
-      class << self
-        def call(client)
-          response = client.create_cluster({
-            cluster_name: cluster_name
-          })
-          cluster_arn = response.cluster.cluster_arn
-          logger.info("#{self.name} with arn: #{cluster_arn}")
+      def initialize(client)
+        @client = client
+      end
 
-          cluster_arn
-        end
+      def call
+        response = client.create_cluster({
+          cluster_name: cluster_name
+        })
+        cluster_arn = response.cluster.cluster_arn
+        log_cluster_created(cluster_arn)
 
-        private
+        cluster_arn
+      end
 
-        def cluster_name
-          Deploy.configuration.cluster_name
-        end
+      private
 
-        def logger
-          Deploy.logger
-        end
+      attr_reader :client
+
+      def cluster_name
+        Deploy.configuration.cluster_name
+      end
+
+      def logger
+        Deploy.logger
+      end
+
+      def log_cluster_created(arn)
+        logger.info("Cluster created with arn: #{arn}")
       end
     end
   end

@@ -22,9 +22,13 @@ RSpec.describe Deploy::Commands::CreateCluster do
     })
   end
 
-  describe '.call' do
+  subject do
+    described_class.new(client)
+  end
+
+  describe '#call' do
     it 'creates a cluster with name from configuration' do
-      described_class.call(client)
+      subject.call
 
       api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :create_cluster }
       expect(api_request[:params]).to include(
@@ -32,15 +36,15 @@ RSpec.describe Deploy::Commands::CreateCluster do
     end
 
     it 'returns the cluster arn' do
-      result = described_class.call(client)
+      result = subject.call
 
       expect(result).to eq('a_cluster_arn')
     end
 
     it 'logs its arn' do
-      expect(Deploy.logger).to receive(:info).with("Deploy::Commands::CreateCluster with arn: #{cluster_arn}")
+      expect(Deploy.logger).to receive(:info).with("Cluster created with arn: #{cluster_arn}")
 
-      described_class.call(client)
+      subject.call
     end
   end
 end
