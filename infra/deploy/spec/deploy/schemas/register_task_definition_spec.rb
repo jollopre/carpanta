@@ -41,7 +41,9 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition do
     let(:default_params) do
       {
         family: 'a_family',
-        execution_role_arn: 'a_execution_role_arn'
+        execution_role_arn: 'a_execution_role_arn',
+        cpu: '256',
+        memory: '512'
       }
     end
 
@@ -71,8 +73,36 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition do
       end
 
       context 'cpu' do
-        it 'uses an enum' do
-          skip ('https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size')
+        it_behaves_like 'must be a string', { cpu: 1 }, :cpu
+        it_behaves_like 'must be a string', { cpu: 1.1 }, :cpu
+        it_behaves_like 'must be filled', { cpu: nil }, :cpu
+        it_behaves_like 'must be filled', { cpu: [] }, :cpu
+        it_behaves_like 'must be filled', { cpu: {} }, :cpu
+
+        it 'must be one of CPU enum' do
+          result = described_class.call(default_params.merge(cpu: 'wadus'))
+
+          expect(result.failure?).to eq(true)
+          expect(result.errors.to_h).to include(
+            cpu: include('must be one of: 256, 512, 1024, 2048, 4096')
+          )
+        end
+      end
+
+      context 'memory' do
+        it_behaves_like 'must be a string', { memory: 1 }, :memory
+        it_behaves_like 'must be a string', { memory: 1.1 }, :memory
+        it_behaves_like 'must be filled', { memory: nil }, :memory
+        it_behaves_like 'must be filled', { memory: [] }, :memory
+        it_behaves_like 'must be filled', { memory: {} }, :memory
+
+        it 'must be one of memory enum' do
+          result = described_class.call(default_params.merge(memory: 'wadus'))
+
+          expect(result.failure?).to eq(true)
+          expect(result.errors.to_h).to include(
+            memory: include('must be one of: 512, 1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, 30720')
+          )
         end
       end
     end

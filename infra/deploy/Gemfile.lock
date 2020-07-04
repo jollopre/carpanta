@@ -4,6 +4,7 @@ PATH
     deploy (0.0.1)
       aws-sdk-ecs (~> 1.65)
       dry-schema (~> 1.5, >= 1.5.2)
+      dry-types (~> 1.4)
       rake (~> 13.0, >= 13.0.1)
 
 GEM
