@@ -136,6 +136,26 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition do
         it_behaves_like 'must be a string', { name: 1 }, :name
       end
 
+      context 'environment' do
+        let(:params) do
+          { environment: ['foo'] }
+        end
+
+        it 'must be an array of hashes with no missing keys' do
+          result = subject.call(default_params.merge(params))
+
+          expect(result.failure?).to eq(true)
+          expect(result.errors.to_h).to include(
+            environment: include(
+              0 => include(
+                name: include('is missing'),
+                value: include('is missing'),
+              )
+            )
+          )
+        end
+      end
+
       context 'port_mappings' do
         let(:params) do
           { port_mappings: ['foo'] }
@@ -175,6 +195,24 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition do
   end
 end
 
+RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Environment do
+  describe '#call' do
+    subject { described_class.new }
+    let(:default_params) do
+      { name: "variable_name", value: "variable_value" }
+    end
+
+    it_behaves_like 'successful'
+
+    context 'invalid' do
+      context 'name' do
+        it_behaves_like 'must be a string', { name: 1 }, :name
+        it_behaves_like 'must be a string', { value: 1 }, :value
+      end
+    end
+  end
+end
+
 RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::PortMapping do
   describe '#call' do
     subject { described_class.new }
@@ -203,7 +241,11 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Log
     subject { described_class.new }
     let(:default_params) do
       {
-        log_driver: 'awslogs'
+        log_driver: 'awslogs',
+        options: {
+          :"awslogs-region" => 'a_region',
+          :"awslogs-group" => 'a_group'
+        }
       }
     end
 
@@ -215,8 +257,46 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Log
       end
 
       context 'options' do
-        it 'must be a hash' do
-          skip
+        context 'when log_driver is awslogs' do
+          it 'must be a hash with no missing keys' do
+            default_params.delete(:options)
+            result = subject.call(default_params)
+
+            expect(result.failure?).to eq(true)
+            expect(result.errors.to_h).to include(
+              options: include(
+                "awslogs-region": include('is missing'),
+                "awslogs-group": include('is missing')
+              )
+            )
+          end
+
+          context 'and optional keys are present' do
+            let(:params) do
+              {
+                options: {
+                  :"awslogs-create-group" =>  1,
+                  :"awslogs-group" => 1,
+                  :"awslogs-region" => 1,
+                  :"awslogs-stream" => 1
+                }
+              }
+            end
+
+            it 'all values must be string' do
+              result = subject.call(default_params.merge(params))
+
+              expect(result.failure?).to eq(true)
+              expect(result.errors.to_h).to include(
+                options: include(
+                  "awslogs-create-group": include('must be a string'),
+                  "awslogs-group": include('must be a string'),
+                  "awslogs-region": include('must be a string'),
+                  "awslogs-stream": include('must be a string')
+                )
+              )
+            end
+          end
         end
       end
     end

@@ -14,6 +14,13 @@ module Deploy
       }.freeze
 
       class ContainerDefinition < Dry::Validation::Contract
+        class Environment < Dry::Validation::Contract
+          schema do
+            required(:name).filled(:string)
+            required(:value).filled(:string)
+          end
+        end
+
         class PortMapping < Dry::Validation::Contract
           schema do
             required(:container_port).filled(:integer)
@@ -26,11 +33,25 @@ module Deploy
 
           schema do
             required(:log_driver).value(included_in?: LOG_DRIVER_VALUES)
+            optional(:options).filled(:hash) do
+              optional(:"awslogs-create-group").filled(:string)
+              optional(:"awslogs-group").filled(:string)
+              optional(:"awslogs-region").filled(:string)
+              optional(:"awslogs-stream").filled(:string)
+            end
+          end
+
+          rule(options: :"awslogs-region") do
+            key.failure('is missing') if values[:log_driver] == 'awslogs' && value.nil?
+          end
+
+          rule(options: :"awslogs-group") do
+            key.failure('is missing') if values[:log_driver] == 'awslogs' && value.nil?
           end
         end
 
         schema do
-          optional(:environment)
+          optional(:environment).array(:hash, Environment.schema)
           required(:image).filled(:string)
           required(:name).filled(:string)
           optional(:port_mappings).array(:hash, PortMapping.schema)
