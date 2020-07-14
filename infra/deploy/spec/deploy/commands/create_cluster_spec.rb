@@ -27,24 +27,63 @@ RSpec.describe Deploy::Commands::CreateCluster do
   end
 
   describe '#call' do
-    it 'creates a cluster with name from configuration' do
-      subject.call
+    let(:cluster_name) { 'a_cluster_name' }
+    let(:default_params) do
+      {
+        cluster_name: 'a_cluster_name'
+      }
+    end
+
+    context 'when params is invalid' do
+      let(:params) do
+        default_params.merge(cluster_name: 1234)
+      end
+
+      it 'failure? is true' do
+        response = subject.call(params)
+
+        expect(response.failure?).to eq(true)
+      end
+
+      it 'failure contains errors' do
+        response = subject.call(params)
+
+        expect(response.failure).to include(
+          cluster_name: include('must be a string')
+        )
+      end
+    end
+
+    context 'when client fails creating cluster' do
+      it 'failure? is true' do
+        skip('check client response')
+      end
+    end
+
+    it 'creates a cluster with params passed' do
+      subject.call(default_params)
 
       api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :create_cluster }
       expect(api_request[:params]).to include(
         cluster_name: cluster_name)
     end
 
-    it 'returns the cluster arn' do
-      result = subject.call
+    it 'success? is true' do
+      response = subject.call(default_params)
 
-      expect(result).to eq('a_cluster_arn')
+      expect(response.success?).to eq(true)
+    end
+
+    it 'returns the cluster arn' do
+      result = subject.call(default_params)
+
+      expect(result.success).to eq('a_cluster_arn')
     end
 
     it 'logs its arn' do
       expect(Deploy.logger).to receive(:info).with("Cluster created with arn: #{cluster_arn}")
 
-      subject.call
+      subject.call(default_params)
     end
   end
 end
