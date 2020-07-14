@@ -66,8 +66,6 @@ module Deploy
         required(:execution_role_arn).filled(:string)
         required(:family).filled(:string)
         required(:memory).value(included_in?: MEMORY_VALUES)
-        #network_mode = awsvpc
-        #requires_compatibilities = [FARGATE]
       end
 
       rule(:cpu, :memory) do

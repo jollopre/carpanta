@@ -4,6 +4,8 @@ require 'deploy/schemas/create_cluster'
 module Deploy
   module Commands
     class CreateCluster
+      DEFAULT_CLUSTER_NAME = 'default_cluster'.freeze
+
       include Dry::Monads[:result]
 
       def initialize(client)
@@ -16,7 +18,7 @@ module Deploy
         return Failure(result.errors.to_h) if result.failure?
 
         response = client.create_cluster({
-          cluster_name: params[:cluster_name]
+          cluster_name: params[:cluster_name] || DEFAULT_CLUSTER_NAME
         })
         cluster_arn = response.cluster.cluster_arn
         log_cluster_created(cluster_arn)

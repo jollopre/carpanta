@@ -1,32 +1,38 @@
+require 'dry-monads'
+require 'deploy/schemas/register_task_definition'
+
 module Deploy
   module Commands
     class RegisterTaskDefinition
+      include Dry::Monads[:result]
+
       def initialize(client)
         @client = client
+        @schema = Schemas::RegisterTaskDefinition.new
       end
 
-      def call
+      def call(params)
+        result = schema.call(params)
+        return Failure(result.errors.to_h) if result.failure?
+
         response = client.register_task_definition({
-          family: family,
-          container_definitions: [{
-            name: container_name,
-            image: container_image
-          }],
-          execution_role_arn: execution_role_arn,
+          family: params[:family],
+          container_definitions: params[:container_definitions],
+          execution_role_arn: params[:execution_role_arn],
           network_mode: 'awsvpc',
           requires_compatibilities: ['FARGATE'],
-          cpu: '256',
-          memory: '512'
+          cpu: params[:cpu],
+          memory: params[:memory]
         })
         task_definition_arn = response.task_definition.task_definition_arn
         log_task_definition_created(task_definition_arn)
         
-        task_definition_arn
+        Success(task_definition_arn)
       end
 
       private
 
-      attr_reader :client
+      attr_reader :client, :schema
 
       def family
         Deploy.configuration.family

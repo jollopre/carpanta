@@ -1,10 +1,7 @@
 require 'aws-sdk-ecs'
 require 'deploy/commands/create_cluster'
-require_relative '../shared_context'
 
 RSpec.describe Deploy::Commands::CreateCluster do
-  include_context 'configuration'
-
   let(:client) do
     Aws::ECS::Client.new(stub_responses: true)
   end
@@ -57,6 +54,18 @@ RSpec.describe Deploy::Commands::CreateCluster do
     context 'when client fails creating cluster' do
       it 'failure? is true' do
         skip('check client response')
+      end
+    end
+
+    context 'when cluster_name is missing' do
+      it 'creates a default cluster name' do
+        default_params.delete(:cluster_name)
+
+        subject.call(default_params)
+
+        api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :create_cluster }
+        expect(api_request[:params]).to include(
+        cluster_name: 'default_cluster')
       end
     end
 

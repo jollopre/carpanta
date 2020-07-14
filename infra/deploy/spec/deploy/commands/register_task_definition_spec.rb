@@ -28,52 +28,73 @@ RSpec.describe Deploy::Commands::RegisterTaskDefinition do
   end
 
   describe '#call' do
+    let(:default_params) do
+      {
+        container_definitions: [],
+        cpu: '256',
+        execution_role_arn: 'an_execution_role_arn',
+        family: 'a_family',
+        memory: '512'
+      }
+    end
+
+    context 'when params is invalid' do
+      let(:params) do
+        default_params.merge(cpu: '321')
+      end
+
+      it 'failure? is true' do
+        response = subject.call(params)
+
+        expect(response.failure?).to eq(true)
+      end
+
+      it 'failure contains errors' do
+        response = subject.call(params)
+
+        expect(response.failure).to include(
+          cpu: include(/must be one of/)
+        )
+      end
+    end
+
+    context 'when client fails registering task definition' do
+      it 'failure? is true' do
+        skip('check client response')
+      end
+    end
+
     it 'registers a task definition' do
-      subject.call
+      subject.call(default_params)
 
       api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :register_task_definition }
       expect(api_request[:params]).to include(
-        family: family,
-        container_definitions: [
-          {
-            name: container_name,
-            image: container_image,
-            # port_mappings: [
-            #   container_port: container_port,
-            #   host_port: host_port,
-            #   protocol: 'tcp'
-            # ],
-            # environment: [],
-            # essential: true,
-            # log_configuration: {
-            #   log_driver: 'awslogs',
-            #   options: {
-            #     "awslogs-create-group" => true,
-            #     "awslogs-group" => "/ecs/#{container_name}",
-            #     "awslogs-region" => 'a_region',
-            #     "awslogs-stream-prefix" => family
-            #   }
-            # }
-          }
-        ],
-        execution_role_arn: execution_role_arn,
+        family: 'a_family',
+        execution_role_arn: 'an_execution_role_arn',
         network_mode: 'awsvpc',
         requires_compatibilities: ['FARGATE'],
         cpu: '256',
         memory: '512'
       )
+      skip('pending iterating over container_definition to add defaults')
     end
 
     it 'returns the task definition arn' do
-      result = subject.call
+      result = subject.call(default_params)
 
-      expect(result).to eq('a_task_definition_arn')
+      expect(result.success).to eq('a_task_definition_arn')
+    end
+
+    it 'success? is true' do
+      response = subject.call(default_params)
+
+      expect(response.success?).to eq(true)
     end
 
     it 'logs its arn' do
       expect(Deploy.logger).to receive(:info).with("Task definition created with arn: a_task_definition_arn")
 
-      subject.call
+      subject.call(default_params)
     end
   end
 end
