@@ -17,7 +17,9 @@ module Deploy
 
         response = client.register_task_definition({
           family: params[:family],
-          container_definitions: params[:container_definitions],
+          container_definitions: params[:container_definitions].map do |definition|
+            definition.merge(essential: true)
+          end,
           execution_role_arn: params[:execution_role_arn],
           network_mode: 'awsvpc',
           requires_compatibilities: ['FARGATE'],

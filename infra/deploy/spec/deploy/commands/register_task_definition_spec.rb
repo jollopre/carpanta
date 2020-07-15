@@ -30,7 +30,12 @@ RSpec.describe Deploy::Commands::RegisterTaskDefinition do
   describe '#call' do
     let(:default_params) do
       {
-        container_definitions: [],
+        container_definitions: [
+          {
+            image: 'an_image',
+            name: 'container_name'
+          }
+        ],
         cpu: '256',
         execution_role_arn: 'an_execution_role_arn',
         family: 'a_family',
@@ -70,13 +75,17 @@ RSpec.describe Deploy::Commands::RegisterTaskDefinition do
       api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :register_task_definition }
       expect(api_request[:params]).to include(
         family: 'a_family',
+        container_definitions: [{
+          image: 'an_image',
+          name: 'container_name',
+          essential: true
+        }],
         execution_role_arn: 'an_execution_role_arn',
         network_mode: 'awsvpc',
         requires_compatibilities: ['FARGATE'],
         cpu: '256',
         memory: '512'
       )
-      skip('pending iterating over container_definition to add defaults')
     end
 
     it 'returns the task definition arn' do

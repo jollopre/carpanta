@@ -17,6 +17,10 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition do
     it_behaves_like 'successful'
 
     context 'invalid' do
+      context 'unexpected key' do
+        it_behaves_like 'is not allowed', { foo: 'bar' }, :foo
+      end
+
       context 'container_definitions' do
         let(:params) do
           { container_definitions: ['foo'] }
@@ -128,6 +132,10 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition do
     it_behaves_like 'successful'
 
     context 'invalid' do
+      context 'unexpected key' do
+        it_behaves_like 'is not allowed', { foo: 'bar' }, :foo
+      end
+
       context 'image' do
         it_behaves_like 'must be a string', { image: 1 }, :image
       end
@@ -205,6 +213,10 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Env
     it_behaves_like 'successful'
 
     context 'invalid' do
+      context 'unexpected key' do
+        it_behaves_like 'is not allowed', { foo: 'bar' }, :foo
+      end
+
       context 'name' do
         it_behaves_like 'must be a string', { name: 1 }, :name
         it_behaves_like 'must be a string', { value: 1 }, :value
@@ -225,6 +237,10 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Por
     it_behaves_like 'successful'
 
     context 'invalid' do
+      context 'unexpected key' do
+        it_behaves_like 'is not allowed', { foo: 'bar' }, :foo
+      end
+
       context 'container_port' do
         it_behaves_like 'must be an integer', { container_port: 'wadus' }, :container_port
       end
@@ -252,6 +268,10 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Log
     it_behaves_like 'successful'
 
     context 'invalid' do
+      context 'unexpected key' do
+        it_behaves_like 'is not allowed', { foo: 'bar' }, :foo
+      end
+
       context 'log_driver' do
         it_behaves_like 'must be one of', { log_driver: 'wadus' }, :log_driver, ['awslogs', 'splunk', 'awsfirelens']
       end

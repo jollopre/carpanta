@@ -15,6 +15,8 @@ module Deploy
 
       class ContainerDefinition < Dry::Validation::Contract
         class Environment < Dry::Validation::Contract
+          config.validate_keys = true
+
           schema do
             required(:name).filled(:string)
             required(:value).filled(:string)
@@ -22,6 +24,8 @@ module Deploy
         end
 
         class PortMapping < Dry::Validation::Contract
+          config.validate_keys = true
+
           schema do
             required(:container_port).filled(:integer)
             optional(:protocol).value(included_in?: ['tcp', 'udp'])
@@ -30,6 +34,7 @@ module Deploy
 
         class LogConfiguration < Dry::Validation::Contract
           LOG_DRIVER_VALUES = ['awslogs', 'splunk', 'awsfirelens'].freeze
+          config.validate_keys = true
 
           schema do
             required(:log_driver).value(included_in?: LOG_DRIVER_VALUES)
@@ -50,15 +55,18 @@ module Deploy
           end
         end
 
+        config.validate_keys = true
+
         schema do
           optional(:environment).array(:hash, Environment.schema)
           required(:image).filled(:string)
           required(:name).filled(:string)
           optional(:port_mappings).array(:hash, PortMapping.schema)
           optional(:log_configuration).hash(LogConfiguration.schema)
-          #essential = true
         end
       end
+
+      config.validate_keys = true
 
       schema do
         required(:container_definitions).array(:hash, ContainerDefinition.schema)
