@@ -74,7 +74,7 @@ RSpec.describe Deploy::Schemas::Up::Resource do
 
     context 'invalid' do
       context 'type' do
-        it_behaves_like 'must be a string', { type: 1 }, :type
+        it_behaves_like 'must be one of', { type: 'foo'}, :type, ['Aws::ECS::Cluster', 'Aws::ECS::TaskDefinition']
       end
 
       context 'properties' do
@@ -94,7 +94,16 @@ RSpec.describe Deploy::Schemas::Up::Resource do
 
         context 'when type is Aws::ECS::TaskDefinition' do
           it 'Deploy::Schemas::RegisterTaskDefinition is expected' do
-            skip('TODO')
+            params = { type: 'Aws::ECS::TaskDefinition', properties: { family: 'a_family', execution_role_arn: 'a_execution_role_arn', cpu: 'foo', memory: 'bar', container_definitions: [] }}
+
+            result = subject.call(default_params.merge(params))
+
+            expect(result.errors.to_h).to include(
+              properties: include(
+                cpu: include(/must be one of:/),
+                memory: include(/must be one of:/)
+              )
+            )
           end
         end
       end

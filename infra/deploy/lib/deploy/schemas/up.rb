@@ -1,25 +1,36 @@
 require 'dry-validation'
 require 'deploy/schemas/create_cluster'
+require 'deploy/schemas/register_task_definition'
 
 module Deploy
   module Schemas
     class Up < Dry::Validation::Contract
-      #config.validate_keys = true
-
       class Resource < Dry::Validation::Contract
+        Cluster = CreateCluster.new
+        TaskDefinition = RegisterTaskDefinition.new
+
+        PROPERTY_SCHEMAS = {
+          'Aws::ECS::Cluster' => Cluster,
+          'Aws::ECS::TaskDefinition' => TaskDefinition
+        }.freeze
+        TYPES = [
+          'Aws::ECS::Cluster',
+          'Aws::ECS::TaskDefinition'
+        ].freeze
+
         schema do
-          required(:type).filled(:string)
+          required(:type).value(included_in?: TYPES)
           required(:properties).filled(:hash)
         end
 
         rule(:properties, :type) do
-          if values[:type] == 'Aws::ECS::Cluster'
-            result = CreateCluster.new.call(value)
-            if result.failure?
-              result.errors.each do |message|
-                key([:properties, *message.path]).failure(message.text)
-              end
-            end
+          type = values[:type]
+          schema = PROPERTY_SCHEMAS.fetch(type)
+          result = schema.call(value)
+          next unless result.failure?
+
+          result.errors.each do |message|
+            key([:properties, *message.path]).failure(message.text)
           end
         end
       end

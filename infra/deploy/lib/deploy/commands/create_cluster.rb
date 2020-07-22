@@ -17,8 +17,9 @@ module Deploy
         result = schema.call(params)
         return Failure(result.errors.to_h) if result.failure?
 
+        values = result.values
         response = client.create_cluster({
-          cluster_name: params[:cluster_name] || DEFAULT_CLUSTER_NAME
+          cluster_name: values[:cluster_name] || DEFAULT_CLUSTER_NAME
         })
         cluster_arn = response.cluster.cluster_arn
         log_cluster_created(cluster_arn)
