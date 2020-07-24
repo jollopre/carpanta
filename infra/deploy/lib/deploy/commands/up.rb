@@ -51,9 +51,9 @@ module Deploy
 
         return Failure(result.failure) if result.failure?
 
-        Success(
-          [{ logical_name: logical_name, arn: result.success }]
-        )
+        Success([
+          { logical_name: logical_name, arn: result.success }
+        ])
       end
 
       def create_cluster_cmd
@@ -64,16 +64,19 @@ module Deploy
         resources = filtered_params.fetch(:resources)
         task_definitions_params = resources.select do |_,v|
           v.fetch(:type) == 'Aws::ECS::TaskDefinition'
-        end.values
+        end
 
         return Success([]) if task_definitions_params.empty?
 
-        task_definition_params = task_definitions_params.first.fetch(:properties)
+        logical_name = task_definitions_params.keys[0]
+        task_definition_params = task_definitions_params.fetch(logical_name).fetch(:properties)
         result = register_task_definition_cmd.call(task_definition_params)
 
         return Failure(result.failure) if result.failure?
 
-        Success([result.success])
+        Success([
+          { logical_name: logical_name, arn: result.success }
+        ])
       end
 
       def register_task_definition_cmd
