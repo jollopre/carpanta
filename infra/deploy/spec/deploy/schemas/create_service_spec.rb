@@ -10,8 +10,6 @@ RSpec.describe Deploy::Schemas::CreateService do
         service_name: 'a_service_name',
         task_definition: 'a_task_definition',
         desired_count: 1,
-        #scheduling_strategy: 'REPLICA' default
-        #launch_type: 'FARGATE' default,
         network_configuration: {
           awsvpc_configuration: {
             subnets: ['a_subnet'],
