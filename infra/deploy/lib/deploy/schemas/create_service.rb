@@ -4,10 +4,14 @@ module Deploy
   module Schemas
     class CreateService < Dry::Validation::Contract
       ZERO = 0.freeze
+      Ref = Dry::Schema.Params do
+        required(:ref).filled(:string)
+      end
+
       schema do
-        optional(:cluster).filled(:string)
+        optional(:cluster) { str? | (hash? & Ref) }
         required(:service_name).filled(:string)
-        required(:task_definition).filled(:string)
+        required(:task_definition) { str? | (hash? & Ref) }
         required(:desired_count).value(:integer, gt?: ZERO)
         required(:network_configuration).value(:hash) do
           required(:awsvpc_configuration).value(:hash) do

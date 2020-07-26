@@ -24,7 +24,29 @@ RSpec.describe Deploy::Schemas::CreateService do
 
     context 'invalid' do
       context 'cluster' do
-        it_behaves_like 'must be a string', { cluster: 1 }, :cluster
+        it 'must be a string or must be a hash' do
+          result = subject.call(default_params.merge(cluster: 1))
+
+          expect(result.errors.to_h).to include(
+            cluster: include('must be a string or must be a hash')
+          )
+        end
+
+        context 'when is a hash' do
+          context 'ref' do
+            it 'must be a string' do
+              params = { cluster: { ref: 1234 }}
+
+              result = subject.call(default_params.merge(params))
+
+              expect(result.errors.to_h).to include(
+                cluster: include(
+                  ref: include('must be a string')
+                )
+              )
+            end
+          end
+        end
       end
 
       context 'service_name' do
@@ -32,7 +54,29 @@ RSpec.describe Deploy::Schemas::CreateService do
       end
 
       context 'task_definition' do
-        it_behaves_like 'must be a string', { task_definition: 1 }, :task_definition
+        it 'must be a string or must be a hash' do
+          result = subject.call(default_params.merge(task_definition: 1))
+
+          expect(result.errors.to_h).to include(
+            task_definition: include('must be a string or must be a hash')
+          )
+        end
+
+        context 'when is a hash' do
+          context 'ref' do
+            it 'must be a string' do
+              params = { task_definition: { ref: 1234 }}
+
+              result = subject.call(default_params.merge(params))
+
+              expect(result.errors.to_h).to include(
+                task_definition: include(
+                  ref: include('must be a string')
+                )
+              )
+            end
+          end
+        end
       end
 
       context 'desired_count' do

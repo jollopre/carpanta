@@ -20,9 +20,9 @@ RSpec.describe Deploy::Schemas::Up do
     end
     let(:service) do
       {
-        cluster_name: 'a_cluster_name',
+        cluster_name: { ref: 'my_cluster' },
         service_name: 'a_service_name',
-        task_definition: 'a_task_definition',
+        task_definition: { ref: 'my_task' },
         desired_count: 1,
         network_configuration: {
           awsvpc_configuration: {
