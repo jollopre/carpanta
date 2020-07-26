@@ -15,6 +15,7 @@ RSpec.describe Deploy::Commands::Up do
     before do
       client.stub_responses(:create_cluster, { cluster: { cluster_arn: 'a_cluster_arn' }})
       client.stub_responses(:register_task_definition, { task_definition: { task_definition_arn: 'a_task_definition_arn' }})
+      client.stub_responses(:create_service, { service: { service_arn: 'a_service_arn' }})
     end
 
     let(:default_params) do
@@ -34,6 +35,22 @@ RSpec.describe Deploy::Commands::Up do
               cpu: '256',
               memory: '512',
               container_definitions: []
+            }
+          },
+          my_service: {
+            type: 'Aws::ECS::Service',
+            properties: {
+              cluster: { ref: 'my_cluster' },
+              service_name: 'a_service_name',
+              task_definition: { ref: 'my_task' },
+              desired_count: 1,
+              network_configuration: {
+                awsvpc_configuration: {
+                  subnets: ['a_subnet'],
+                  security_groups: ['a_security_group'],
+                  assign_public_ip: 'ENABLED'
+                }
+              }
             }
           }
         }
@@ -58,6 +75,17 @@ RSpec.describe Deploy::Commands::Up do
         task_definition: include(
           logical_name: :my_task,
           arn: 'a_task_definition_arn'
+        )
+      )
+    end
+
+    it 'creates a service' do
+      result = subject.call(default_params)
+
+      expect(result.success).to include(
+        service: include(
+          logical_name: :my_service,
+          arn: 'a_service_arn'
         )
       )
     end
@@ -108,15 +136,59 @@ RSpec.describe Deploy::Commands::Up do
     end
 
     context 'when there are no task_definitions defined under resources' do
-      before do
-        default_params.fetch(:resources).delete(:my_task)
+      let(:params) do
+        {
+          resources: default_params.fetch(:resources).reject do |key, _|
+            key == :my_task || key == :my_service
+          end
+        }
       end
 
       it 'result returns an empty task_definition' do
-        result = subject.call(default_params)
+        result = subject.call(default_params.merge(params))
 
         expect(result.success).to include(
           task_definition: []
+        )
+      end
+
+      context 'but exist a service referencing to any' do
+        let(:params) do
+          {
+            resources: default_params.fetch(:resources).reject do |key, _|
+              key == :my_task
+            end
+          }
+        end
+
+        it 'result returns an empty task_definition as well as empty service' do
+          result = subject.call(default_params.merge(params))
+
+          expect(result.success).to include(
+            task_definition: []
+          ).and(include(
+            service: []
+          ))
+        end
+
+        it 'logs failures encountered for task_definition while attempting to create service' do
+          expect(Deploy.logger).to receive(:warn).with(/Errors encountered while attempting to create service. Details: /)
+
+          subject.call(default_params.merge(params))
+        end
+      end
+    end
+
+    context 'when there are no services defined under resources' do
+      before do
+        default_params.fetch(:resources).delete(:my_service)
+      end
+
+      it 'result returns an empty service' do
+        result = subject.call(default_params)
+
+        expect(result.success).to include(
+          service: []
         )
       end
     end

@@ -78,6 +78,18 @@ RSpec.describe Deploy::Schemas::Up do
           end
         end
       end
+
+      context 'any resource of type Aws::ECS::Service with cluster reference' do
+        it 'must exit a cluster defined with the logical name referenced' do
+          skip('TODO')
+        end
+      end
+
+      context 'any resource of type Aws::ECS::Service with task_definition reference' do
+        it 'must exit a task_definition defined with the logical name referenced' do
+          skip('TODO')
+        end
+      end
     end
   end
 end
