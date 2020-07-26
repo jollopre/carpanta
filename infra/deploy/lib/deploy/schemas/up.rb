@@ -1,6 +1,7 @@
 require 'dry-validation'
 require 'deploy/schemas/create_cluster'
 require 'deploy/schemas/register_task_definition'
+require 'deploy/schemas/create_service'
 
 module Deploy
   module Schemas
@@ -8,14 +9,17 @@ module Deploy
       class Resource < Dry::Validation::Contract
         Cluster = CreateCluster.new
         TaskDefinition = RegisterTaskDefinition.new
+        Service = CreateService.new
 
         PROPERTY_SCHEMAS = {
           'Aws::ECS::Cluster' => Cluster,
-          'Aws::ECS::TaskDefinition' => TaskDefinition
+          'Aws::ECS::TaskDefinition' => TaskDefinition,
+          'Aws::ECS::Service' => Service
         }.freeze
         TYPES = [
           'Aws::ECS::Cluster',
-          'Aws::ECS::TaskDefinition'
+          'Aws::ECS::TaskDefinition',
+          'Aws::ECS::Service'
         ].freeze
 
         schema do

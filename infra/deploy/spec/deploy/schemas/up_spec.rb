@@ -4,24 +4,49 @@ require_relative 'shared_examples'
 RSpec.describe Deploy::Schemas::Up do
   describe '#call' do
     subject { described_class.new }
+    let(:cluster) do
+      {
+        cluster_name: 'a_cluster_name'
+      }
+    end
+    let(:task_definition) do
+      {
+        family: 'a_family',
+        execution_role_arn: 'a_execution_role_arn',
+        cpu: '256',
+        memory: '512',
+        container_definitions: []
+      }
+    end
+    let(:service) do
+      {
+        cluster_name: 'a_cluster_name',
+        service_name: 'a_service_name',
+        task_definition: 'a_task_definition',
+        desired_count: 1,
+        network_configuration: {
+          awsvpc_configuration: {
+            subnets: [],
+            security_groups: [],
+            assign_public_ip: 'ENABLED'
+          }
+        }
+      }
+    end
     let(:default_params) do
       {
         resources: {
-          :"my_cluster" => {
+          my_cluster: {
             type: 'Aws::ECS::Cluster',
-            properties: {
-              cluster_name: 'a_cluster_name'
-            }
+            properties: cluster
           },
-          :"my_task" => {
+          my_task: {
             type: 'Aws::ECS::TaskDefinition',
-            properties: {
-              family: 'a_family',
-              execution_role_arn: 'a_execution_role_arn',
-              cpu: '256',
-              memory: '512',
-              container_definitions: []
-            }
+            properties: task_definition,
+          },
+          my_service: {
+            type: 'Aws::ECS::Service',
+            properties: service
           }
         }
       }
@@ -69,19 +94,19 @@ RSpec.describe Deploy::Schemas::Up::Resource do
         }
       }
     end
-    
+
     it_behaves_like 'successful'
 
     context 'invalid' do
       context 'type' do
-        it_behaves_like 'must be one of', { type: 'foo'}, :type, ['Aws::ECS::Cluster', 'Aws::ECS::TaskDefinition']
+        it_behaves_like 'must be one of', { type: 'foo'}, :type, ['Aws::ECS::Cluster', 'Aws::ECS::TaskDefinition', 'Aws::ECS::Service']
       end
 
       context 'properties' do
         context 'when type is Aws::ECS::Cluster' do
           it 'Deploy::Schemas::CreateCluster is expected' do
             params = { properties: { cluster_name: 1 }}
-            
+
             result = subject.call(default_params.merge(params))
 
             expect(result.errors.to_h).to include(
@@ -102,6 +127,20 @@ RSpec.describe Deploy::Schemas::Up::Resource do
               properties: include(
                 cpu: include(/must be one of:/),
                 memory: include(/must be one of:/)
+              )
+            )
+          end
+        end
+
+        context 'when type is Aws::ECS::Service' do
+          it 'Deploy::Schemas::CreateService is expected' do
+            params = { type: 'Aws::ECS::Service', properties: { cluster_name: 'a_cluster_name', service_name: 1234, task_definition: 'a_task_definition', desired_count: 1, network_configuration: { awsvpc_configuration: { subnets: [], security_groups: [], assign_public_ip: 'ENABLED '}}}}
+
+            result = subject.call(params)
+
+            expect(result.errors.to_h).to include(
+              properties: include(
+                service_name: include('must be a string')
               )
             )
           end
