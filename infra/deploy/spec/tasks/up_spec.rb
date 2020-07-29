@@ -7,9 +7,6 @@ RSpec.describe 'rake deploy:up' do
 
   let(:task_name) { 'deploy:up' }
   let(:task_path) { 'tasks/up' }
-  let(:up_instance) do
-    instance_double(Deploy::Commands::Up)
-  end
   let(:params) do
     {
       resources: {
@@ -24,41 +21,90 @@ RSpec.describe 'rake deploy:up' do
   end
   let(:filepath) do
     file = Tempfile.new
-    file.write(params.to_yaml)
+    file.write(params.to_json)
     file.rewind
 
     file.path
   end
-
-  it 'initialises Commands::Up with an instance of Aws::ECS::Client' do
-    allow(up_instance).to receive(:call)
-    expect(Deploy::Commands::Up).to receive(:new).with(an_instance_of(Aws::ECS::Client)).and_return(up_instance)
-
-    task.invoke(filepath)
+  let!(:client) do
+    Aws::ECS::Client.new(stub_responses: true)
+  end
+  let!(:up_instance) do
+    Deploy::Commands::Up.new(client)
   end
 
-  it 'delegates into Commands::Up call with params defined in the YAML file' do
-    allow(up_instance).to receive(:call)
+  before do
+    allow(Aws::ECS::Client).to receive(:new).and_return(client)
     allow(Deploy::Commands::Up).to receive(:new).and_return(up_instance)
+  end
+
+  it 'delegates into Commands::Up call with params defined in the JSON file' do
+    allow(up_instance).to receive(:call).and_call_original
 
     task.invoke(filepath)
 
     expect(up_instance).to have_received(:call).with(params)
   end
 
-  context 'when filepath argument is missing' do
-    it 'raises error' do
-      expect do
-        task.invoke
-      end.to raise_error('filepath is missing')
+  it 'logs the cluster, task_definition and service created' do
+    allow(Deploy.logger).to receive(:info)
+
+    task.invoke(filepath)
+
+    result = {
+      cluster: [{ logical_name: :my_cluster, arn: 'String' }],
+      task_definition: [],
+      service: []
+    }.to_json
+    expect(Deploy.logger).to have_received(:info).with(result)
+  end
+
+  context 'when params defined in the JSON file are not valid' do
+    let(:params) do
+      { foo: 'bar' }
+    end
+
+    it 'logs errors' do
+      allow(Deploy.logger).to receive(:error)
+
+      task.invoke(filepath)
+
+      result = {
+        resources: ['is missing']
+      }.to_json
+      expect(Deploy.logger).to have_received(:error).with(result)
     end
   end
 
-  context 'when path to YAML file does not exist' do
-    it 'raises error' do
-      expect do
-        task.invoke('invalid_path')
-      end.to raise_error('filepath not found')
+  context 'when filepath argument is missing' do
+    it 'logs error' do
+      expect(Deploy.logger).to receive(:error).with(/filepath is missing/)
+
+      task.invoke
+    end
+  end
+
+  context 'when path to JSON file does not exist' do
+    it 'logs error' do
+      expect(Deploy.logger).to receive(:error).with(/filepath not found/)
+
+      task.invoke('invalid_path')
+    end
+  end
+
+  context 'when file is not JSON formatted' do
+    let(:filepath) do
+      file = Tempfile.new
+      file.write('malformed_json_file')
+      file.rewind
+
+      file.path
+    end
+
+    it 'logs error' do
+      expect(Deploy.logger).to receive(:error).with(/malformed JSON/)
+
+      task.invoke(filepath)
     end
   end
 end

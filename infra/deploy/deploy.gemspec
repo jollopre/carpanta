@@ -35,5 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'aws-sdk-ecs', '~> 1.65'
   spec.add_dependency 'dry-validation', '~> 1.5', '>= 1.5.1'
   spec.add_dependency 'dry-monads', '~> 1.3', '>= 1.3.5'
+  spec.add_dependency 'dry-matcher', '~> 0.8.3'
   spec.add_dependency 'rake', '~> 13.0', '>= 13.0.1'
 end
