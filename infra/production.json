@@ -1,0 +1,16 @@
+{
+  "resources": {
+    "carpanta_cluster": {
+      "type": "Aws::ECS::Cluster",
+      "properties": {
+        "cluster_name": "carpanta_cluster"
+      }
+    },
+    "carpanta_task" {
+      "type": "Aws::ECS::TaskDefinition"
+    },
+    "carpanta_service": {
+      "type": "Aws::ECS::Service"
+    }
+  }
+}

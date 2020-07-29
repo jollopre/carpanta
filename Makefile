@@ -36,3 +36,5 @@ stop:
 release:
 	TAG=:${SHA} docker-compose ${COMPOSE_FILES_PRODUCTION} build
 	@docker push jollopre/carpanta:${SHA}
+deploy:
+	@docker-compose ${COMPOSE_FILES_PRODUCTION} run --rm -v ${PWD}/.aws:/root/.aws app bundle exec rake deploy:up[infra/production.json]
