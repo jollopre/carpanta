@@ -42,7 +42,7 @@ module Deploy
               optional(:"awslogs-create-group").filled(:string)
               optional(:"awslogs-group").filled(:string)
               optional(:"awslogs-region").filled(:string)
-              optional(:"awslogs-stream").filled(:string)
+              optional(:"awslogs-stream-prefix").filled(:string)
             end
           end
 

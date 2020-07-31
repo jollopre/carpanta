@@ -298,7 +298,7 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Log
                   :"awslogs-create-group" =>  1,
                   :"awslogs-group" => 1,
                   :"awslogs-region" => 1,
-                  :"awslogs-stream" => 1
+                  :"awslogs-stream-prefix" => 1
                 }
               }
             end
@@ -312,7 +312,7 @@ RSpec.describe Deploy::Schemas::RegisterTaskDefinition::ContainerDefinition::Log
                   "awslogs-create-group": include('must be a string'),
                   "awslogs-group": include('must be a string'),
                   "awslogs-region": include('must be a string'),
-                  "awslogs-stream": include('must be a string')
+                  "awslogs-stream-prefix": include('must be a string')
                 )
               )
             end
