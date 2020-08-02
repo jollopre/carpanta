@@ -17,7 +17,7 @@ namespace :deploy do
         data = yield read(filepath)
         params = yield parse(data)
 
-        client = Aws::ECS::Client.new
+        client = Aws::ECS::Client.new(logger: Deploy.logger)
         up = Deploy::Commands::Up.new(client)
 
         up.call(params)

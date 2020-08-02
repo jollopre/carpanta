@@ -1,12 +1,11 @@
 require 'aws-sdk-ecs'
 require 'deploy/commands/up'
-require 'deploy/commands/create_cluster'
 
 RSpec.describe Deploy::Commands::Up do
   let(:client) do
     Aws::ECS::Client.new(stub_responses: true)
   end
-  
+
   subject do
     described_class.new(client)
   end
@@ -79,15 +78,73 @@ RSpec.describe Deploy::Commands::Up do
       )
     end
 
-    it 'creates a service' do
-      result = subject.call(default_params)
+    context 'Aws::ECS::Service resource type' do
+      it 'creates a service' do
+        result = subject.call(default_params)
 
-      expect(result.success).to include(
-        service: include(
-          logical_name: :my_service,
-          arn: 'a_service_arn'
+        expect(result.success).to include(
+          service: include(
+            logical_name: :my_service,
+            arn: 'a_service_arn'
+          )
         )
-      )
+      end
+
+      it 'service uses the cluster arn for the referenced logical cluster name' do
+        expect_any_instance_of(Deploy::Commands::CreateService).to receive(:call).with(include(cluster: 'a_cluster_arn')).and_call_original
+
+        subject.call(default_params)
+      end
+
+      it 'service uses the task definition arn for the referenced logical task definition name' do
+        expect_any_instance_of(Deploy::Commands::CreateService).to receive(:call).with(include(task_definition: 'a_task_definition_arn')).and_call_original
+
+        subject.call(default_params)
+      end
+
+      context 'when cluster reference DOES NOT exist as resource' do
+        let(:params) do
+          default_params.dup
+        end
+
+        it 'returns results with failure' do
+          params[:resources][:my_service][:properties][:cluster][:ref] = 'invalid_cluster_reference'
+
+          result = subject.call(params)
+
+          expect(result.failure).to include(
+            resources: include(
+              my_service: include(
+                properties: include(
+                  cluster: include('logical name not found')
+                )
+              )
+            )
+          )
+        end
+      end
+
+      context 'when task_definition reference DOES NOT exist as resource' do
+        let(:params) do
+          default_params.dup
+        end
+
+        it 'returns result with failure' do
+          params[:resources][:my_service][:properties][:task_definition][:ref] = 'invalid_task_definition_reference'
+
+          result = subject.call(params)
+
+          expect(result.failure).to include(
+            resources: include(
+              my_service: include(
+                properties: include(
+                  task_definition: include('logical name not found')
+                )
+              )
+            )
+          )
+        end
+      end
     end
 
     context 'when params are invalid' do
@@ -122,11 +179,14 @@ RSpec.describe Deploy::Commands::Up do
     end
 
     context 'when there are no clusters defined under resources' do
-      before do
-        default_params.fetch(:resources).delete(:my_cluster)
+      let(:params) do
+        default_params.dup
       end
 
       it 'result returns an empty cluster' do
+        params.fetch(:resources).delete(:my_cluster)
+        params.fetch(:resources).delete(:my_service)
+
         result = subject.call(default_params)
 
         expect(result.success).to include(
@@ -137,54 +197,28 @@ RSpec.describe Deploy::Commands::Up do
 
     context 'when there are no task_definitions defined under resources' do
       let(:params) do
-        {
-          resources: default_params.fetch(:resources).reject do |key, _|
-            key == :my_task || key == :my_service
-          end
-        }
+        default_params.dup
       end
 
       it 'result returns an empty task_definition' do
+        params.fetch(:resources).delete(:my_task)
+        params.fetch(:resources).delete(:my_service)
+
         result = subject.call(default_params.merge(params))
 
         expect(result.success).to include(
           task_definition: []
         )
       end
-
-      context 'but exist a service referencing to any' do
-        let(:params) do
-          {
-            resources: default_params.fetch(:resources).reject do |key, _|
-              key == :my_task
-            end
-          }
-        end
-
-        it 'result returns an empty task_definition as well as empty service' do
-          result = subject.call(default_params.merge(params))
-
-          expect(result.success).to include(
-            task_definition: []
-          ).and(include(
-            service: []
-          ))
-        end
-
-        it 'logs failures encountered for task_definition while attempting to create service' do
-          expect(Deploy.logger).to receive(:warn).with(/Errors encountered while attempting to create service. Details: /)
-
-          subject.call(default_params.merge(params))
-        end
-      end
     end
 
     context 'when there are no services defined under resources' do
-      before do
-        default_params.fetch(:resources).delete(:my_service)
+      let(:params) do
+        default_params.dup
       end
 
       it 'result returns an empty service' do
+        default_params.fetch(:resources).delete(:my_service)
         result = subject.call(default_params)
 
         expect(result.success).to include(

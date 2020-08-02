@@ -66,9 +66,19 @@ RSpec.describe Deploy::Commands::CreateService do
 
       api_request = client.api_requests.find { |request| request.fetch(:operation_name) == :create_service }
       expect(api_request[:params]).to include(
+        cluster: 'a_cluster_name',
         service_name: 'a_service_name',
+        task_definition: 'a_task_definition',
+        desired_count: 1,
         scheduling_strategy: 'REPLICA',
-        launch_type: 'FARGATE'
+        launch_type: 'FARGATE',
+        network_configuration: include(
+          awsvpc_configuration: include(
+            subnets: ['a_subnet'],
+            security_groups: ['a_security_group'],
+            assign_public_ip: 'ENABLED'
+          )
+        )
       )
     end
 
