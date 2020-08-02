@@ -14,7 +14,7 @@
         "container_definitions": [
           {
             "name": "app",
-            "image": "jollopre/carpanta:1b118575a36f5053a09f740bd34ccff3423f02f5",
+            "image": "<%= ENV.fetch('IMAGE_NAME') %>:<%= ENV.fetch('IMAGE_TAG') %>",
             "port_mappings": [
               {
                 "container_port": 80,

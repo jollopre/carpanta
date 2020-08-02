@@ -61,12 +61,29 @@ You can run the specs for front and back end code in one go by typing:
 $ make test
 ```
 
+### Production
+
+Should you wish to run carpanta into [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html). Please type the following:
+
+```sh
+$ make deploy
+```
+
+The above mentioned command does 3 things:
+
+1. Builds the image in production mode
+2. Pushes the image into [DockerHub](https://hub.docker.com/)
+3. Deploys the code into [AWS Fargate](https://aws.amazon.com/console/) according to the definition found at [production.json](infra/production.json)
+
+Note, you will need to have an account in [DockerHub](https://hub.docker.com/) as well a AWS user with ECS permissions. Check the [Makefile](Makefile) for a better insight into the requirements needed.
+
 ### Todos
 
  - Introducing code style guide for back end front development
  - Control errors flow with Result monad instead of using Exceptions
  - Exploring other libraries for Domain objects validations
  - Including CVE detections in the CI
+ - Refinements in deploy gem located under infra/deploy
 
 License
 ----

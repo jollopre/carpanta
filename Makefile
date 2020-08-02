@@ -1,10 +1,11 @@
-.PHONY: up down build test shell console logs start stop
+.PHONY: up down build test clean shell shell_assets console logs start stop build_production release deploy
 
 COMPOSE_FILES_ASSETS=-f docker-compose.assets.yml
 COMPOSE_FILES_TEST=-f docker-compose.base.yml -f docker-compose.test.yml
 COMPOSE_FILES_DEVELOPMENT=-f docker-compose.base.yml -f docker-compose.devel.yml
 COMPOSE_FILES_PRODUCTION=-f docker-compose.base.yml -f docker-compose.prod.yml
-SHA=$(shell git log --pretty=format:%H -n 1)
+IMAGE_NAME=jollopre/carpanta
+IMAGE_TAG=$(shell git log --pretty=format:%H -n 1)
 
 up:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} up -d
@@ -33,8 +34,9 @@ start:
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} up -d
 stop:
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} down
+build_production:
+	IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_PRODUCTION} build
 release:
-	TAG=:${SHA} docker-compose ${COMPOSE_FILES_PRODUCTION} build
-	@docker push jollopre/carpanta:${SHA}
-deploy:
-	@docker-compose ${COMPOSE_FILES_PRODUCTION} run --rm -v ${PWD}/.aws:/root/.aws app bundle exec rake deploy:up[infra/production.json]
+	@docker push ${IMAGE_NAME}:${IMAGE_TAG}
+deploy: build_production release
+	IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_PRODUCTION} run --rm -v ${PWD}/.aws:/root/.aws app bundle exec rake deploy:up[infra/production.json]
