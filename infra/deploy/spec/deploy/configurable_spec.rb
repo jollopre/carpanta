@@ -7,57 +7,6 @@ RSpec.describe Deploy::Configurable do
     end
   end
 
-  describe '.load_from_environment!' do
-    let!(:actual_env) { ENV.to_hash }
-
-    before do
-      ENV['AWS_ACCESS_KEY_ID'] = 'an_access_key'
-      ENV['AWS_SECRET_ACCESS_KEY'] = 'a_secret'
-      ENV['REGION'] = 'us-east-2'
-      ENV['CLUSTER_NAME'] = 'a_cluster_name'
-      ENV['FAMILY'] = 'a_family'
-      ENV['EXECUTION_ROLE_ARN'] = 'an_execution_role_arn'
-      ENV['CONTAINER_NAME'] = 'a_container_name'
-      ENV['CONTAINER_IMAGE'] = 'a_container_image'
-    end
-
-    after do
-      actual_env.map do |k,v|
-        ENV[k] = v
-      end
-    end
-
-    it 'sets a configuration object based on environment variables' do
-      subject.load_from_environment!
-
-      expect(subject.configuration.cluster_name).to eq('a_cluster_name')
-      expect(subject.configuration.family).to eq('a_family')
-      expect(subject.configuration.execution_role_arn).to eq('an_execution_role_arn')
-      expect(subject.configuration.container_name).to eq('a_container_name')
-      expect(subject.configuration.container_image).to eq('a_container_image')
-    end
-
-    context 'when any environment is not set' do
-      RSpec.shared_examples 'raising EnvironmentVariableNotSet' do |env_name|
-        before do
-          ENV.delete(env_name)
-        end
-
-        it "raises EnvironmentVariableNotSet for #{env_name}" do
-          expect do
-            subject.load_from_environment!
-          end.to raise_error(Deploy::Configurable::EnvironmentVariableNotSet, env_name)
-        end
-      end
-
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'CLUSTER_NAME'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'FAMILY'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'EXECUTION_ROLE_ARN'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'CONTAINER_NAME'
-      it_behaves_like 'raising EnvironmentVariableNotSet', 'CONTAINER_IMAGE'
-    end
-  end
-
   describe '.configure' do
     it 'yields a Configuration object' do
       expect do |b|

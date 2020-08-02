@@ -47,7 +47,7 @@
     "carpanta_service": {
       "type": "Aws::ECS::Service",
       "properties": {
-        "cluster_name": { "ref": "carpanta_cluster" },
+        "cluster": { "ref": "carpanta_cluster" },
         "service_name": "carpanta",
         "task_definition": { "ref": "carpanta_task" },
         "desired_count": 1,

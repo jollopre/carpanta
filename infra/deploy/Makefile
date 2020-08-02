@@ -5,4 +5,4 @@ build:
 test:
 	@docker run --rm carpanta:infra bundle exec rake spec
 shell:
-	@docker run --rm -it -v ${PWD}:/usr/src -v ${PWD}/.aws:/root/.aws carpanta:infra bash
+	@docker run --rm -it -v ${PWD}:/usr/src carpanta:infra bash
