@@ -3,7 +3,11 @@ services:
   app:
     build:
       target: production
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
     ports:
       - "80:80"
     env_file:
       - ./infra/production.env
+    environment:
+      - IMAGE_NAME=${IMAGE_NAME}
+      - IMAGE_TAG=${IMAGE_TAG}

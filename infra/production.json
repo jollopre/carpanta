@@ -1,0 +1,64 @@
+{
+  "resources": {
+    "carpanta_cluster": {
+      "type": "Aws::ECS::Cluster",
+      "properties": {
+        "cluster_name": "carpanta_cluster"
+      }
+    },
+    "carpanta_task": {
+      "type": "Aws::ECS::TaskDefinition",
+      "properties": {
+        "family": "carpanta",
+        "execution_role_arn": "arn:aws:iam::152619190362:role/ecsTaskExecutionRole",
+        "container_definitions": [
+          {
+            "name": "app",
+            "image": "<%= ENV.fetch('IMAGE_NAME') %>:<%= ENV.fetch('IMAGE_TAG') %>",
+            "port_mappings": [
+              {
+                "container_port": 80,
+                "protocol": "tcp"
+              }
+            ],
+            "environment": [
+              { "name": "RACK_ENV", "value": "<%= ENV.fetch('RACK_ENV') %>" },
+              { "name": "PORT", "value": "<%= ENV.fetch('PORT') %>" },
+              { "name": "DB_ADAPTER", "value": "<%= ENV.fetch('DB_ADAPTER') %>" },
+              { "name": "DB_DATABASE", "value": "<%= ENV.fetch('DB_DATABASE') %>" },
+              { "name": "DB_POOL", "value": "<%= ENV.fetch('DB_POOL') %>" },
+              { "name": "DB_TIMEOUT", "value": "<%= ENV.fetch('DB_TIMEOUT') %>" }
+            ],
+            "log_configuration": {
+              "log_driver": "awslogs",
+              "options": {
+                "awslogs-create-group": "true",
+                "awslogs-group": "/ecs/carpanta-app",
+                "awslogs-region": "us-east-2",
+                "awslogs-stream-prefix": "carpanta"
+              }
+            }
+          }
+        ],
+        "cpu": "256",
+        "memory": "512"
+      }
+    },
+    "carpanta_service": {
+      "type": "Aws::ECS::Service",
+      "properties": {
+        "cluster": { "ref": "carpanta_cluster" },
+        "service_name": "carpanta",
+        "task_definition": { "ref": "carpanta_task" },
+        "desired_count": 1,
+        "network_configuration": {
+          "awsvpc_configuration": {
+            "subnets": ["subnet-e4c9f79e"],
+            "security_groups": ["sg-00b902e2b81e67cab"],
+            "assign_public_ip": "ENABLED"
+          }
+        }
+      }
+    }
+  }
+}
