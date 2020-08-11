@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  app:
+    build:
+      target: production
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    entrypoint: []
+    env_file:
+      - ./infra/production.env
+      - ./infra/deploy.env
+    environment:
+      - IMAGE_TAG=${IMAGE_TAG}

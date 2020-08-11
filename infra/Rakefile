@@ -1,0 +1,1 @@
+import 'infra/deploy/lib/tasks/up.rake'

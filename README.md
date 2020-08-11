@@ -73,9 +73,9 @@ The above mentioned command performs 3 actions:
 
 1. Building the image in production mode
 2. Pushing the image into [DockerHub](https://hub.docker.com/)
-3. Deploying the code into [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html) according to the definition found at [production.json](infra/production.json)
+3. Provisioning the code into [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html) according to the definition found at [production.json](infra/production.json)
 
-Note, you will need to have an account in [DockerHub](https://hub.docker.com/) in order to push the docker image to any of your repositories. In addition, you will need an AWS user with Programmatic access type. AWS contains a handful set of policies to be attached to your user, for instance [AmazonECS_FullAccess](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_managed_policies.html#AmazonECS_FullAccess) should be sufficient for the deploy task to succeed. You can replace the IMAGE_NAME to point at your docker hub repository in [Makefile](Makefile#7). AWS credentials it is assumed to be persisted into .aws folder located at the root folder of this project.
+Note, you will need to have an account in [DockerHub](https://hub.docker.com/) in order to push the docker image to any of your repositories. In addition, you will need an AWS user with Programmatic access type. AWS contains a handful set of policies to be attached to your user, for instance [AmazonECS_FullAccess](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_managed_policies.html#AmazonECS_FullAccess) should be sufficient for the deploy task to succeed.
 
 ### Todos
 

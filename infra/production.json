@@ -10,7 +10,7 @@
       "type": "Aws::ECS::TaskDefinition",
       "properties": {
         "family": "carpanta",
-        "execution_role_arn": "arn:aws:iam::152619190362:role/ecsTaskExecutionRole",
+        "execution_role_arn": "<%= ENV.fetch('EXECUTION_ROLE_ARN') %>",
         "container_definitions": [
           {
             "name": "app",
@@ -53,8 +53,8 @@
         "desired_count": 1,
         "network_configuration": {
           "awsvpc_configuration": {
-            "subnets": ["subnet-e4c9f79e"],
-            "security_groups": ["sg-00b902e2b81e67cab"],
+            "subnets": ["<%= ENV.fetch('SUBNETS') %>"],
+            "security_groups": ["<%= ENV.fetch('SECURITY_GROUPS') %>"],
             "assign_public_ip": "ENABLED"
           }
         }
