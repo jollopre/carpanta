@@ -77,6 +77,8 @@ The above mentioned command performs 3 actions:
 
 Note, you will need to have an account in [DockerHub](https://hub.docker.com/) in order to push the docker image to any of your repositories. In addition, you will need an AWS user with Programmatic access type. AWS contains a handful set of policies to be attached to your user, for instance [AmazonECS_FullAccess](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_managed_policies.html#AmazonECS_FullAccess) should be sufficient for the deploy task to succeed.
 
+Please, make sure to provide valid values for the environment variables from file [deploy.env](infra/deploy.env.example). This file gets created automatically the first time the above mentioned command is called.
+
 ### Todos
 
  - Introducing code style guide for back end front development

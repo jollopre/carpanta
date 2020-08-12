@@ -2,6 +2,7 @@ namespace :provisioner do
   desc 'Provisions code into AWS ECS Fargate'
   task :up, [:filepath] do |t, args|
     require 'dry-monads'
+    require 'dry/monads/do'
     require 'dry/matcher/result_matcher'
     require 'aws-sdk-ecs'
     require 'json'

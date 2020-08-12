@@ -1,1 +1,3 @@
-import 'infra/deploy/lib/tasks/up.rake'
+require 'provisioner'
+
+load 'tasks/up.rake' # FIXME, gem tasks should be under provisioner folder to prevent collisions

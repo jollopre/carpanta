@@ -9,7 +9,7 @@ group :production do
   gem 'haml', '~> 5.1', '>= 5.1.2'
   gem 'rake', '~> 13.0', '>= 13.0.1'
   gem 'sqlite3', '~> 1.4', '>= 1.4.2'
-  gem 'deploy', path: 'infra/deploy'
+  gem 'provisioner', path: 'infra/provisioner'
 end
 
 group :development, :test do
