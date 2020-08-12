@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-Bundler.require(:default)
+Bundler.require(:production)
 
 lambda do
   root_path = File.expand_path('..', File.dirname(__FILE__))
