@@ -1,6 +1,6 @@
 require 'provisioner'
 
-import 'lib/tasks/up.rake'
+load 'provisioner/tasks/up.rake'
 
 begin
   require 'rspec/core/rake_task'

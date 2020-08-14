@@ -20,3 +20,7 @@ group :development, :test do
   gem 'database_cleaner-active_record', '~> 1.8'
   gem 'capybara', '~> 2.7', '>= 2.7.1'
 end
+
+group :deploy do
+  gem 'provisioner', path: 'infra/provisioner'
+end

@@ -6,7 +6,7 @@ RSpec.describe 'rake provisioner:up' do
   include_context 'rake setup'
 
   let(:task_name) { 'provisioner:up' }
-  let(:task_path) { 'tasks/up' }
+  let(:task_path) { 'provisioner/tasks/up' }
   let(:params) do
     {
       resources: {

@@ -1,6 +1,4 @@
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'provisioner/version'
+require File.expand_path("../lib/provisioner/version", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = 'provisioner'
@@ -10,7 +8,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{A gem to provision infrastructure resources to ECS Fargate}
   spec.description   = %q{.}
-  spec.homepage      = "https://github.com/jollopre"
+  spec.homepage      = "https://github.com/jollopre/carpanta/infra/provisioner"
   spec.license       = "MIT"
 
   if spec.respond_to?(:metadata)
@@ -24,8 +22,7 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-  end
+  spec.files = Dir.chdir(File.expand_path('..', __FILE__)) {}
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

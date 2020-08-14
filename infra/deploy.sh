@@ -23,7 +23,9 @@ push_image() {
 }
 
 provision() {
-  IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_DEPLOY} run --rm -v ${PWD}/.aws:/root/.aws app bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
+  IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_DEPLOY} run \
+    --rm -v ${PWD}/.aws:/root/.aws app \
+    bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
 }
 
 call() {
