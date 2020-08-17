@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  app:
+    build:
+      target: deploy
+    env_file:
+      - ./infra/production.env
+      - ./infra/deploy.env
+    volumes:
+      - ./.aws:/root/.aws
+    environment:
+      - IMAGE_TAG=${IMAGE_TAG}

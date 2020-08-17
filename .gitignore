@@ -26,3 +26,6 @@
 
 ## Aws credentials
 .aws
+
+## Deploy environment variables
+infra/deploy.env
