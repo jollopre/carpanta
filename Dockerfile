@@ -5,6 +5,11 @@ COPY Gemfile* $ROOT_PATH/
 COPY . $ROOT_PATH
 ENTRYPOINT ["infra/entrypoint.sh"]
 
+FROM base as deploy
+RUN bundle install -j 10 --quiet --without=development test production --quiet
+ENTRYPOINT []
+CMD bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
+
 FROM node:alpine3.11 as assets
 WORKDIR /usr/src
 COPY ./app/assets ./
@@ -20,7 +25,3 @@ COPY --from=assets /usr/src/dist ./app/public/
 RUN rm -r spec
 RUN bundle install -j 10 --without=development test deploy --quiet
 CMD bundle exec puma -p $PORT
-
-FROM production as deploy
-RUN bundle install -j 10 --quiet
-ENTRYPOINT []

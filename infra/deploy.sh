@@ -11,11 +11,10 @@ load_from_environment() {
   copy_environment_example
   export $(cat infra/deploy.env)
   IMAGE_TAG=$(git log --pretty=format:%H -n 1)
-  COMPOSE_FILES_DEPLOY="-f docker-compose.base.yml -f docker-compose.deploy.yml"
 }
 
 build_image() {
-  IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_DEPLOY} build
+  docker build -t ${IMAGE_NAME}:${IMAGE_TAG} --target production .
 }
 
 push_image() {
@@ -23,9 +22,7 @@ push_image() {
 }
 
 provision() {
-  IMAGE_NAME=${IMAGE_NAME} IMAGE_TAG=${IMAGE_TAG} docker-compose ${COMPOSE_FILES_DEPLOY} run \
-    --rm -v ${PWD}/.aws:/root/.aws app \
-    bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
+  IMAGE_TAG=${IMAGE_TAG} docker-compose -f docker-compose.base.yml -f docker-compose.deploy.yml run app
 }
 
 call() {

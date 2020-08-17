@@ -3,9 +3,10 @@ services:
   app:
     build:
       target: deploy
-    image: ${IMAGE_NAME}:${IMAGE_TAG}
     env_file:
       - ./infra/production.env
       - ./infra/deploy.env
+    volumes:
+      - ./.aws:/root/.aws
     environment:
       - IMAGE_TAG=${IMAGE_TAG}
