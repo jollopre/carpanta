@@ -187,8 +187,10 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'body includes errors' do
         post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
 
-        expected_errors = { starting_at: [{ error: :blank }]}.to_json
-        expect(last_response.body).to include(expected_errors)
+        parsed_response = JSON.parse(last_response.body, symbolize_names: true)
+        expect(parsed_response).to include(
+          starting_at: include("can't be blank")
+        )
       end
     end
   end

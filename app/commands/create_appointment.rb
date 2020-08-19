@@ -13,7 +13,7 @@ module Carpanta
         def call(attributes)
           appointment = Domain::Appointments::Appointment.build(attributes)
 
-          return failure(appointment.errors.details.to_h) unless appointment.errors.empty?
+          return failure(appointment.errors.messages) unless appointment.errors.empty?
 
           repository.save!(appointment)
           success(appointment.id)

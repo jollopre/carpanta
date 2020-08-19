@@ -39,11 +39,11 @@ module Carpanta
 
       post '/customers/:customer_id/appointments' do
         result = Commands::CreateAppointment.call(appointment_params)
-        result.success do
+
+        if result.success?
           redirect("/customers/#{appointment_params[:customer_id]}")
-        end
-        result.failure do |errors|
-          body(errors.to_json)
+        else
+          body(result.failure.to_json)
           status 422
         end
       end
