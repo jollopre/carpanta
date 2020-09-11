@@ -1,7 +1,7 @@
 require 'forwardable'
 require_relative 'customer'
 require_relative 'errors'
-require_relative 'repository'
+require_relative 'repository_legacy'
 
 module Carpanta
   module Domain
@@ -15,14 +15,14 @@ module Carpanta
 
             raise Errors::Invalid unless customer.errors.empty?
 
-            raise Errors::EmailNotUnique if Repository.exists?(customer)
+            raise Errors::EmailNotUnique if RepositoryLegacy.exists?(customer)
 
-            Repository.save!(customer)
+            RepositoryLegacy.save!(customer)
 
             customer
           end
 
-          def_delegators Repository, :find_by_id!
+          def_delegators RepositoryLegacy, :find_by_id!
         end
       end
     end
