@@ -10,6 +10,7 @@ group :production do
   gem 'rake', '~> 13.0', '>= 13.0.1'
   gem 'sqlite3', '~> 1.4', '>= 1.4.2'
   gem 'dry-monads', '~> 1.3', '>= 1.3.5'
+  gem 'dry-validation', '~> 1.5', '>= 1.5.6'
 end
 
 group :development, :test do
