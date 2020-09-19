@@ -3,7 +3,7 @@ require 'domain/shared/entity'
 module Carpanta
   module Domain
     module Customers
-      class Customer < Shared::Entity
+      class CustomerLegacy < Shared::Entity
         EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i.freeze
 
         attr_reader :name, :surname, :email, :phone

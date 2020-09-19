@@ -1,5 +1,5 @@
 require 'infra/orm'
-require_relative 'customer'
+require_relative 'customer_legacy'
 require_relative 'errors'
 
 module Carpanta
@@ -33,7 +33,7 @@ module Carpanta
 
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
-            customer = Customer.build(attrs)
+            customer = CustomerLegacy.build(attrs)
             customer.send(:id=, record.id)
             customer
           end

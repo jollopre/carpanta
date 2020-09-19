@@ -1,5 +1,5 @@
 require 'domain/customers/service'
-require 'domain/customers/customer'
+require 'domain/customers/customer_legacy'
 require 'domain/customers/errors'
 require 'domain/customers/repository_legacy'
 
@@ -8,7 +8,7 @@ RSpec.describe Carpanta::Domain::Customers::Service do
     { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com', phone: '666111222' }
   end
   let(:customer_class) do
-    Carpanta::Domain::Customers::Customer
+    Carpanta::Domain::Customers::CustomerLegacy
   end
   let(:customer_instance) do
     customer_class.build(default_attributes)

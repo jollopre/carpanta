@@ -14,7 +14,7 @@ module Carpanta
       end
 
       get '/customers/new' do
-        haml :'customers/new', locals: { customer: Domain::Customers::Customer.build }
+        haml :'customers/new', locals: { customer: Domain::Customers::CustomerLegacy.build }
       end
 
       post '/customers' do

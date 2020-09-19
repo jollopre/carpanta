@@ -1,4 +1,4 @@
-require 'domain/customers/customer'
+require 'domain/customers/customer_legacy'
 require 'domain/customers/repository_legacy'
 require 'domain/customers/errors'
 

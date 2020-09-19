@@ -1,5 +1,5 @@
 require 'forwardable'
-require_relative 'customer'
+require_relative 'customer_legacy'
 require_relative 'errors'
 require_relative 'repository_legacy'
 
@@ -11,7 +11,7 @@ module Carpanta
           extend Forwardable
 
           def save!(attributes)
-            customer = Customer.build(attributes)
+            customer = CustomerLegacy.build(attributes)
 
             raise Errors::Invalid unless customer.errors.empty?
 

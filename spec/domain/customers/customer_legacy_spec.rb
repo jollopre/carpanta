@@ -1,6 +1,6 @@
-require 'domain/customers/customer'
+require 'domain/customers/customer_legacy'
 
-RSpec.describe Carpanta::Domain::Customers::Customer do
+RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
   describe '.build' do
     it 'returns a customer' do
       customer = FactoryBot.build(:customer)

@@ -5,10 +5,10 @@ module Carpanta
         class CreateCustomer
           class << self
             def call(customer_attributes)
-              # Validate against Customer model
-              # Deferred Validations (e.g. uniqueness for email)
-              # Repository.save(customer)
-              # Return a Result (success/failure)
+              #result = yield Customers::Customer.create(customer_attributes)
+              #customer = result.value!
+              #yield Repository.exists?(email: customer.email)
+              #yield Repository.save(customer)
             end
           end
         end
