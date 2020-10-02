@@ -15,10 +15,6 @@ RSpec.describe Carpanta::Domain::Customers::Validations::OnCreate do
     it_behaves_like 'successful'
 
     context 'invalid' do
-      # context 'id' do
-      #   it_behaves_like 'is in invalid format', { id: 'foo' }, :id
-      # end
-
       context 'name' do
         it_behaves_like 'must be a string', { name: 123 }, :name
       end

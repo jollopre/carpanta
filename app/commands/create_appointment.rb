@@ -1,29 +1,29 @@
 require 'lib/configurable'
 require 'domain/appointments/appointment'
-require 'domain/shared/result'
+require 'domain/shared/resultable'
+require 'domain/shared/callable'
 
 module Carpanta
   module Commands
     class CreateAppointment
+      extend Domain::Shared::Callable
       include Configurable
-      extend Domain::Shared::Result
+      include Domain::Shared::Resultable
       configure_with :repository
 
-      class << self
-        def call(attributes)
-          appointment = Domain::Appointments::Appointment.build(attributes)
+      def call(params = {})
+        appointment = Domain::Appointments::Appointment.build(params)
 
-          return failure(appointment.errors.messages) unless appointment.errors.empty?
+        return Failure(appointment.errors.messages) unless appointment.errors.empty?
 
-          repository.save!(appointment)
-          success(appointment.id)
-        end
+        repository.save!(appointment)
+        Success(appointment.id)
+      end
 
-        private
+      private
 
-        def repository
-          configuration.repository
-        end
+      def repository
+        self.class.configuration.repository
       end
     end
   end
