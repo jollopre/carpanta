@@ -3,7 +3,7 @@ require_relative 'shared_context'
 RSpec.describe 'Appointments resource', type: :feature do
   include_context 'features'
 
-  let(:customer) { FactoryBot.create(:customer) }
+  let(:customer) { FactoryBot.create(:customer_legacy) }
   let!(:offer) { FactoryBot.create(:offer) }
   let(:starting_at) { Time.new(2020,05,26,07,45,12) }
   let(:duration) { 50 }

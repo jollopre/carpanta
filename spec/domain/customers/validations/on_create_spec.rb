@@ -26,6 +26,10 @@ RSpec.describe Carpanta::Domain::Customers::Validations::OnCreate do
       context 'email' do
         it_behaves_like 'is in invalid format', { email: 'donald.duck@carpanta' }, :email
       end
+
+      context 'phone' do
+        it_behaves_like 'must be a string', { phone: 123 }, :phone
+      end
     end
   end
 end

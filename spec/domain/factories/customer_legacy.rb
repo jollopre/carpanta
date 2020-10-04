@@ -2,7 +2,7 @@ require 'domain/customers/customer_legacy'
 require 'domain/customers/repository_legacy'
 
 FactoryBot.define do
-  factory :customer, class: Carpanta::Domain::Customers::CustomerLegacy do
+  factory :customer_legacy, class: Carpanta::Domain::Customers::CustomerLegacy do
     name { 'Donald' }
     surname { 'Duck' }
     email { 'donald.duck@carpanta.com' }

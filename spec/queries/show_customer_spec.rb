@@ -1,7 +1,7 @@
 require 'app/queries/show_customer'
 
 RSpec.describe Carpanta::Queries::ShowCustomer do
-  let(:customer) { FactoryBot.create(:customer) }
+  let(:customer) { FactoryBot.create(:customer_legacy) }
   let(:offer) { FactoryBot.create(:offer) }
   let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
   subject { described_class.new }

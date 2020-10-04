@@ -4,7 +4,7 @@ require 'domain/customers/errors'
 
 RSpec.describe Carpanta::Domain::Customers::RepositoryLegacy do
   let(:customer) do
-    FactoryBot.build(:customer)
+    FactoryBot.build(:customer_legacy)
   end
   let(:not_found_class) do
     Carpanta::Domain::Customers::Errors::NotFound

@@ -11,6 +11,7 @@ module Carpanta
             required(:name).filled(:string)
             required(:surname).filled(:string)
             required(:email).value(format?: EMAIL)
+            optional(:phone).filled(:string)
           end
         end
       end

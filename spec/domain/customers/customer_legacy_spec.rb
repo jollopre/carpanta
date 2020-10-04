@@ -3,7 +3,7 @@ require 'domain/customers/customer_legacy'
 RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
   describe '.build' do
     it 'returns a customer' do
-      customer = FactoryBot.build(:customer)
+      customer = FactoryBot.build(:customer_legacy)
 
       expect(customer.id).not_to be_nil
       expect(customer.name).to eq('Donald')
@@ -13,14 +13,14 @@ RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
     end
 
     it 'there are no errors' do
-      customer = FactoryBot.build(:customer)
+      customer = FactoryBot.build(:customer_legacy)
 
       expect(customer.errors).to be_empty
     end
 
     describe 'name' do
       it 'needs to be present' do
-        customer = FactoryBot.build(:customer, name: nil)
+        customer = FactoryBot.build(:customer_legacy, name: nil)
 
         expect(customer.errors).to include(:name)
         expect(customer.errors.details).to include(
@@ -33,7 +33,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
 
     describe 'surname' do
       it 'needs to be present' do
-        customer = FactoryBot.build(:customer, surname: nil)
+        customer = FactoryBot.build(:customer_legacy, surname: nil)
 
         expect(customer.errors).to include(:surname)
         expect(customer.errors.details).to include(
@@ -46,7 +46,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
 
     describe 'email' do
       it 'needs to be a valid format' do
-        customer = FactoryBot.build(:customer, email: 'wadus@carpanta')
+        customer = FactoryBot.build(:customer_legacy, email: 'wadus@carpanta')
 
         expect(customer.errors).to include(:email)
         expect(customer.errors.details).to include(
@@ -60,7 +60,7 @@ RSpec.describe Carpanta::Domain::Customers::CustomerLegacy do
 
   describe '#attributes' do
     it 'returns a customer hash' do
-      customer = FactoryBot.build(:customer)
+      customer = FactoryBot.build(:customer_legacy)
 
       expect(customer.attributes).to include(
         name: 'Donald',

@@ -4,7 +4,7 @@ RSpec.describe Carpanta::Controllers::Customers do
   include_context 'requests'
 
   describe 'GET /customers' do
-    let!(:customer) { FactoryBot.create(:customer) }
+    let!(:customer) { FactoryBot.create(:customer_legacy) }
 
     it 'returns 200' do
       get '/customers'
@@ -70,7 +70,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
       context 'since email is not unique' do
         before do
-          FactoryBot.create(:customer, email: 'donald.duck@carpanta.com')
+          FactoryBot.create(:customer_legacy, email: 'donald.duck@carpanta.com')
         end
 
         it 'returns 422' do
@@ -104,7 +104,7 @@ RSpec.describe Carpanta::Controllers::Customers do
     end
 
     context 'when customer exists' do
-      let(:customer) { FactoryBot.create(:customer) }
+      let(:customer) { FactoryBot.create(:customer_legacy) }
       let(:offer) { FactoryBot.create(:offer) }
       let(:starting_at) { Time.new(2020,05,26,07,45,12) }
       let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
@@ -166,7 +166,7 @@ RSpec.describe Carpanta::Controllers::Customers do
   end
 
   describe 'POST /customers/:customer_id/appointments' do
-    let(:customer) { FactoryBot.create(:customer) }
+    let(:customer) { FactoryBot.create(:customer_legacy) }
     let(:offer) { FactoryBot.create(:offer) }
     let(:starting_at) { Time.now.iso8601 }
 
@@ -196,7 +196,7 @@ RSpec.describe Carpanta::Controllers::Customers do
   end
 
   describe 'GET /customers/:customer_id/appointments/new' do
-    let(:customer) { FactoryBot.create(:customer) }
+    let(:customer) { FactoryBot.create(:customer_legacy) }
 
     it 'returns 200' do
       get "/customers/#{customer.id}/appointments/new"

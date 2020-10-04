@@ -1,15 +1,28 @@
+require 'infra/orm'
+require 'domain/shared/resultable'
+
 module Carpanta
   module Domain
     module Customers
       class Repository
-        # class method to accommodate operations against ActiveRecord ORM. None of the methods described belong can raise an Exception, therefore we need to use Monads.
         class << self
+          include Domain::Shared::Resultable
+
           def save(customer)
-            # Infra::ORM::Customer#save
+            Infra::ORM::Customer.new({
+              id: customer.id,
+              name: customer.name,
+              surname: customer.surname,
+              email: customer.email,
+              phone: customer.phone
+            }).save!
+            Success(true)
+          rescue => e
+            Failure(message: e.message, backtrace: e.backtrace)
           end
 
           def exists?(conditions = :none)
-            # Infra::ORM::Customer.exits?(id: id)
+            Success(Infra::ORM::Customer.exists?(conditions))
           end
 
           def find_by_id(id)
