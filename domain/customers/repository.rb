@@ -23,11 +23,6 @@ module Carpanta
             result ? Success() : Failure()
           end
 
-          def not_exists?(**args)
-            result = exists?(args)
-            result.success? ? Failure() : Success()
-          end
-
           def find_by_id(id)
             values = Infra::ORM::Customer
               .where(id: id)

@@ -25,28 +25,6 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
   end
 
-  describe '.not_exists?' do
-    let(:email) { 'donald.duck@carpanta.com' }
-
-    it 'returns Success' do
-      result = described_class.not_exists?(email: email)
-
-      expect(result.success?).to eq(true)
-    end
-
-    context 'when there is a customer meeting the condition' do
-      before do
-        FactoryBot.create(:customer)
-      end
-
-      it 'returns Failure' do
-        result = described_class.not_exists?(email: email)
-
-        expect(result.failure?).to eq(true)
-      end
-    end
-  end
-
   describe '.save' do
     let(:customer) { FactoryBot.build(:customer) }
 
