@@ -14,6 +14,14 @@ module Carpanta
 
           id == other.id
         end
+
+        def to_h
+          instance_variables.reduce({}) do |acc, var_name|
+            key = var_name.to_s[1..-1].to_sym
+            acc[key] = instance_variable_get(var_name)
+            acc
+          end
+        end
       end
 
       class Customer < Entity

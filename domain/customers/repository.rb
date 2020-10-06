@@ -1,32 +1,42 @@
 require 'infra/orm'
 require 'domain/shared/resultable'
+require 'domain/customers/customer'
 
 module Carpanta
   module Domain
     module Customers
       class Repository
+        ATTRIBUTE_NAMES = [:id, :name, :surname, :email, :phone].freeze
+
         class << self
           include Domain::Shared::Resultable
 
           def save(customer)
-            Infra::ORM::Customer.new({
-              id: customer.id,
-              name: customer.name,
-              surname: customer.surname,
-              email: customer.email,
-              phone: customer.phone
-            }).save!
-            Success(true)
-          rescue => e
-            Failure(message: e.message, backtrace: e.backtrace)
+            result = Infra::ORM::Customer
+              .new(customer.to_h)
+              .save
+            result ? Success() : Failure()
           end
 
           def exists?(conditions = :none)
-            Success(Infra::ORM::Customer.exists?(conditions))
+            result = Infra::ORM::Customer.exists?(conditions)
+            result ? Success() : Failure()
+          end
+
+          def not_exists?(**args)
+            result = exists?(args)
+            result.success? ? Failure() : Success()
           end
 
           def find_by_id(id)
-            # Infra::ORM::Customer.find_by(id: id)
+            values = Infra::ORM::Customer
+              .where(id: id)
+              .pluck(ATTRIBUTE_NAMES)
+              .first
+            return Failure() unless values.present?
+
+            attributes = ATTRIBUTE_NAMES.zip(values).to_h
+            Success(Customer.new(attributes))
           end
         end
       end

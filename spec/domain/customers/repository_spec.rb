@@ -8,19 +8,41 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
       FactoryBot.create(:customer)
     end
 
-    it 'returns Success with true' do
+    it 'returns Success' do
       result = described_class.exists?(email: email)
 
-      expect(result.value!).to eq(true)
+      expect(result.success?).to eq(true)
     end
 
     context 'when there is no customer meeting the condition' do
       let(:email) { 'non_existent@carpanta.com' }
 
-      it 'returns Success with false' do
+      it 'returns Failure' do
         result = described_class.exists?(email: email)
 
-        expect(result.value!).to eq(false)
+        expect(result.failure?).to eq(true)
+      end
+    end
+  end
+
+  describe '.not_exists?' do
+    let(:email) { 'donald.duck@carpanta.com' }
+
+    it 'returns Success' do
+      result = described_class.not_exists?(email: email)
+
+      expect(result.success?).to eq(true)
+    end
+
+    context 'when there is a customer meeting the condition' do
+      before do
+        FactoryBot.create(:customer)
+      end
+
+      it 'returns Failure' do
+        result = described_class.not_exists?(email: email)
+
+        expect(result.failure?).to eq(true)
       end
     end
   end
@@ -35,27 +57,35 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
 
     context 'when there is an error saving the customer' do
-      let(:error) { ActiveRecord::RecordInvalid }
-
       before do
-        allow_any_instance_of(Infra::ORM::Customer).to receive(:save!).and_raise(error)
+        allow_any_instance_of(Infra::ORM::Customer).to receive(:save).and_return(false)
       end
 
       it 'returns Failure' do
         result = described_class.save(customer)
 
         expect(result.failure?).to eq(true)
-        expect(result.failure).to include(
-          message: anything,
-          backtrace: anything
-        )
       end
     end
   end
 
   describe '.find_by_id' do
+    let(:customer_class) { Carpanta::Domain::Customers::Customer }
+    let!(:customer) { FactoryBot.create(:customer) }
+
     it 'returns Success with the customer' do
-      skip('todo')
+      result = described_class.find_by_id(customer.id)
+
+      expect(result.value!).to be_an_instance_of(customer_class)
+      expect(result.value!).to eq(customer)
+    end
+
+    context 'when the customer is not found' do
+      it 'returns Failure' do
+        result = described_class.find_by_id('non_existent_id')
+
+        expect(result.failure?).to eq(true)
+      end
     end
   end
 end
