@@ -35,7 +35,7 @@ module Carpanta
         def check_uniqueness_for_email(customer)
           result = Repository.exists?(email: customer.email)
 
-          return Failure(email: 'is not unique') if result.success?
+          return Failure(email: ['is not unique']) if result.success?
           Success()
         end
       end

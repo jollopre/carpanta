@@ -33,7 +33,7 @@ RSpec.describe Carpanta::Domain::Customers::CreateCustomerService do
         result = described_class.call(default_attributes)
 
         expect(result.failure).to include(
-          email: 'is not unique'
+          email: include('is not unique')
         )
       end
     end
