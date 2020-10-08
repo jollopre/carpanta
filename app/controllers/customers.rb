@@ -25,10 +25,10 @@ module Carpanta
       end
 
       get '/customers/:customer_id' do
-        customer = Queries::ShowCustomer.new.call(params[:customer_id])
+        result = Queries::ShowCustomer.call(params[:customer_id])
 
-        if customer
-          haml :'customers/show', locals: { customer: customer }
+        if result.success?
+          haml :'customers/show', locals: { customer: result.value! }
         else
           body 'Customer not found'
           status 404
