@@ -13,6 +13,10 @@ module Carpanta
         include Shared::Resultable
         include Shared::DoNotation
 
+        def initialize(repository: Domain::Customers::Repository)
+          @repository = repository
+        end
+
         def call(params = {})
           sanitized_params = yield validate(params)
           customer = Customer.new(sanitized_params)
@@ -24,16 +28,18 @@ module Carpanta
 
         private
 
+        attr_reader :repository
+
         def validate(params)
           Validations::OnCreate.call(params)
         end
 
         def create(customer)
-          Repository.save(customer)
+          repository.save(customer)
         end
 
         def check_uniqueness_for_email(customer)
-          result = Repository.exists?(email: customer.email)
+          result = repository.exists?(email: customer.email)
 
           return Failure(email: ['is not unique']) if result.success?
           Success()
