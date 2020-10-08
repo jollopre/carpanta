@@ -10,24 +10,10 @@ RSpec.describe Carpanta::Commands::CreateCustomer do
       }
     end
 
-    context 'when the attributes are invalid' do
-      let(:attributes) do
-        default_attributes.merge(email: 'donald@')
-      end
+    it 'forwards into customers domain for creating customer' do
+      expect(Carpanta::Domain::Customers::CreateCustomerService).to receive(:call).with(default_attributes)
 
-      it 'returns failure' do
-        result = described_class.call(attributes)
-
-        expect(result.failure).to include(
-          email: include('is in invalid format')
-        )
-      end
-    end
-
-    it 'returns the id created' do
-      result = described_class.call(default_attributes)
-
-      expect(result.value!).to eq('an_id')
+      described_class.call(default_attributes)
     end
   end
 end

@@ -1,5 +1,4 @@
 require 'domain/customers/customer_legacy'
-require 'domain/customers/repository_legacy'
 
 FactoryBot.define do
   factory :customer_legacy, class: Carpanta::Domain::Customers::CustomerLegacy do
@@ -10,10 +9,6 @@ FactoryBot.define do
 
     initialize_with do
       Carpanta::Domain::Customers::CustomerLegacy.build(attributes)
-    end
-
-    to_create do |instance|
-      Carpanta::Domain::Customers::RepositoryLegacy.save!(instance)
     end
   end
 end

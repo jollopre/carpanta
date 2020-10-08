@@ -1,6 +1,5 @@
 require_relative 'base'
-require 'domain/customers/service'
-require 'domain/customers/errors'
+require 'app/commands/create_customer'
 require 'app/commands/create_appointment'
 require 'app/queries/show_customers'
 require 'app/queries/offers_query'
@@ -18,12 +17,11 @@ module Carpanta
       end
 
       post '/customers' do
-        begin
-          Domain::Customers::Service.save!(customer_params)
-          redirect('/customers')
-        rescue Domain::Customers::Errors::Invalid, Domain::Customers::Errors::EmailNotUnique
-          status 422
-        end
+        result = Commands::CreateCustomer.call(customer_attributes)
+
+        redirect('/customers') if result.success?
+
+        status 422
       end
 
       get '/customers/:customer_id' do
@@ -54,14 +52,9 @@ module Carpanta
 
       private
 
-      def customer_params
-        attrs = params.fetch(:customer, {})
-        customer = {}
-        customer[:name] = attrs['name']
-        customer[:surname] = attrs['surname']
-        customer[:email] = attrs['email']
-        customer[:phone] = attrs['phone']
-        customer
+      def customer_attributes
+        attributes = params.fetch(:customer, {})
+        attributes.filter { |_,v| v.present? }
       end
 
       def appointment_params
