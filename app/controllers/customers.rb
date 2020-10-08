@@ -9,7 +9,9 @@ module Carpanta
   module Controllers
     class Customers < Base
       get '/customers' do
-        haml :'customers/index', locals: { customers: Queries::ShowCustomers.new.call }
+        result = Queries::ShowCustomers.call
+
+        haml :'customers/index', locals: { customers: result.value! }
       end
 
       get '/customers/new' do
