@@ -13,7 +13,7 @@
           %label{ for: 'offer_id' } Offer
           %select{ id: 'offer_id', name: 'appointment[offer_id]' }
             - offers.each do |offer|
-              %option{ value: offer.id }= offer.name
+              %option{ value: offer.id }= offer.label
         %div{ class: 'pure-controls' }
           %a{ class: 'pure-button', href: "/customers/#{customer_id}" } Cancel
           %input{ type: 'submit', class: 'pure-button', value: 'Create' }

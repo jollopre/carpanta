@@ -2,7 +2,7 @@ require_relative 'base'
 require 'app/commands/create_customer'
 require 'app/commands/create_appointment'
 require 'app/queries/show_customers'
-require 'app/queries/offers_query'
+require 'app/queries/offers_lookup'
 require 'app/queries/show_customer'
 
 module Carpanta
@@ -49,7 +49,9 @@ module Carpanta
       end
 
       get '/customers/:customer_id/appointments/new' do
-        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: Queries::OffersQuery.new.to_a }
+        offers_result = Queries::OffersLookup.call
+
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }
       end
 
       private
