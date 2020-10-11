@@ -13,7 +13,7 @@ module Carpanta
         include Shared::Resultable
         include Shared::DoNotation
 
-        def initialize(repository: Domain::Customers::Repository)
+        def initialize(repository: Domain::Customers::Repository.new)
           @repository = repository
         end
 

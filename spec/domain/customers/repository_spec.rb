@@ -1,7 +1,9 @@
 require 'domain/customers/repository'
 
 RSpec.describe Carpanta::Domain::Customers::Repository do
-  describe '.exists?' do
+  subject { described_class.new }
+
+  describe '#exists?' do
     let(:email) { 'donald.duck@carpanta.com' }
 
     before do
@@ -9,7 +11,7 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
 
     it 'returns Success' do
-      result = described_class.exists?(email: email)
+      result = subject.exists?(email: email)
 
       expect(result.success?).to eq(true)
     end
@@ -18,18 +20,18 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
       let(:email) { 'non_existent@carpanta.com' }
 
       it 'returns Failure' do
-        result = described_class.exists?(email: email)
+        result = subject.exists?(email: email)
 
         expect(result.failure?).to eq(true)
       end
     end
   end
 
-  describe '.save' do
+  describe '#save' do
     let(:customer) { FactoryBot.build(:customer) }
 
     it 'returns Success' do
-      result = described_class.save(customer)
+      result = subject.save(customer)
 
       expect(result.success?).to eq(true)
     end
@@ -40,19 +42,19 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
       end
 
       it 'returns Failure' do
-        result = described_class.save(customer)
+        result = subject.save(customer)
 
         expect(result.failure?).to eq(true)
       end
     end
   end
 
-  describe '.find_by_id' do
+  describe '#find_by_id' do
     let(:customer_class) { Carpanta::Domain::Customers::Customer }
     let!(:customer) { FactoryBot.create(:customer) }
 
     it 'returns Success with the customer' do
-      result = described_class.find_by_id(customer.id)
+      result = subject.find_by_id(customer.id)
 
       expect(result.value!).to be_an_instance_of(customer_class)
       expect(result.value!).to eq(customer)
@@ -60,7 +62,7 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
 
     context 'when the customer is not found' do
       it 'returns Failure' do
-        result = described_class.find_by_id('non_existent_id')
+        result = subject.find_by_id('non_existent_id')
 
         expect(result.failure?).to eq(true)
       end
