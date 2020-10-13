@@ -1,7 +1,7 @@
 require 'app/queries/offers_lookup'
 
 RSpec.describe Carpanta::Queries::OffersLookup do
-  let!(:offer) { FactoryBot.create(:offer) }
+  let!(:offer) { FactoryBot.create(:offer_legacy) }
 
   describe '.call' do
     it 'returns success with offers' do

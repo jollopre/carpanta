@@ -1,7 +1,7 @@
 require 'forwardable'
-require_relative 'offer'
+require_relative 'offer_legacy'
 require_relative 'errors'
-require_relative 'repository'
+require_relative 'repository_legacy'
 
 module Carpanta
   module Domain
@@ -11,16 +11,16 @@ module Carpanta
           extend Forwardable
 
           def save!(attributes)
-            offer = Offer.build(attributes)
+            offer = OfferLegacy.build(attributes)
 
             raise Errors::Invalid unless offer.errors.empty?
 
-            Repository.save!(offer)
+            RepositoryLegacy.save!(offer)
 
             offer
           end
 
-          def_delegators Repository, :find_by_id!
+          def_delegators RepositoryLegacy, :find_by_id!
         end
       end
     end

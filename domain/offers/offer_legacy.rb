@@ -3,7 +3,7 @@ require 'domain/shared/entity'
 module Carpanta
   module Domain
     module Offers
-      class Offer < Shared::Entity
+      class OfferLegacy < Shared::Entity
         ZERO = 0.freeze
         attr_reader :tasks, :price
 

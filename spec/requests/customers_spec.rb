@@ -105,7 +105,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:offer) { FactoryBot.create(:offer) }
+      let(:offer) { FactoryBot.create(:offer_legacy) }
       let(:starting_at) { Time.new(2020,05,26,07,45,12) }
       let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
@@ -167,7 +167,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
   describe 'POST /customers/:customer_id/appointments' do
     let(:customer) { FactoryBot.create(:customer) }
-    let(:offer) { FactoryBot.create(:offer) }
+    let(:offer) { FactoryBot.create(:offer_legacy) }
     let(:starting_at) { Time.now.iso8601 }
 
     it 'creates an appointment for a customer' do
@@ -211,7 +211,7 @@ RSpec.describe Carpanta::Controllers::Customers do
     end
 
     context 'rendered form' do
-      let!(:offer) { FactoryBot.create(:offer) }
+      let!(:offer) { FactoryBot.create(:offer_legacy) }
 
       it 'includes action, method and submit' do
         get "/customers/#{customer.id}/appointments/new"

@@ -1,10 +1,9 @@
-require 'domain/offers/repository'
-require 'domain/offers/offer'
+require 'domain/offers/repository_legacy'
 require 'domain/offers/errors'
 
-RSpec.describe Carpanta::Domain::Offers::Repository do
+RSpec.describe Carpanta::Domain::Offers::RepositoryLegacy do
   let(:offer) do
-    FactoryBot.build(:offer)
+    FactoryBot.build(:offer_legacy)
   end
   let(:not_found_class) do
     Carpanta::Domain::Offers::Errors::NotFound

@@ -1,11 +1,11 @@
 require 'infra/orm'
-require_relative 'offer'
+require_relative 'offer_legacy'
 require_relative 'errors'
 
 module Carpanta
   module Domain
     module Offers
-      class Repository
+      class RepositoryLegacy
         PERSISTENCE_KEYS = [:id, :created_at, :updated_at].freeze
 
         class << self
@@ -29,7 +29,7 @@ module Carpanta
 
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
-            offer = Offer.build(attrs)
+            offer = OfferLegacy.build(attrs)
             offer.send(:id=, record.id)
             offer
           end

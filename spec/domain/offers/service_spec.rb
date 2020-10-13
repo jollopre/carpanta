@@ -1,22 +1,22 @@
 require 'domain/offers/service'
 require 'domain/offers/errors'
-require 'domain/offers/repository'
+require 'domain/offers/repository_legacy'
 
 RSpec.describe Carpanta::Domain::Offers::Service do
   let(:invalid_class) do
     Carpanta::Domain::Offers::Errors::Invalid
   end
   let(:offer_class) do
-    Carpanta::Domain::Offers::Offer
+    Carpanta::Domain::Offers::OfferLegacy
   end
   let(:repository_class) do
-    class_double(Carpanta::Domain::Offers::Repository).as_stubbed_const
+    class_double(Carpanta::Domain::Offers::RepositoryLegacy).as_stubbed_const
   end
   let(:default_attributes) do
-    FactoryBot.attributes_for(:offer)
+    FactoryBot.attributes_for(:offer_legacy)
   end
   let(:offer) do
-    FactoryBot.build(:offer, default_attributes)
+    FactoryBot.build(:offer_legacy, default_attributes)
   end
 
   describe '.save!' do

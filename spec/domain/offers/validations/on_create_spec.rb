@@ -31,12 +31,13 @@ RSpec.describe Carpanta::Domain::Offers::Validations::OnCreate do
         it_behaves_like 'must be an array', { tasks: {} }, :tasks
 
         it 'each element must be a string' do
-          result = subject.call(default_params.merge(tasks: [{}]))
+          result = subject.call(default_params.merge(tasks: [{}, false]))
 
           expect(result.failure?).to eq(true)
           expect(result.errors.to_h).to include(
             tasks: include(
-              0 => include('must be a string')
+              0 => include('must be a string'),
+              1 => include('must be a string')
             )
           )
         end
