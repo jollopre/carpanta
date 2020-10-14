@@ -1,6 +1,7 @@
 require 'domain/offers/offer_legacy'
 require 'domain/offers/repository_legacy'
 require 'domain/offers/offer'
+require 'domain/offers/repository'
 
 FactoryBot.define do
   factory :offer_legacy, class: Carpanta::Domain::Offers::OfferLegacy do
@@ -22,6 +23,11 @@ FactoryBot.define do
 
     initialize_with do
       Carpanta::Domain::Offers::Offer.new(attributes)
+    end
+
+    to_create do |instance|
+      repository = Carpanta::Domain::Offers::Repository.new
+      repository.save(instance).value!
     end
   end
 end

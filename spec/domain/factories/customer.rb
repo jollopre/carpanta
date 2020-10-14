@@ -1,5 +1,5 @@
 require 'domain/customers/customer'
-require 'infra/orm'
+require 'domain/customers/repository'
 
 FactoryBot.define do
   factory :customer, class: Carpanta::Domain::Customers::Customer do
@@ -13,13 +13,8 @@ FactoryBot.define do
     end
 
     to_create do |instance|
-      Infra::ORM::Customer.create!(
-        id: instance.id,
-        name: instance.name,
-        surname: instance.surname,
-        email: instance.email,
-        phone: instance.phone
-      )
+      repository = Carpanta::Domain::Customers::Repository.new
+      repository.save(instance).value!
     end
   end
 end
