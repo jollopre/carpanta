@@ -42,6 +42,7 @@ RSpec.describe Carpanta::Domain::Customers::CreateCustomerService do
       result = described_class.call(default_attributes)
 
       expect(result.value!).to match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)
+      skip('check customer is persisted')
     end
   end
 end
