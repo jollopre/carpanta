@@ -5,7 +5,7 @@ FactoryBot.define do
   factory :appointment, class: Carpanta::Domain::Appointments::Appointment do
     starting_at { Time.new(2020, 05, 06, 8, 25, 12) }
     customer_id { build(:customer).id }
-    offer_id { build(:offer_legacy).id }
+    offer_id { build(:offer).id }
 
     initialize_with do
       Carpanta::Domain::Appointments::Appointment.build(attributes)

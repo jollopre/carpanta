@@ -105,7 +105,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:offer) { FactoryBot.create(:offer_legacy) }
+      let(:offer) { FactoryBot.create(:offer, tasks: ['Cutting', 'Shampooing']) }
       let(:starting_at) { Time.new(2020,05,26,07,45,12) }
       let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
@@ -138,7 +138,7 @@ RSpec.describe Carpanta::Controllers::Customers do
         it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: offer.name)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Cutting and Shampooing')
         end
 
         it 'includes starting_at' do
@@ -167,7 +167,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
   describe 'POST /customers/:customer_id/appointments' do
     let(:customer) { FactoryBot.create(:customer) }
-    let(:offer) { FactoryBot.create(:offer_legacy) }
+    let(:offer) { FactoryBot.create(:offer) }
     let(:starting_at) { Time.now.iso8601 }
 
     it 'creates an appointment for a customer' do
@@ -211,7 +211,7 @@ RSpec.describe Carpanta::Controllers::Customers do
     end
 
     context 'rendered form' do
-      let!(:offer) { FactoryBot.create(:offer_legacy) }
+      let!(:offer) { FactoryBot.create(:offer) }
 
       it 'includes action, method and submit' do
         get "/customers/#{customer.id}/appointments/new"
