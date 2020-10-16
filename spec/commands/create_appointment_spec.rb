@@ -1,5 +1,4 @@
 require 'app/commands/create_appointment'
-require 'domain/appointments/repository'
 
 RSpec.describe Carpanta::Commands::CreateAppointment do
   describe '.call' do

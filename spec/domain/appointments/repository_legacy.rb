@@ -1,6 +1,6 @@
-require 'domain/appointments/repository'
+require 'domain/appointments/repository_legacy'
 
-RSpec.describe Carpanta::Domain::Appointments::Repository do
+RSpec.describe Carpanta::Domain::Appointments::RepositoryLegacy do
   let(:appointment) do
     FactoryBot.build(:appointment)
   end

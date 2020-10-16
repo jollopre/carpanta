@@ -4,7 +4,7 @@ require_relative 'appointment_legacy'
 module Carpanta
   module Domain
     module Appointments
-      class Repository
+      class RepositoryLegacy
         PERSISTENCE_KEYS = [:id, :created_at, :updated_at].freeze
 
         class << self

@@ -1,5 +1,5 @@
 require 'domain/appointments/appointment_legacy'
-require 'domain/appointments/repository'
+require 'domain/appointments/repository_legacy'
 
 FactoryBot.define do
   factory :appointment, class: Carpanta::Domain::Appointments::AppointmentLegacy do
@@ -12,7 +12,7 @@ FactoryBot.define do
     end
 
     to_create do |instance|
-      Carpanta::Domain::Appointments::Repository.save!(instance)
+      Carpanta::Domain::Appointments::RepositoryLegacy.save!(instance)
     end
   end
 end
