@@ -1,5 +1,5 @@
 require 'infra/orm'
-require_relative 'appointment'
+require_relative 'appointment_legacy'
 
 module Carpanta
   module Domain
@@ -28,7 +28,7 @@ module Carpanta
 
           def build_from_storage(record)
             attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
-            appointment = Appointment.build(attrs)
+            appointment = AppointmentLegacy.build(attrs)
             appointment.send(:id=, record.id)
             appointment
           end

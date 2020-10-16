@@ -1,5 +1,5 @@
 require 'lib/configurable'
-require 'domain/appointments/appointment'
+require 'domain/appointments/appointment_legacy'
 require 'domain/shared/resultable'
 require 'domain/shared/callable'
 
@@ -12,7 +12,7 @@ module Carpanta
       configure_with :repository
 
       def call(params = {})
-        appointment = Domain::Appointments::Appointment.build(params)
+        appointment = Domain::Appointments::AppointmentLegacy.build(params)
 
         return Failure(appointment.errors.messages) unless appointment.errors.empty?
 

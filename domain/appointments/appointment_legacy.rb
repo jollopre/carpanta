@@ -3,7 +3,7 @@ require 'domain/shared/entity'
 module Carpanta
   module Domain
     module Appointments
-      class Appointment < Shared::Entity
+      class AppointmentLegacy < Shared::Entity
         ZERO = 0.freeze
         attr_reader :starting_at, :duration, :customer_id, :offer_id
 
