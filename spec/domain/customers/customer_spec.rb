@@ -1,7 +1,7 @@
 require 'domain/customers/customer'
 
 RSpec.describe Carpanta::Domain::Customers::Customer do
-  describe '.to_h' do
+  describe '#to_h' do
     let(:attributes) do
       {
         name: 'Donald',

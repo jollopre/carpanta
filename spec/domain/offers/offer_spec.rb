@@ -1,7 +1,7 @@
 require 'domain/offers/offer'
 
 RSpec.describe Carpanta::Domain::Offers::Offer do
-  describe '.to_h' do
+  describe '#to_h' do
     let(:attributes) do
       {
         tasks: ['Cutting with scissor', 'Shampooing'],
@@ -13,7 +13,7 @@ RSpec.describe Carpanta::Domain::Offers::Offer do
       described_class.new(attributes)
     end
 
-    it 'returns a hash with the attributes from customer' do
+    it 'returns a hash with the attributes from offer' do
       result = subject.to_h
 
       expect(result).to include(
