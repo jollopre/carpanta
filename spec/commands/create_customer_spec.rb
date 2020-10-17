@@ -11,7 +11,7 @@ RSpec.describe Carpanta::Commands::CreateCustomer do
     end
 
     it 'forwards into customers domain for creating customer' do
-      expect(Carpanta::Domain::Customers::CreateCustomerService).to receive(:call).with(default_attributes)
+      expect(Carpanta::Domain::Customers::Services::CreateCustomer).to receive(:call).with(default_attributes)
 
       described_class.call(default_attributes)
     end

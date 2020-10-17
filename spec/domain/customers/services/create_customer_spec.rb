@@ -1,6 +1,6 @@
-require 'domain/customers/create_customer_service'
+require 'domain/customers/services/create_customer'
 
-RSpec.describe Carpanta::Domain::Customers::CreateCustomerService do
+RSpec.describe Carpanta::Domain::Customers::Services::CreateCustomer do
   describe '.call' do
     let(:default_attributes) do
       {

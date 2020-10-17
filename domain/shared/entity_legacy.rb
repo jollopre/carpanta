@@ -1,5 +1,4 @@
 require 'securerandom'
-require_relative 'custom_validators'
 
 module Carpanta
   module Domain
@@ -7,7 +6,6 @@ module Carpanta
       class EntityLegacy
         include ActiveModel::Model
         include ActiveModel::Serialization
-        extend Shared::CustomValidators
 
         attr_accessor :id
 

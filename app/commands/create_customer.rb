@@ -1,5 +1,5 @@
 require 'domain/shared/callable'
-require 'domain/customers/create_customer_service'
+require 'domain/customers/services/create_customer'
 
 module Carpanta
   module Commands
@@ -7,7 +7,7 @@ module Carpanta
       extend Domain::Shared::Callable
 
       def call(params = {})
-        Domain::Customers::CreateCustomerService.call(params)
+        Domain::Customers::Services::CreateCustomer.call(params)
       end
     end
   end
