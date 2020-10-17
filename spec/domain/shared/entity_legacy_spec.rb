@@ -1,6 +1,6 @@
-require 'domain/shared/entity'
+require 'domain/shared/entity_legacy'
 
-RSpec.describe Carpanta::Domain::Shared::Entity do
+RSpec.describe Carpanta::Domain::Shared::EntityLegacy do
   describe '.new' do
     it 'creates an entity' do
       entity = described_class.new

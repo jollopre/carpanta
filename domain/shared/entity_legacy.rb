@@ -4,7 +4,7 @@ require_relative 'custom_validators'
 module Carpanta
   module Domain
     module Shared
-      class Entity
+      class EntityLegacy
         include ActiveModel::Model
         include ActiveModel::Serialization
         extend Shared::CustomValidators
@@ -20,7 +20,7 @@ module Carpanta
         end
 
         def ==(entity)
-          return false unless entity.is_a?(Entity)
+          return false unless entity.is_a?(EntityLegacy)
 
           id == entity.id
         end

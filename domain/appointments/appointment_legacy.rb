@@ -1,9 +1,9 @@
-require 'domain/shared/entity'
+require 'domain/shared/entity_legacy'
 
 module Carpanta
   module Domain
     module Appointments
-      class AppointmentLegacy < Shared::Entity
+      class AppointmentLegacy < Shared::EntityLegacy
         ZERO = 0.freeze
         attr_reader :starting_at, :duration, :customer_id, :offer_id
 
