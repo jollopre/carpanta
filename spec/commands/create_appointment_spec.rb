@@ -3,7 +3,7 @@ require 'app/commands/create_appointment'
 RSpec.describe Carpanta::Commands::CreateAppointment do
   describe '.call' do
     let(:default_attributes) do
-      FactoryBot.attributes_for(:appointment)
+      FactoryBot.attributes_for(:appointment_legacy)
     end
 
     it 'returns success' do

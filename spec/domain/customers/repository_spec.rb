@@ -37,9 +37,13 @@ RSpec.describe Carpanta::Domain::Customers::Repository do
     end
 
     context 'when there is an error saving the customer' do
-      before do
-        allow_any_instance_of(Infra::ORM::Customer).to receive(:save).and_return(false)
+      let(:storage) do
+        Class.new do
+          def initialize(*args) ; end
+          def save ; false ; end
+        end
       end
+      subject { described_class.new(storage: storage) }
 
       it 'returns Failure' do
         result = subject.save(customer)

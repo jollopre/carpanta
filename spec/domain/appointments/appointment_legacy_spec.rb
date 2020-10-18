@@ -2,7 +2,7 @@ require 'domain/appointments/appointment_legacy'
 
 RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
   let(:appointment) do
-    FactoryBot.build(:appointment)
+    FactoryBot.build(:appointment_legacy)
   end
 
   describe '.build' do
@@ -20,7 +20,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
 
     describe 'customer_id' do
       it 'needs to be present' do
-        appointment = FactoryBot.build(:appointment, customer_id: nil)
+        appointment = FactoryBot.build(:appointment_legacy, customer_id: nil)
 
         expect(appointment.errors.details).to include(
           customer_id: include(
@@ -32,7 +32,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
 
     describe 'offer_id' do
       it 'needs to be present' do
-        appointment = FactoryBot.build(:appointment, offer_id: nil)
+        appointment = FactoryBot.build(:appointment_legacy, offer_id: nil)
 
         expect(appointment.errors.details).to include(
           offer_id: include(
@@ -44,7 +44,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
 
     describe 'starting_at' do
       it 'needs to be present' do
-        appointment = FactoryBot.build(:appointment, starting_at: nil)
+        appointment = FactoryBot.build(:appointment_legacy, starting_at: nil)
 
         expect(appointment.errors.details).to include(
           starting_at: include(
@@ -61,7 +61,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
     describe 'duration' do
       context 'numericality' do
         it 'needs to be integer' do
-          appointment = FactoryBot.build(:appointment, duration: 50.00)
+          appointment = FactoryBot.build(:appointment_legacy, duration: 50.00)
 
           expect(appointment.errors.details).to include(
             duration: include(
@@ -72,7 +72,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
         end
 
         it 'needs to be positive' do
-          appointment = FactoryBot.build(:appointment, duration: -50)
+          appointment = FactoryBot.build(:appointment_legacy, duration: -50)
 
           expect(appointment.errors.details).to include(
             duration: include(
@@ -84,7 +84,7 @@ RSpec.describe Carpanta::Domain::Appointments::AppointmentLegacy do
         end
 
         it 'needs to be greater than zero' do
-          appointment = FactoryBot.build(:appointment, duration: 0)
+          appointment = FactoryBot.build(:appointment_legacy, duration: 0)
 
           expect(appointment.errors.details).to include(
             duration: include(

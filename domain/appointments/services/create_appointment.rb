@@ -1,15 +1,15 @@
 require 'domain/shared/callable'
 require 'domain/shared/resultable'
 require 'domain/shared/do_notation'
-require 'domain/customers/validations/on_create'
-require 'domain/customers/customer'
-require 'domain/customers/repository'
+require 'domain/appointments/validations/on_create'
+require 'domain/appointments/appointment'
+require 'domain/appointments/repository'
 
 module Carpanta
   module Domain
-    module Customers
+    module Appointments
       module Services
-        class CreateCustomer
+        class CreateAppointment
           extend Shared::Callable
           include Shared::Resultable
           include Shared::DoNotation
@@ -20,30 +20,21 @@ module Carpanta
 
           def call(params = {})
             sanitized_params = yield validate(params)
-            customer = Customer.new(sanitized_params)
-            yield check_uniqueness_for_email(customer)
-            yield create(customer)
+            appointment = Appointment.new(sanitized_params)
+            yield create(appointment)
 
-            Success(customer.id)
+            Success(appointment.id)
           end
 
           private
-
           attr_reader :repository
 
           def validate(params)
             Validations::OnCreate.call(params)
           end
 
-          def create(customer)
-            repository.save(customer)
-          end
-
-          def check_uniqueness_for_email(customer)
-            result = repository.exists?(email: customer.email)
-
-            return Failure(email: ['is not unique']) if result.success?
-            Success()
+          def create(appointment)
+            repository.save(appointment)
           end
         end
       end
