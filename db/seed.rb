@@ -1,6 +1,6 @@
-require 'domain/offers/service'
-require 'domain/customers/service'
-require 'app/commands/create_appointment'
+require 'domain/customers/services/create_customer'
+require 'domain/offers/services/create_offer'
+require 'domain/appointments/services/create_appointment'
 
 lambda do
   offers_attrs =
@@ -50,24 +50,27 @@ lambda do
       { name: 'Molly', surname: 'Barron', email: 'molly.barron@carpanta.com', phone: '600111222' }
   ]
 
-  offers = offers_attrs.map do |offer_attrs|
-    Carpanta::Domain::Offers::Service.save!(offer_attrs)
+  offer_ids = offers_attrs.map do |offer_attrs|
+    Carpanta::Domain::Offers::Services::CreateOffer.call(offer_attrs).value!
   end
 
-  customers = customers_attrs.map do |customer_attrs|
-    Carpanta::Domain::Customers::Service.save!(customer_attrs)
+  customer_ids = customers_attrs.map do |customer_attrs|
+    Carpanta::Domain::Customers::Services::CreateCustomer.call(customer_attrs).value!
   end
 
-  create_appointment = lambda do |customer, offer|
-    result = Carpanta::Commands::CreateAppointment.call(customer_id: customer.id, offer_id: offer.id, starting_at: Time.now, duration: rand(30..60))
-    result.failure do |errors|
-      raise "Error creating appointment. Details: #{errors}"
-    end
+  create_appointment = lambda do |customer_id, offer_id|
+    attributes = {
+      customer_id: customer_id,
+      offer_id: offer_id,
+      starting_at: Time.now.utc.iso8601,
+      duration: rand(30..60)
+    }
+    Carpanta::Domain::Appointments::Services::CreateAppointment.call(attributes).value!
   end
 
-  customers.each do |customer|
+  customer_ids.each do |customer_id|
     (1..10).each do
-      create_appointment.call(customer, offers.sample)
+      create_appointment.call(customer_id, offer_ids.sample)
     end
   end
 end.call

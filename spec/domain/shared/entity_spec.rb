@@ -1,46 +1,45 @@
 require 'domain/shared/entity'
 
 RSpec.describe Carpanta::Domain::Shared::Entity do
-  describe '.new' do
-    it 'creates an entity' do
-      entity = described_class.new
+  describe '#to_h' do
+    subject { described_class.new }
 
-      expect(entity.id).to match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)
+    it 'returns a hash with the attributes from customer' do
+      result = subject.to_h
+
+      expect(result).to include(
+        id: match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)
+      )
     end
   end
 
   describe '#==' do
-    let(:entity) do
-      described_class.new
-    end
-
     it 'returns true' do
-      another_entity = described_class.new
-      another_entity.id = entity.id
+      other = described_class.new(subject.id)
 
-      result = entity == another_entity
+      result = subject == other
 
       expect(result).to eq(true)
     end
 
-    context 'when the object passed is not a class of Entity' do
+    context 'when other does not respond to id' do
       it 'returns false' do
-        result = entity == nil
+        other = nil
+
+        result = subject == other
 
         expect(result).to eq(false)
       end
     end
-  end
 
-  describe '#attributes' do
-    let(:entity) do
-      described_class.new
-    end
+    context 'when ids are different' do
+      it 'returns false' do
+        other = described_class.new
 
-    it 'raises RuntimeError' do
-      expect do
-        entity.attributes
-      end.to raise_error(RuntimeError, /Not implemented/)
+        result = subject == other
+
+        expect(result).to eq(false)
+      end
     end
   end
 end

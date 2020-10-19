@@ -9,11 +9,12 @@ FactoryBot.define do
     phone { '600111222' }
 
     initialize_with do
-      Carpanta::Domain::Customers::Customer.build(attributes)
+      Carpanta::Domain::Customers::Customer.new(attributes)
     end
 
     to_create do |instance|
-      Carpanta::Domain::Customers::Repository.save!(instance)
+      repository = Carpanta::Domain::Customers::Repository.new
+      repository.save(instance).value!
     end
   end
 end

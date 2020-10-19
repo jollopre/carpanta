@@ -4,13 +4,13 @@ module Carpanta
   module Controllers
     class Base < Sinatra::Base
       configure do
-        set :environment, Carpanta.environment.to_sym
-        set :logging, true
-        set :root, File.join(Carpanta.root, 'app')
-        set :run, false
         set :dump_errors, true
-        set :show_exceptions, development? || test?
+        set :environment, Carpanta.environment.to_sym
         set :haml, format: :html5
+        set :logging, true
+        set :raise_errors, development? || test?
+        set :root, File.join(Carpanta.root, 'app')
+        set :show_exceptions, false
 
         use Rack::CommonLogger, Carpanta.logger
       end

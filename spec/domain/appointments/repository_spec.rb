@@ -1,27 +1,31 @@
 require 'domain/appointments/repository'
 
 RSpec.describe Carpanta::Domain::Appointments::Repository do
-  let(:appointment) do
-    FactoryBot.build(:appointment)
-  end
+  subject { described_class.new }
 
-  describe '.save!' do
-    it 'returns true' do
-      result = described_class.save!(appointment)
+  describe '#save' do
+    let(:appointment) { FactoryBot.build(:appointment) }
 
-      expect(result).to eq(true)
-    end
-  end
+    it 'returns Success' do
+      result = subject.save(appointment)
 
-  describe '.find_all' do
-    before do
-      described_class.save!(appointment)
+      expect(result.success?).to eq(true)
     end
 
-    it 'returns appointments' do
-      result = described_class.find_all
+    context 'when there is an error saving the customer' do
+      let(:storage) do
+        Class.new do
+          def initialize(*args) ; end
+          def save ; false ; end
+        end
+      end
+      subject { described_class.new(storage: storage) }
 
-      expect(result).to include(appointment)
+      it 'returns Failure' do
+        result = subject.save(appointment)
+
+        expect(result.failure?).to eq(true)
+      end
     end
   end
 end

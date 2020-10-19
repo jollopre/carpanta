@@ -1,37 +1,32 @@
 require 'domain/offers/repository'
-require 'domain/offers/offer'
-require 'domain/offers/errors'
 
 RSpec.describe Carpanta::Domain::Offers::Repository do
-  let(:offer) do
-    FactoryBot.build(:offer)
-  end
-  let(:not_found_class) do
-    Carpanta::Domain::Offers::Errors::NotFound
-  end
+  subject { described_class.new }
+  describe '#save' do
+    let(:offer) { FactoryBot.build(:offer) }
 
-  describe '.save!' do
-    it 'returns true' do
-      result = described_class.save!(offer)
+    it 'returns Success' do
+      result = subject.save(offer)
 
-      expect(result).to eq(true)
-    end
-  end
-
-  describe '.find_by_id!' do
-    it 'returns an offer instance' do
-      described_class.save!(offer)
-
-      result = described_class.find_by_id!(offer.id)
-
-      expect(result).to eq(offer)
+      expect(result.success?).to eq(true)
     end
 
-    context 'when there is no offer for the id' do
-      it 'raises NotFound' do
-        expect do
-          described_class.find_by_id!('non_existent')
-        end.to raise_error(not_found_class)
+    context 'when there is an error saving the offer' do
+      let(:storage) do
+        Class.new do
+          def initialize(*args)
+          end
+          def save
+            false
+          end
+        end
+      end
+      subject { described_class.new(storage: storage) }
+
+      it 'returns Failure' do
+        result = subject.save(offer)
+
+        expect(result.failure?).to eq(true)
       end
     end
   end

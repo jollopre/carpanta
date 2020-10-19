@@ -1,38 +1,24 @@
 require 'infra/orm'
-require_relative 'appointment'
+require 'domain/shared/resultable'
+require 'domain/appointments/appointment'
 
 module Carpanta
   module Domain
     module Appointments
       class Repository
-        PERSISTENCE_KEYS = [:id, :created_at, :updated_at].freeze
+        include Domain::Shared::Resultable
 
-        class << self
-          def save!(appointment)
-            storage.create!(appointment.attributes)
-            true
-          end
-
-          def find_all
-            records = storage.offset(0).limit(100).order(created_at: :desc)
-            records.map do |record|
-              build_from_storage(record)
-            end
-          end
-
-          private
-
-          def storage
-            Infra::ORM::Appointment
-          end
-
-          def build_from_storage(record)
-            attrs = record.attributes.symbolize_keys.reject { |k| PERSISTENCE_KEYS.include?(k) }
-            appointment = Appointment.build(attrs)
-            appointment.send(:id=, record.id)
-            appointment
-          end
+        def initialize(storage: Infra::ORM::Appointment)
+          @storage = storage
         end
+
+        def save(appointment)
+          result = storage.new(appointment.to_h).save
+          result ? Success() : Failure()
+        end
+
+        private
+        attr_reader :storage
       end
     end
   end

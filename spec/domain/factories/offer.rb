@@ -7,11 +7,12 @@ FactoryBot.define do
     price { 2200 }
 
     initialize_with do
-      Carpanta::Domain::Offers::Offer.build(attributes)
+      Carpanta::Domain::Offers::Offer.new(attributes)
     end
 
     to_create do |instance|
-      Carpanta::Domain::Offers::Repository.save!(instance)
+      repository = Carpanta::Domain::Offers::Repository.new
+      repository.save(instance).value!
     end
   end
 end

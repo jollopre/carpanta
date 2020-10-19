@@ -1,22 +1,27 @@
 require 'forwardable'
 require 'infra/orm'
+require 'domain/shared/callable'
+require 'domain/shared/resultable'
 
 module Carpanta
   module Queries
     class ShowCustomer
+      extend Domain::Shared::Callable
+      include Domain::Shared::Resultable
 
-      attr_reader :relation
-
-      def initialize(relation = Infra::ORM::Customer.all)
+      def initialize(relation: Infra::ORM::Customer.all)
         @relation = relation
       end
 
       def call(id)
         customer = relation.where(id: id).includes(:appointments).first
-        return unless customer
+        return Failure(id: :not_found) unless customer
 
-        Customer.new(customer)
+        Success(Customer.new(customer))
       end
+
+      private
+      attr_reader :relation
 
       class Customer
         extend Forwardable

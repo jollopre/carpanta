@@ -1,36 +1,36 @@
 require_relative 'base'
-require 'domain/customers/service'
-require 'domain/customers/errors'
+require 'app/commands/create_customer'
 require 'app/commands/create_appointment'
 require 'app/queries/show_customers'
-require 'app/queries/offers_query'
+require 'app/queries/offers_lookup'
 require 'app/queries/show_customer'
 
 module Carpanta
   module Controllers
     class Customers < Base
       get '/customers' do
-        haml :'customers/index', locals: { customers: Queries::ShowCustomers.new.call }
+        result = Queries::ShowCustomers.call
+
+        haml :'customers/index', locals: { customers: result.value! }
       end
 
       get '/customers/new' do
-        haml :'customers/new', locals: { customer: Domain::Customers::Customer.build }
+        haml :'customers/new'
       end
 
       post '/customers' do
-        begin
-          Domain::Customers::Service.save!(customer_params)
-          redirect('/customers')
-        rescue Domain::Customers::Errors::Invalid, Domain::Customers::Errors::EmailNotUnique
-          status 422
-        end
+        result = Commands::CreateCustomer.call(customer_attributes)
+
+        redirect('/customers') if result.success?
+
+        status 422
       end
 
       get '/customers/:customer_id' do
-        customer = Queries::ShowCustomer.new.call(params[:customer_id])
+        result = Queries::ShowCustomer.call(params[:customer_id])
 
-        if customer
-          haml :'customers/show', locals: { customer: customer }
+        if result.success?
+          haml :'customers/show', locals: { customer: result.value! }
         else
           body 'Customer not found'
           status 404
@@ -39,29 +39,26 @@ module Carpanta
 
       post '/customers/:customer_id/appointments' do
         result = Commands::CreateAppointment.call(appointment_params)
-        result.success do
+
+        if result.success?
           redirect("/customers/#{appointment_params[:customer_id]}")
-        end
-        result.failure do |errors|
-          body(errors.to_json)
+        else
+          body(result.failure.to_json)
           status 422
         end
       end
 
       get '/customers/:customer_id/appointments/new' do
-        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: Queries::OffersQuery.new.to_a }
+        offers_result = Queries::OffersLookup.call
+
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }
       end
 
       private
 
-      def customer_params
-        attrs = params.fetch(:customer, {})
-        customer = {}
-        customer[:name] = attrs['name']
-        customer[:surname] = attrs['surname']
-        customer[:email] = attrs['email']
-        customer[:phone] = attrs['phone']
-        customer
+      def customer_attributes
+        attributes = params.fetch(:customer, {})
+        attributes.filter { |_,v| v.present? }
       end
 
       def appointment_params

@@ -105,7 +105,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
     context 'when customer exists' do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:offer) { FactoryBot.create(:offer) }
+      let(:offer) { FactoryBot.create(:offer, tasks: ['Cutting', 'Shampooing']) }
       let(:starting_at) { Time.new(2020,05,26,07,45,12) }
       let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
@@ -138,7 +138,7 @@ RSpec.describe Carpanta::Controllers::Customers do
         it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: offer.name)
+          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Cutting and Shampooing')
         end
 
         it 'includes starting_at' do
@@ -187,8 +187,10 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'body includes errors' do
         post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
 
-        expected_errors = { starting_at: [{ error: :blank }]}.to_json
-        expect(last_response.body).to include(expected_errors)
+        parsed_response = JSON.parse(last_response.body, symbolize_names: true)
+        expect(parsed_response).to include(
+          starting_at: include("must be filled")
+        )
       end
     end
   end

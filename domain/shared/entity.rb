@@ -1,28 +1,27 @@
 require 'securerandom'
-require_relative 'custom_validators'
 
 module Carpanta
   module Domain
     module Shared
       class Entity
-        include ActiveModel::Model
-        include ActiveModel::Serialization
-        extend Shared::CustomValidators
+        attr_reader :id
 
-        attr_accessor :id
-
-        def initialize
-          @id = SecureRandom.uuid
+        def initialize(id = nil)
+          @id = id || SecureRandom.uuid
         end
 
-        def attributes
-          raise 'Not implemented'
+        def ==(other)
+          return false unless other.respond_to?(:id)
+
+          id == other.id
         end
 
-        def ==(entity)
-          return false unless entity.is_a?(Entity)
-
-          id == entity.id
+        def to_h
+          instance_variables.reduce({}) do |acc, var_name|
+            key = var_name.to_s[1..-1].to_sym
+            acc[key] = instance_variable_get(var_name)
+            acc
+          end
         end
       end
     end

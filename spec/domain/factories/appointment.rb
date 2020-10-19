@@ -8,11 +8,12 @@ FactoryBot.define do
     offer_id { build(:offer).id }
 
     initialize_with do
-      Carpanta::Domain::Appointments::Appointment.build(attributes)
+      Carpanta::Domain::Appointments::Appointment.new(attributes)
     end
 
     to_create do |instance|
-      Carpanta::Domain::Appointments::Repository.save!(instance)
+      repository = Carpanta::Domain::Appointments::Repository.new
+      repository.save(instance).value!
     end
   end
 end
