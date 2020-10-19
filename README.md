@@ -82,8 +82,6 @@ Please, make sure to provide valid values for the environment variables from fil
 ### Todos
 
  - Introducing code style guide for back end front development
- - Control errors flow with Result monad instead of using Exceptions
- - Exploring other libraries for Domain objects validations
  - Including CVE detections in the CI
  - Refinements in deploy gem located under infra/deploy
 
