@@ -107,7 +107,7 @@ RSpec.describe Carpanta::Controllers::Customers do
       let(:customer) { FactoryBot.create(:customer) }
       let(:offer) { FactoryBot.create(:offer, tasks: ['Cutting', 'Shampooing']) }
       let(:starting_at) { Time.new(2020,05,26,07,45,12) }
-      let!(:appointment) { FactoryBot.create(:appointment_legacy, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
+      let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
       it 'returns 200 status' do
         get "/customers/#{customer.id}"
@@ -189,7 +189,7 @@ RSpec.describe Carpanta::Controllers::Customers do
 
         parsed_response = JSON.parse(last_response.body, symbolize_names: true)
         expect(parsed_response).to include(
-          starting_at: include("can't be blank")
+          starting_at: include("must be filled")
         )
       end
     end

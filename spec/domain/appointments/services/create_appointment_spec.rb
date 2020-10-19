@@ -25,17 +25,9 @@ RSpec.describe Carpanta::Domain::Appointments::Services::CreateAppointment do
       end
     end
 
-    context 'when the customer_id does not exist' do
-      it 'returns failure' do
-        skip('todo')
-      end
-    end
+    context 'when the customer_id does not exist'
 
-    context 'when the offer_id does not exist' do
-      it 'returns failure' do
-        skip('todo')
-      end
-    end
+    context 'when the offer_id does not exist'
 
     it 'returns the id created' do
       result = described_class.call(default_attributes)
