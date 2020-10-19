@@ -27,6 +27,8 @@ console:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bin/console
 logs:
 	@docker-compose -f docker-compose.base.yml logs -f
+seed:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bundle exec rake db:seed
 start:
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} build
 	@docker-compose ${COMPOSE_FILES_PRODUCTION} up -d
