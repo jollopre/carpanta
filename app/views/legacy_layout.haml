@@ -1,0 +1,26 @@
+%html
+  %head
+    %meta{ charset: 'UTF-8' }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
+    %link{ rel: 'stylesheet', href: '/carpanta_legacy.css' }
+    %script{ src: '/carpanta.js' }
+    %title Welcome to Carpanta
+  %body
+    %header
+      %a{ class: 'logo', href: '/' }CARPANTA
+      %input{ id: 'nav', type: 'checkbox' }
+      %label{ for: 'nav' }
+      %nav
+        %ul
+          %li
+            %a{ href: '/customers' }Customers
+          %li
+            %a{ href: '#' }Offers
+    %div{ class: 'content' }
+      =yield
+    %footer{ class: 'l-box is-center' }
+      %small
+        &copy; Copyright #{Time.now.year},&nbsp
+        %a{ href: 'https://github.com/jollopre/carpanta', target: '_blank' }Carpanta.
+        Powered by&nbsp
+        %a{ href: 'https://github.com/jollopre', target: '_blank' }jollopre.

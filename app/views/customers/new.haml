@@ -1,21 +1,27 @@
-%h2{ class: 'content-head is-center' }= 'New Customer'
-
-%div{ class: 'pure-g' }
-  %div{ class: 'pure-u-1 l-box-lrg' }
-    %form{ action: '/customers', method: :post, class: 'pure-form pure-form-stacked' }
-      %fieldset
-        %div{ class: 'pure-control-group' }
+%div{ class: 'Box Box--spacious col-4 mx-auto text-center m-6' }
+  %form{ action: '/customers', method: :post }
+    %div{ class: 'Box-body' }
+      %h3{ class: 'f1-light' } New Customer
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
           %label{ for: 'name' } Name
-          %input{ type: 'text', id: 'name', name: 'customer[name]' }
-        %div{ class: 'pure-control-group' }
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: :text, id: 'name', name: 'customer[name]' }
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
           %label{ for: 'surname' } Surname
-          %input{ type: 'text', id: 'surname', name: 'customer[surname]' }
-        %div{ class: 'pure-control-group' }
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: :text, id: 'surname', name: 'customer[surname]' }
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
           %label{ for: 'email' } Email
-          %input{ type: 'email', id: 'email', name: 'customer[email]' }
-        %div{ class: 'pure-control-group' }
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: :email, id: 'email', name: 'customer[email]' }
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
           %label{ for: 'phone' } Phone
-          %input{ type: 'tel', id: 'phone', name: 'customer[phone]' }
-        %div{ class: 'pure-controls' }
-          %a{ href: '/customers', class: 'pure-button' } Cancel
-          %input{ type: 'submit', class: 'pure-button', value: 'Create' }
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: :tel, id: 'phone', name: 'customer[phone]' }
+      %div{ class: 'form-actions mb-4' }
+        %button{ type: 'submit', class: 'btn btn-primary' } Create
+        %a{ href: '/customers', class: 'btn' } Cancel

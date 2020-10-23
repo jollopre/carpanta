@@ -11,7 +11,7 @@ module Carpanta
       get '/customers' do
         result = Queries::ShowCustomers.call
 
-        haml :'customers/index', locals: { customers: result.value! }
+        haml :'customers/index', locals: { customers: result.value! }, layout: :legacy_layout
       end
 
       get '/customers/new' do
@@ -30,7 +30,7 @@ module Carpanta
         result = Queries::ShowCustomer.call(params[:customer_id])
 
         if result.success?
-          haml :'customers/show', locals: { customer: result.value! }
+          haml :'customers/show', locals: { customer: result.value! }, layout: :legacy_layout
         else
           body 'Customer not found'
           status 404
@@ -51,7 +51,7 @@ module Carpanta
       get '/customers/:customer_id/appointments/new' do
         offers_result = Queries::OffersLookup.call
 
-        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }, layout: :legacy_layout
       end
 
       private
