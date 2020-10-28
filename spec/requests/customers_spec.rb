@@ -214,12 +214,6 @@ RSpec.describe Carpanta::Controllers::Customers do
       expect(last_response.status).to eq(200)
     end
 
-    it 'returns heading' do
-      get "/customers/#{customer.id}/appointments/new"
-
-      expect(last_response.body).to have_xpath('//h2', text: 'New Appointment')
-    end
-
     context 'rendered form' do
       let!(:offer) { FactoryBot.create(:offer) }
 

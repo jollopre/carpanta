@@ -55,7 +55,7 @@ module Carpanta
       get '/customers/:customer_id/appointments/new' do
         offers_result = Queries::OffersLookup.call
 
-        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }, layout: :legacy_layout
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }
       end
 
       private

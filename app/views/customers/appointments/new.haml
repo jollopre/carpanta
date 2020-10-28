@@ -1,19 +1,24 @@
-%h2{ class: 'content-head is-center' }= 'New Appointment'
-%div{ class: 'pure-g' }
-  %div{ class: 'pure-u-1 l-box-lrg' }
-    %form{ action: "/customers/#{customer_id}/appointments", method: :post, class: 'pure-form pure-form-stacked', "data-ref": 'customer_appointment_new' }
-      %fieldset
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'starting_at' } Starting at date
-          %input{ type: 'datetime-local', name: 'appointment[starting_at]' }
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'duration' } Duration
-          %input{ type: 'number', name: 'appointment[duration]' }
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'offer_id' } Offer
-          %select{ id: 'offer_id', name: 'appointment[offer_id]' }
+%div{ class: 'Box Box--spacious col-4 mx-auto text-center m-6' }
+  %form{ action: "/customers/#{customer_id}/appointments", method: :post }
+    %div{ class: 'Box-body' }
+      %h3{ class: 'f1-light' } New Appointment
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
+          %label{ for: 'starting_at' } Starting at
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: 'datetime-local', id: :starting_at, name: 'appointment[starting_at]', value: nil }
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
+          %label{ for: 'duration' } Duration (minutes)
+        %div{ class: 'form-group-body' }
+          %input{ class: 'form-control', type: :number, id: :duration, name: 'appointment[duration]', value: nil }
+      %div{ class: 'form-group mb-4' }
+        %div{ class: 'form-group-header' }
+          %label{ for: 'offer_id' }
+        %div{ class: 'form-group-body' }
+          %select{ class: 'form-select', id: :offer_id, name: 'appointment[offer_id]', value: nil }
             - offers.each do |offer|
               %option{ value: offer.id }= offer.label
-        %div{ class: 'pure-controls' }
-          %a{ class: 'pure-button', href: "/customers/#{customer_id}" } Cancel
-          %input{ type: 'submit', class: 'pure-button', value: 'Create' }
+      %div{ class: 'form-actions mb-4' }
+        %button{ type: 'submit', class: 'btn btn-primary' } Create
+        %a{ href: "/customers/#{customer_id}", class: 'btn' } Cancel
