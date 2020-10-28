@@ -2,26 +2,38 @@
   %form{ action: '/customers', method: :post }
     %div{ class: 'Box-body' }
       %h3{ class: 'f1-light' } New Customer
-      %div{ class: 'form-group mb-4' }
+      %div{ class: error_helper.with_error_class(id: :name, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'name' } Name
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :text, id: 'name', name: 'customer[name]' }
-      %div{ class: 'form-group mb-4' }
+          %input{ class: 'form-control', type: :text, id: :name, name: 'customer[name]', value: values[:name] }
+          - if error_helper.errors?(:name)
+            %p{ error_helper.with_error_entries(:name) }
+              = error_helper.errors_to_sentence(:name)
+      %div{ class: error_helper.with_error_class(id: :surname, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'surname' } Surname
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :text, id: 'surname', name: 'customer[surname]' }
-      %div{ class: 'form-group mb-4' }
+          %input{ class: 'form-control', type: :text, id: :surname, name: 'customer[surname]', value: values[:surname] }
+          - if error_helper.errors?(:surname)
+            %p{ error_helper.with_error_entries(:surname) }
+              = error_helper.errors_to_sentence(:surname)
+      %div{ class: error_helper.with_error_class(id: :email, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'email' } Email
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :email, id: 'email', name: 'customer[email]' }
-      %div{ class: 'form-group mb-4' }
+          %input{ class: 'form-control', type: :email, id: :email, name: 'customer[email]', value: values[:email] }
+          - if error_helper.errors?(:email)
+            %p{ error_helper.with_error_entries(:email) }
+              = error_helper.errors_to_sentence(:email)
+      %div{ class: error_helper.with_error_class(id: :phone, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'phone' } Phone
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :tel, id: 'phone', name: 'customer[phone]' }
+          %input{ class: 'form-control', type: :tel, id: :phone, name: 'customer[phone]', value: values[:phone] }
+          - if error_helper.errors?(:phone)
+            %p{ error_helper.with_error_entries(:phone) }
+              = error_helper.errors_to_sentence(:phone)
       %div{ class: 'form-actions mb-4' }
         %button{ type: 'submit', class: 'btn btn-primary' } Create
         %a{ href: '/customers', class: 'btn' } Cancel

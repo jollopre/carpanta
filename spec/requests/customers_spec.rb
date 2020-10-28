@@ -68,16 +68,26 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.status).to eq(422)
       end
 
-      context 'since email is not unique' do
-        before do
-          FactoryBot.create(:customer, email: 'donald.duck@carpanta.com')
-        end
+      it 'body includes `errored class` for form-group belonging the input' do
+        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
 
-        it 'returns 422' do
-          post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
+        expect(last_response.body).to have_xpath('//*[@id="name"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="surname"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="email"]//ancestor::div[@class="form-group mb-4 errored"]')
+      end
 
-          expect(last_response.status).to eq(422)
-        end
+      it 'body includes value input from request' do
+        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
+
+        expect(last_response.body).to have_field('customer[email]', with: 'donald@')
+      end
+
+      it 'body includes validation errors' do
+        post '/customers', { customer: { email: 'donald@' }}
+
+        expect(last_response.body).to have_xpath('//*[@id="name-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="surname-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="email-validation"]')
       end
     end
 

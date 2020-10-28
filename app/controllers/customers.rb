@@ -4,6 +4,7 @@ require 'app/commands/create_appointment'
 require 'app/queries/show_customers'
 require 'app/queries/offers_lookup'
 require 'app/queries/show_customer'
+require 'app/helpers/error'
 
 module Carpanta
   module Controllers
@@ -15,7 +16,8 @@ module Carpanta
       end
 
       get '/customers/new' do
-        haml :'customers/new'
+        error_helper = Helpers::Error.new
+        haml :'customers/new', {}, { values: {}, error_helper: error_helper }
       end
 
       post '/customers' do
@@ -23,7 +25,9 @@ module Carpanta
 
         redirect('/customers') if result.success?
 
+        error_helper = Helpers::Error.new(result.failure)
         status 422
+        haml :'customers/new', {}, { values: customer_attributes, error_helper: error_helper }
       end
 
       get '/customers/:customer_id' do
@@ -57,7 +61,7 @@ module Carpanta
       private
 
       def customer_attributes
-        attributes = params.fetch(:customer, {})
+        attributes = params.fetch(:customer, {}).deep_symbolize_keys
         attributes.filter { |_,v| v.present? }
       end
 
