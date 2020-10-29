@@ -1,6 +1,6 @@
 module Carpanta
   module Helpers
-    class Error
+    class FormErrors
       ERROR_CLASS = 'errored'.freeze
       SEPARATOR = ' '.freeze
       ARIA_DESCRIBED_BY = 'aria-describedby'.freeze

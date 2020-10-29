@@ -1,6 +1,6 @@
-require 'app/helpers/error'
+require 'app/helpers/form_errors'
 
-RSpec.describe Carpanta::Helpers::Error do
+RSpec.describe Carpanta::Helpers::FormErrors do
   let(:errors) do
     {
       attribute1: ['is invalid']

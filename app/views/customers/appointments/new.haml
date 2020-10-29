@@ -2,23 +2,32 @@
   %form{ action: "/customers/#{customer_id}/appointments", method: :post }
     %div{ class: 'Box-body' }
       %h3{ class: 'f1-light' } New Appointment
-      %div{ class: 'form-group mb-4' }
+      %div{ class: form_errors.with_error_class(id: :starting_at, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'starting_at' } Starting at
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: 'datetime-local', id: :starting_at, name: 'appointment[starting_at]', value: nil }
-      %div{ class: 'form-group mb-4' }
+          %input{ class: 'form-control', type: 'datetime-local', id: :starting_at, name: 'appointment[starting_at]', value: values[:starting_at] }
+          - if form_errors.errors?(:starting_at)
+            %p{ form_errors.with_error_entries(:starting_at) }
+              = form_errors.errors_to_sentence(:starting_at)
+      %div{ class: form_errors.with_error_class(id: :duration, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'duration' } Duration (minutes)
         %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :number, id: :duration, name: 'appointment[duration]', value: nil }
-      %div{ class: 'form-group mb-4' }
+          %input{ class: 'form-control', type: :number, id: :duration, name: 'appointment[duration]', value: values[:duration] }
+          - if form_errors.errors?(:duration)
+            %p{ form_errors.with_error_entries(:duration) }
+              = form_errors.errors_to_sentence(:duration)
+      %div{ class: form_errors.with_error_class(id: :offer_id, html_class: 'form-group mb-4') }
         %div{ class: 'form-group-header' }
           %label{ for: 'offer_id' }
         %div{ class: 'form-group-body' }
-          %select{ class: 'form-select', id: :offer_id, name: 'appointment[offer_id]', value: nil }
+          %select{ class: 'form-select', id: :offer_id, name: 'appointment[offer_id]' }
             - offers.each do |offer|
               %option{ value: offer.id }= offer.label
+          - if form_errors.errors?(:offer_id)
+            %p{ form_errors.with_error_entries(:offer_id) }
+              = form_errors.errors_to_sentence(:offer_id)
       %div{ class: 'form-actions mb-4' }
         %button{ type: 'submit', class: 'btn btn-primary' } Create
         %a{ href: "/customers/#{customer_id}", class: 'btn' } Cancel

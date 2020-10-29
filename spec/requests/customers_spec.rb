@@ -188,19 +188,37 @@ RSpec.describe Carpanta::Controllers::Customers do
     end
 
     context 'when the appointment is invalid' do
+      let(:attributes) do
+        { appointment: { duration: -1, starting_at: nil, offer_id: nil }}
+      end
+
       it 'returns 422' do
-        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+        post "/customers/#{customer.id}/appointments", attributes
 
         expect(last_response.status).to eq(422)
       end
 
-      it 'body includes errors' do
-        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+      it 'body includes `errored class` for form-group belonging the input' do
+        post "/customers/#{customer.id}/appointments", attributes
 
-        parsed_response = JSON.parse(last_response.body, symbolize_names: true)
-        expect(parsed_response).to include(
-          starting_at: include("must be filled")
-        )
+        expect(last_response.body).to have_xpath('//*[@id="duration"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="starting_at"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="offer_id"]//ancestor::div[@class="form-group mb-4 errored"]')
+      end
+
+      it 'body includes value input from request' do
+        post "/customers/#{customer.id}/appointments", attributes.merge(starting_at: starting_at)
+
+        expect(last_response.body).to have_field('appointment[duration]', with: '-1')
+        skip('appointment[starting_at] includes datetime input')
+      end
+
+      it 'body includes validation errors' do
+        post "/customers/#{customer.id}/appointments", attributes
+
+        expect(last_response.body).to have_xpath('//*[@id="duration-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="starting_at-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="offer_id-validation"]')
       end
     end
   end
