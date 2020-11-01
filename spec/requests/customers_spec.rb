@@ -128,14 +128,14 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'returns the details for a customer' do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_xpath('//dl/dt[1]', text: 'Name')
-        expect(last_response.body).to have_xpath('//dl/dd[1]', text: customer.name)
-        expect(last_response.body).to have_xpath('//dl/dt[2]', text: 'Surname')
-        expect(last_response.body).to have_xpath('//dl/dd[2]', text: customer.surname)
-        expect(last_response.body).to have_xpath('//dl/dt[3]', text: 'Email')
-        expect(last_response.body).to have_xpath('//dl/dd[3]', text: customer.email)
-        expect(last_response.body).to have_xpath('//dl/dt[4]', text: 'Phone')
-        expect(last_response.body).to have_xpath('//dl/dd[4]', text: customer.phone)
+        expect(last_response.body).to have_content('Name')
+        expect(last_response.body).to have_content(customer.name)
+        expect(last_response.body).to have_content('Surname')
+        expect(last_response.body).to have_content(customer.surname)
+        expect(last_response.body).to have_content('Email')
+        expect(last_response.body).to have_content(customer.email)
+        expect(last_response.body).to have_content('Phone')
+        expect(last_response.body).to have_content(customer.phone)
       end
 
       it 'includes link to return to the list of customers' do
@@ -148,22 +148,21 @@ RSpec.describe Carpanta::Controllers::Customers do
         it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Cutting and Shampooing')
+          expect(last_response.body).to have_content('Cutting and Shampooing')
         end
 
         it 'includes starting_at' do
           get "/customers/#{customer.id}"
 
-          time_path = '//table/tr[2]/td[2]/time'
           starting_at_iso8601 = '2020-05-26T07:45:12Z'
-          expect(last_response.body).to have_xpath("#{time_path}[@datetime='#{starting_at_iso8601}']")
-          expect(last_response.body).to have_xpath(time_path, text: starting_at_iso8601)
+          expect(last_response.body).to have_xpath("//time[@datetime='#{starting_at_iso8601}']")
+          expect(last_response.body).to have_content(starting_at_iso8601)
         end
 
         it 'includes duration' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: appointment.duration)
+          expect(last_response.body).to have_content(appointment.duration)
         end
       end
 

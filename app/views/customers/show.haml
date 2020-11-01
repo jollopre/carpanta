@@ -1,30 +1,33 @@
-%h2{ class: 'content-head is-center' }Customer
-%div{ class: 'pure-g l-box' }
-  %div{ class: 'pure-u-1 pure-u-md-1-2 pure-u-lg-3-4' }
-  %div{ class: 'pure-u-1 pure-u-md-1-2 pure-u-lg-1-4' }
-    %div{ class: 'pull-right' }
-      %a{ href: '/customers', class: 'pure-button' } Back
-      %a{ href: "/customers/#{params['customer_id']}/appointments/new", class: 'pure-button' } New Appointment
-%div{ class: 'pure-g l-box' }
-  %div{ class: 'pure-u-1 pure-u-md-1-3 pure-u-lg-1-4' }
-    %dl
-      %dt Name
-      %dd= customer.name
-      %dt Surname
-      %dd= customer.surname
-      %dt Email
-      %dd= customer.email
-      %dt Phone
-      %dd= customer.phone
-  %div{ class: 'pure-u-1 pure-u-md-2-3 pure-u-lg-3-4' }
-    %table{ class: 'pure-table', style: 'margin-left:auto; margin-right:auto' }
-      %tr
-        %th Offer Name
-        %th Starting At
-        %th Duration
-      - customer.appointments.each do |appointment|
-        %tr
-          %td= appointment.offer.name
-          %td
-            %time{ datetime: appointment.starting_at.iso8601 }= appointment.starting_at.iso8601
-          %td= appointment.duration
+%div{ class: 'container-lg mt-3 clearfix' }
+  %div{ class: 'col-4 float-left'}
+    %h1 Customer
+  %div{ class: 'offset-4 col-4 float-left'}
+    %div{ class: 'form-actions mt-2' }
+      %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
+      %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
+%div{ class: 'container-lg mt-3 clearfix' }
+  %div{ class: 'col-4 float-left' }
+    %div{ class: 'Box' }
+      %div{ class: 'Box-body' }
+        %h4 Name
+        = customer.name
+        %h4 Surname
+        = customer.surname
+        %h4 Email
+        = customer.email
+        %h4 Phone
+        = customer.phone
+  %div{ class: 'offset-6 col-6 d-flex flex-row flex-wrap' }
+    %div{ class: 'col-4 border p-2' }
+      %p{ class: 'text-bold' } Offer Name
+    %div{ class: 'col-4 border p-2' }
+      %p{ class: 'text-bold' } Starting at
+    %div{ class: 'col-4 border p-2' }
+      %p{ class: 'text-bold' } Duration
+    - customer.appointments.each do |appointment|
+      %div{ class: 'col-4 border p-2' }
+        = appointment.offer.name
+      %div{ class: 'col-4 border p-2' }
+        %time{ datetime: appointment.starting_at.iso8601 }= appointment.starting_at.iso8601
+      %div{ class: 'col-4 border p-2' }
+        = appointment.duration
