@@ -109,7 +109,7 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'returns error message' do
         get '/customers/not_found_id'
 
-        expect(last_response.body).to include('Customer not found')
+        expect(last_response.body).to include('The resource you are trying to access does not exist.')
       end
     end
 

@@ -36,7 +36,6 @@ module Carpanta
         if result.success?
           haml :'customers/show', locals: { customer: result.value! }
         else
-          body 'Customer not found'
           status 404
         end
       end

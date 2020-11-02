@@ -1,13 +1,11 @@
-%div{ class: 'container-lg mt-3 clearfix' }
-  %div{ class: 'col-4 float-left'}
-    %h1 Customer
-  %div{ class: 'offset-4 col-4 float-left'}
-    %div{ class: 'form-actions mt-2' }
-      %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
-      %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
-%div{ class: 'container-lg mt-3 clearfix' }
-  %div{ class: 'col-4 float-left' }
-    %div{ class: 'Box' }
+%div{ class: 'container-lg mt-3 p-3 clearfix' }
+  %h1{ class: 'float-left' } Customer
+  %div{ class: 'form-actions mt-2 float-right' }
+    %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
+    %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
+  %div{ class: 'clearfix' }
+  %div{ class: 'col-12 col-sm-12 col-lg-6 float-left' }
+    %div{ class: 'Box rounded-0' }
       %div{ class: 'Box-body' }
         %h4 Name
         = customer.name
@@ -17,7 +15,7 @@
         = customer.email
         %h4 Phone
         = customer.phone
-  %div{ class: 'offset-6 col-6 d-flex flex-row flex-wrap' }
+  %div{ class: 'col-12 col-sm-12 col-lg-6 float-left d-flex flex-row flex-wrap' }
     %div{ class: 'col-4 border p-2' }
       %p{ class: 'text-bold' } Offer Name
     %div{ class: 'col-4 border p-2' }
