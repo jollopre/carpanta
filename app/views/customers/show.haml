@@ -1,8 +1,9 @@
 %div{ class: 'container-lg mt-3 p-3 clearfix' }
-  %h1{ class: 'float-left' } Customer
-  %div{ class: 'form-actions mt-2 float-right' }
-    %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
-    %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
+  %div{ class: 'pagehead' }
+    %h1{ class: 'float-left' } Customer
+    %div{ class: 'form-actions mt-2 float-right' }
+      %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
+      %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
   %div{ class: 'clearfix' }
   %div{ class: 'col-12 col-sm-12 col-lg-6 float-left' }
     %div{ class: 'Box rounded-0' }

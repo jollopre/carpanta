@@ -1,20 +1,34 @@
-%h2{ class: 'content-head is-center' }Customers
-%div{ class: 'pure-g l-box' }
-  %div{ class: 'pure-u-1 pure-u-md-1-2 pure-u-lg-3-4' }
-  %div{ class: 'pure-u-1 pure-u-md-1-2 pure-u-lg-1-4' }
-    %a{ href: '/customers/new', class: 'pure-button pull-right' } New Customer
-%table{ class: 'pure-table', style: 'margin-left:auto; margin-right:auto' }
-  %tr
-    %th Name
-    %th Surname
-    %th Email
-    %th Phone
-    %th #
-  - customers.each do |customer|
-    %tr
-      %td= customer.name
-      %td= customer.surname
-      %td= customer.email
-      %td= customer.phone
-      %td
-        %a{ href: "/customers/#{customer.id}" } Show
+%div{ class: 'container-lg mt-3 p-3 clearfix' }
+  %div{ class: 'pagehead' }
+    %h1{ class: 'float-left' } Customers
+    %div{ class: 'form-actions mt-2 float-right' }
+      %a{ class: 'btn btn-sm btn-primary', href: "/customers/new", type: 'button' } New Customer
+  %div{ class: 'clearfix' }
+  %div{ class: 'col-12 float-left d-flex flex-row flex-wrap' }
+    %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+      %p{ class: 'text-bold' } Name
+    %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+      %p{ class: 'text-bold' } Surname
+    %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+      %p{ class: 'text-bold' } Email
+    %div{ class: 'hide-sm hide-md hide-lg col-lg-2 border p-2' }
+      %p{ class: 'text-bold' } Phone
+    %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+      %p{ class: 'text-bold' } #
+    %div{ class: 'hide-sm hide-md hide-lg col-lg-2' }
+    - customers.each do |customer|
+      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+        %p{ class: 'break-word' }
+          = customer.name
+      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+        %p{ class: 'break-word' }
+          = customer.surname
+      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+        %p{ class: 'break-word' }
+          = customer.email
+      %div{ class: 'hide-sm hide-md hide-lg col-lg-2 border p-2' }
+        %p{ class: 'break-word' }
+          = customer.phone
+      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+        %a{ class: 'btn btn-sm', href: "/customers/#{customer.id}", type: 'button' } Show
+      %div{ class: 'hide-sm hide-md hide-lg col-lg-2' }

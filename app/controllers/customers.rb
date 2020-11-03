@@ -12,7 +12,7 @@ module Carpanta
       get '/customers' do
         result = Queries::ShowCustomers.call
 
-        haml :'customers/index', locals: { customers: result.value! }, layout: :legacy_layout
+        haml :'customers/index', locals: { customers: result.value! }
       end
 
       get '/customers/new' do
