@@ -6,14 +6,18 @@
     %link{ rel: 'stylesheet', href: 'https://unpkg.com/@primer/css/dist/primer.css' }
     %script{ src: '/carpanta.js' }
     %title Welcome to Carpanta
-  %body
+  %body{ class: 'd-flex flex-column', style: 'min-height: 100%' }
     %header{ class: 'Header' }
       %div{ class: 'Header-item' }
         %a{ href: '/customers' }
           %img{ class: 'avatar', height: '20', alt: '@octocat', src: 'https://github.com/octocat.png', width: '20' }
       %div{ class: 'Header-item' }
         %a{ href: '/customers', class: 'Header-link' }Customers
-    %div
+    %main{ class: 'flex-1 container-lg mt-3 p-3 clearfix' }
       =yield
-    -#%footer{ class: 'position-sticky bottom-0 p-1 bg-gray-dark' }
-      Sticky footer
+    %footer{ class: 'p-3 bg-gray-dark text-white' }
+      %p{ class: 'f6 text-center' }
+        &copy; Copyright #{Time.now.year},&nbsp
+        %a{ href: 'https://github.com/jollopre/carpanta', target: '_blank' }Carpanta.
+        Powered by&nbsp
+        %a{ href: 'https://github.com/jollopre', target: '_blank' }jollopre.

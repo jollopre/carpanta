@@ -1,34 +1,33 @@
-%div{ class: 'container-lg mt-3 p-3 clearfix' }
-  %div{ class: 'pagehead' }
-    %h1{ class: 'float-left' } Customers
-    %div{ class: 'form-actions mt-2 float-right' }
-      %a{ class: 'btn btn-sm btn-primary', href: "/customers/new", type: 'button' } New Customer
-  %div{ class: 'clearfix' }
-  %div{ class: 'col-12 float-left d-flex flex-row flex-wrap' }
+%div{ class: 'pagehead' }
+  %h1{ class: 'float-left' } Customers
+  %div{ class: 'form-actions mt-2 float-right' }
+    %a{ class: 'btn btn-sm btn-primary', href: "/customers/new", type: 'button' } New Customer
+%div{ class: 'clearfix' }
+%div{ class: 'col-12 float-left d-flex flex-row flex-wrap' }
+  %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+    %p{ class: 'text-bold' } Name
+  %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+    %p{ class: 'text-bold' } Surname
+  %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+    %p{ class: 'text-bold' } Email
+  %div{ class: 'hide-sm hide-md hide-lg col-lg-2 border p-2' }
+    %p{ class: 'text-bold' } Phone
+  %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
+    %p{ class: 'text-bold' } #
+  %div{ class: 'hide-sm hide-md hide-lg col-lg-2' }
+  - customers.each do |customer|
     %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-      %p{ class: 'text-bold' } Name
+      %p{ class: 'break-word' }
+        = customer.name
     %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-      %p{ class: 'text-bold' } Surname
+      %p{ class: 'break-word' }
+        = customer.surname
     %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-      %p{ class: 'text-bold' } Email
+      %p{ class: 'break-word' }
+        = customer.email
     %div{ class: 'hide-sm hide-md hide-lg col-lg-2 border p-2' }
-      %p{ class: 'text-bold' } Phone
+      %p{ class: 'break-word' }
+        = customer.phone
     %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-      %p{ class: 'text-bold' } #
+      %a{ class: 'btn btn-sm', href: "/customers/#{customer.id}", type: 'button' } Show
     %div{ class: 'hide-sm hide-md hide-lg col-lg-2' }
-    - customers.each do |customer|
-      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-        %p{ class: 'break-word' }
-          = customer.name
-      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-        %p{ class: 'break-word' }
-          = customer.surname
-      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-        %p{ class: 'break-word' }
-          = customer.email
-      %div{ class: 'hide-sm hide-md hide-lg col-lg-2 border p-2' }
-        %p{ class: 'break-word' }
-          = customer.phone
-      %div{ class: 'col-3 col-sm-3 col-md-3 col-lg-2 border p-2' }
-        %a{ class: 'btn btn-sm', href: "/customers/#{customer.id}", type: 'button' } Show
-      %div{ class: 'hide-sm hide-md hide-lg col-lg-2' }
