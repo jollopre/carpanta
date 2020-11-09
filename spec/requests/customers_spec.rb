@@ -15,7 +15,7 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns customers heading' do
       get '/customers'
 
-      expect(last_response.body).to have_xpath('//h2', text: 'Customers')
+      expect(last_response.body).to have_xpath('//h1', text: 'Customers')
     end
 
     it 'includes link for new customer' do
@@ -27,10 +27,10 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns list of customers' do
       get '/customers'
 
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Donald')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: 'Duck')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: 'donald.duck@carpanta.com')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[4]', text: '600111222')
+      expect(last_response.body).to have_content('Donald')
+      expect(last_response.body).to have_content('Duck')
+      expect(last_response.body).to have_content('donald.duck@carpanta.com')
+      expect(last_response.body).to have_content('600111222')
       expect(last_response.body).to have_link('Show', href: "/customers/#{customer.id}")
     end
   end
@@ -218,6 +218,12 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_xpath('//*[@id="duration-validation"]')
         expect(last_response.body).to have_xpath('//*[@id="starting_at-validation"]')
         expect(last_response.body).to have_xpath('//*[@id="offer_id-validation"]')
+      end
+
+      context 'since customer_id or offer_id do not exist' do
+        it 'returns 422' do
+          skip('todo checking whether or not deferred validations against domain objects from other boundaries should be checked')
+        end
       end
     end
   end
