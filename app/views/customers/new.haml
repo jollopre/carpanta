@@ -1,39 +1,42 @@
-%div{ class: 'Box Box--spacious col-4 mx-auto text-center m-6' }
-  %form{ action: '/customers', method: :post }
+%div{ class: 'pagehead' }
+  %h1{ class: 'float-left' } New Customer
+%div{ class: 'clearfix' }
+%div{ class: 'col-12 col-sm-12 col-md-8 col-lg-6 float-left' }
+  %div{ class: 'Box rounded-0' }
     %div{ class: 'Box-body' }
-      %h3{ class: 'f1-light' } New Customer
-      %div{ class: form_errors.with_error_class(id: :name, html_class: 'form-group mb-4') }
-        %div{ class: 'form-group-header' }
-          %label{ for: 'name' } Name
-        %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :text, id: :name, name: 'customer[name]', value: values[:name] }
+      %form{ action: '/customers', method: :post }
+        %div{ class: form_errors.with_error_class(id: :name, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'name' } Name
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: :text, id: :name, name: 'customer[name]', value: values[:name] }
           - if form_errors.errors?(:name)
             %p{ form_errors.with_error_entries(:name) }
               = form_errors.errors_to_sentence(:name)
-      %div{ class: form_errors.with_error_class(id: :surname, html_class: 'form-group mb-4') }
-        %div{ class: 'form-group-header' }
-          %label{ for: 'surname' } Surname
-        %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :text, id: :surname, name: 'customer[surname]', value: values[:surname] }
+        %div{ class: form_errors.with_error_class(id: :surname, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'surname' } Surname
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: :text, id: :surname, name: 'customer[surname]', value: values[:surname] }
           - if form_errors.errors?(:surname)
             %p{ form_errors.with_error_entries(:surname) }
               = form_errors.errors_to_sentence(:surname)
-      %div{ class: form_errors.with_error_class(id: :email, html_class: 'form-group mb-4') }
-        %div{ class: 'form-group-header' }
-          %label{ for: 'email' } Email
-        %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :email, id: :email, name: 'customer[email]', value: values[:email] }
+        %div{ class: form_errors.with_error_class(id: :email, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'email' } Email
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: :email, id: :email, name: 'customer[email]', value: values[:email] }
           - if form_errors.errors?(:email)
             %p{ form_errors.with_error_entries(:email) }
               = form_errors.errors_to_sentence(:email)
-      %div{ class: form_errors.with_error_class(id: :phone, html_class: 'form-group mb-4') }
-        %div{ class: 'form-group-header' }
-          %label{ for: 'phone' } Phone
-        %div{ class: 'form-group-body' }
-          %input{ class: 'form-control', type: :tel, id: :phone, name: 'customer[phone]', value: values[:phone] }
+        %div{ class: form_errors.with_error_class(id: :phone, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'phone' } Phone
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: :tel, id: :phone, name: 'customer[phone]', value: values[:phone] }
           - if form_errors.errors?(:phone)
             %p{ form_errors.with_error_entries(:phone) }
               = form_errors.errors_to_sentence(:phone)
-      %div{ class: 'form-actions mb-4' }
-        %button{ type: 'submit', class: 'btn btn-primary' } Create
-        %a{ href: '/customers', class: 'btn' } Cancel
+        %div{ class: 'form-actions mb-4' }
+          %button{ type: 'submit', class: 'btn btn-primary' } Create
+          %a{ href: '/customers', class: 'btn' } Cancel
