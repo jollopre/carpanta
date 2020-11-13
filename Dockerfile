@@ -10,7 +10,7 @@ RUN bundle install -j 10 --quiet --without=development test production --quiet
 ENTRYPOINT []
 CMD bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
 
-FROM 15.2.0-alpine3.10 as assets
+FROM node:15.2.0-alpine3.12 as assets
 WORKDIR /usr/src
 COPY ./app/assets ./
 RUN npm install
