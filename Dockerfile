@@ -13,7 +13,8 @@ CMD bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
 FROM node:alpine3.11 as assets
 WORKDIR /usr/src
 COPY ./app/assets ./
-RUN npm install && npm run bundle
+RUN npm install
+RUN npm run bundle
 
 FROM base as test
 COPY --from=assets /usr/src/dist ./app/public/
