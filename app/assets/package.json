@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --silent=false",
-    "bundle": "sh download_primer_assets.sh && parcel build carpanta_legacy.css carpanta.js"
+    "bundle": "sh download_primer_assets.sh && parcel build carpanta.scss carpanta.js"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/jollopre/carpanta#readme",
   "dependencies": {
-    "@primer/css": "^15.2.0",
-    "purecss": "~1.0.1"
+    "@primer/css": "~15.2.0",
+    "sass": "~1.29.0"
   },
   "devDependencies": {
     "jest": "^26.6.3",
