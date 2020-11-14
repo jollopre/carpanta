@@ -21,6 +21,10 @@
 app/assets/.cache
 app/assets/dist
 
+## Primer assets
+app/assets/fonts
+app/assets/images
+
 ## Environment normalization:
 /.bundle/
 /vendor/bundle

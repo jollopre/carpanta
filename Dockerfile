@@ -11,10 +11,12 @@ ENTRYPOINT []
 CMD bundle exec rake -f infra/Rakefile provisioner:up[infra/production.json]
 
 FROM node:15.2.0-alpine3.12 as assets
+RUN apk add --no-cache --virtual .primer curl
 WORKDIR /usr/src
 COPY ./app/assets ./
 RUN npm install
 RUN npm run bundle
+RUN apk del .primer
 
 FROM base as test
 COPY --from=assets /usr/src/dist ./app/public/
