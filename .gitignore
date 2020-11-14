@@ -18,6 +18,8 @@
 /doc/
 /rdoc/
 /app/public/*.css
+app/assets/.cache
+app/assets/dist
 
 ## Environment normalization:
 /.bundle/
