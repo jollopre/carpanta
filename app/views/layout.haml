@@ -5,18 +5,15 @@
     %link{ rel: 'stylesheet', href: '/carpanta.css' }
     %script{ src: '/carpanta.js' }
     %title Welcome to Carpanta
-  %body{ class: 'd-flex flex-column', style: 'min-height: 100%' }
-    %header{ class: 'Header' }
+  %body{ class: 'd-flex flex-column bg-gray-dark', style: 'min-height: 100%' }
+    %header{ class: 'Header bg-gold' }
       %div{ class: 'Header-item' }
-        %a{ href: '/customers' }
-          %img{ class: 'avatar', height: '20', alt: '@octocat', src: 'https://github.com/octocat.png', width: '20' }
-      %div{ class: 'Header-item' }
-        %a{ href: '/customers', class: 'Header-link' }Customers
+        %a{ href: '/customers', class: 'Header-link link-gray-dark' }Customers
     %main{ class: 'flex-1 container-lg mt-3 p-3 width-full clearfix' }
       =yield
-    %footer{ class: 'p-3 bg-gray-dark text-white' }
+    %footer{ class: 'p-3 bg-gold' }
       %p{ class: 'f6 text-center' }
         &copy; Copyright #{Time.now.year},&nbsp
-        %a{ href: 'https://github.com/jollopre/carpanta', target: '_blank' }Carpanta.
+        %a{ href: 'https://github.com/jollopre/carpanta', target: '_blank', class: 'link-gray-dark text-bold' }Carpanta.
         Powered by&nbsp
-        %a{ href: 'https://github.com/jollopre', target: '_blank' }jollopre.
+        %a{ href: 'https://github.com/jollopre', target: '_blank', class: 'link-gray-dark text-bold' }jollopre.
