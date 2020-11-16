@@ -9,10 +9,6 @@ module Carpanta
       get '/' do
         redirect('/customers')
       end
-
-      get '/primer' do
-        haml 'Testing Primer CSS', layout: :layout
-      end
     end
   end
 end
