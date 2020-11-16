@@ -1,19 +1,36 @@
-%h2{ class: 'content-head is-center' }= 'New Appointment'
-%div{ class: 'pure-g' }
-  %div{ class: 'pure-u-1 l-box-lrg' }
-    %form{ action: "/customers/#{customer_id}/appointments", method: :post, class: 'pure-form pure-form-stacked', "data-ref": 'customer_appointment_new' }
-      %fieldset
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'starting_at' } Starting at date
-          %input{ type: 'datetime-local', name: 'appointment[starting_at]' }
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'duration' } Duration
-          %input{ type: 'number', name: 'appointment[duration]' }
-        %div{ class: 'pure-control-group' }
-          %label{ for: 'offer_id' } Offer
-          %select{ id: 'offer_id', name: 'appointment[offer_id]' }
-            - offers.each do |offer|
-              %option{ value: offer.id }= offer.label
-        %div{ class: 'pure-controls' }
-          %a{ class: 'pure-button', href: "/customers/#{customer_id}" } Cancel
-          %input{ type: 'submit', class: 'pure-button', value: 'Create' }
+%div{ class: 'pagehead' }
+  %h1{ class: 'text-gold float-left' } New Appointment
+%div{ class: 'clearfix' }
+%div{ class: 'col-12 col-sm-12 col-md-8 col-lg-6 float-left' }
+  %div{ class: 'Box rounded-0 bg-gray-dark border-gold' }
+    %div{ class: 'Box-body border-0' }
+      %form{ action: "/customers/#{customer_id}/appointments", method: :post }
+        %div{ class: form_errors.with_error_class(id: :starting_at, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'starting_at', class: 'text-gold' } Starting at
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: 'datetime-local', id: :starting_at, name: 'appointment[starting_at]', value: values[:starting_at] }
+          - if form_errors.errors?(:starting_at)
+            %p{ form_errors.with_error_entries(:starting_at) }
+              = form_errors.errors_to_sentence(:starting_at)
+        %div{ class: form_errors.with_error_class(id: :duration, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'duration', class: 'text-gold' } Duration (minutes)
+          %div{ class: 'form-group-body' }
+            %input{ class: 'form-control', type: :number, id: :duration, name: 'appointment[duration]', value: values[:duration] }
+          - if form_errors.errors?(:duration)
+            %p{ form_errors.with_error_entries(:duration) }
+              = form_errors.errors_to_sentence(:duration)
+        %div{ class: form_errors.with_error_class(id: :offer_id, html_class: 'form-group mb-4') }
+          %div{ class: 'form-group-header' }
+            %label{ for: 'offer_id', class: 'text-gold' }
+          %div{ class: 'form-group-body' }
+            %select{ class: 'form-select', id: :offer_id, name: 'appointment[offer_id]' }
+              - offers.each do |offer|
+                %option{ value: offer.id }= offer.label
+            - if form_errors.errors?(:offer_id)
+              %p{ form_errors.with_error_entries(:offer_id) }
+              = form_errors.errors_to_sentence(:offer_id)
+        %div{ class: 'form-actions mb-4' }
+          %button{ type: 'submit', class: 'btn bg-gold' } Create
+          %a{ href: "/customers/#{customer_id}", class: 'btn bg-gold' } Cancel

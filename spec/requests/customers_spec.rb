@@ -15,7 +15,7 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns customers heading' do
       get '/customers'
 
-      expect(last_response.body).to have_xpath('//h2', text: 'Customers')
+      expect(last_response.body).to have_xpath('//h1', text: 'Customers')
     end
 
     it 'includes link for new customer' do
@@ -27,10 +27,10 @@ RSpec.describe Carpanta::Controllers::Customers do
     it 'returns list of customers' do
       get '/customers'
 
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Donald')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[2]', text: 'Duck')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: 'donald.duck@carpanta.com')
-      expect(last_response.body).to have_xpath('//table/tr[2]/td[4]', text: '600111222')
+      expect(last_response.body).to have_content('Donald')
+      expect(last_response.body).to have_content('Duck')
+      expect(last_response.body).to have_content('donald.duck@carpanta.com')
+      expect(last_response.body).to have_content('600111222')
       expect(last_response.body).to have_link('Show', href: "/customers/#{customer.id}")
     end
   end
@@ -68,16 +68,26 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.status).to eq(422)
       end
 
-      context 'since email is not unique' do
-        before do
-          FactoryBot.create(:customer, email: 'donald.duck@carpanta.com')
-        end
+      it 'body includes `errored class` for form-group belonging the input' do
+        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
 
-        it 'returns 422' do
-          post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
+        expect(last_response.body).to have_xpath('//*[@id="name"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="surname"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="email"]//ancestor::div[@class="form-group mb-4 errored"]')
+      end
 
-          expect(last_response.status).to eq(422)
-        end
+      it 'body includes value input from request' do
+        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
+
+        expect(last_response.body).to have_field('customer[email]', with: 'donald@')
+      end
+
+      it 'body includes validation errors' do
+        post '/customers', { customer: { email: 'donald@' }}
+
+        expect(last_response.body).to have_xpath('//*[@id="name-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="surname-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="email-validation"]')
       end
     end
 
@@ -99,7 +109,7 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'returns error message' do
         get '/customers/not_found_id'
 
-        expect(last_response.body).to include('Customer not found')
+        expect(last_response.body).to include('The resource you are trying to access does not exist.')
       end
     end
 
@@ -118,14 +128,14 @@ RSpec.describe Carpanta::Controllers::Customers do
       it 'returns the details for a customer' do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_xpath('//dl/dt[1]', text: 'Name')
-        expect(last_response.body).to have_xpath('//dl/dd[1]', text: customer.name)
-        expect(last_response.body).to have_xpath('//dl/dt[2]', text: 'Surname')
-        expect(last_response.body).to have_xpath('//dl/dd[2]', text: customer.surname)
-        expect(last_response.body).to have_xpath('//dl/dt[3]', text: 'Email')
-        expect(last_response.body).to have_xpath('//dl/dd[3]', text: customer.email)
-        expect(last_response.body).to have_xpath('//dl/dt[4]', text: 'Phone')
-        expect(last_response.body).to have_xpath('//dl/dd[4]', text: customer.phone)
+        expect(last_response.body).to have_content('Name')
+        expect(last_response.body).to have_content(customer.name)
+        expect(last_response.body).to have_content('Surname')
+        expect(last_response.body).to have_content(customer.surname)
+        expect(last_response.body).to have_content('Email')
+        expect(last_response.body).to have_content(customer.email)
+        expect(last_response.body).to have_content('Phone')
+        expect(last_response.body).to have_content(customer.phone)
       end
 
       it 'includes link to return to the list of customers' do
@@ -138,22 +148,21 @@ RSpec.describe Carpanta::Controllers::Customers do
         it 'includes offer name' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[1]', text: 'Cutting and Shampooing')
+          expect(last_response.body).to have_content('Cutting and Shampooing')
         end
 
         it 'includes starting_at' do
           get "/customers/#{customer.id}"
 
-          time_path = '//table/tr[2]/td[2]/time'
           starting_at_iso8601 = '2020-05-26T07:45:12Z'
-          expect(last_response.body).to have_xpath("#{time_path}[@datetime='#{starting_at_iso8601}']")
-          expect(last_response.body).to have_xpath(time_path, text: starting_at_iso8601)
+          expect(last_response.body).to have_xpath("//time[@datetime='#{starting_at_iso8601}']")
+          expect(last_response.body).to have_content(starting_at_iso8601)
         end
 
         it 'includes duration' do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_xpath('//table/tr[2]/td[3]', text: appointment.duration)
+          expect(last_response.body).to have_content(appointment.duration)
         end
       end
 
@@ -178,19 +187,43 @@ RSpec.describe Carpanta::Controllers::Customers do
     end
 
     context 'when the appointment is invalid' do
+      let(:attributes) do
+        { appointment: { duration: -1, starting_at: nil, offer_id: nil }}
+      end
+
       it 'returns 422' do
-        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+        post "/customers/#{customer.id}/appointments", attributes
 
         expect(last_response.status).to eq(422)
       end
 
-      it 'body includes errors' do
-        post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: nil } }
+      it 'body includes `errored class` for form-group belonging the input' do
+        post "/customers/#{customer.id}/appointments", attributes
 
-        parsed_response = JSON.parse(last_response.body, symbolize_names: true)
-        expect(parsed_response).to include(
-          starting_at: include("must be filled")
-        )
+        expect(last_response.body).to have_xpath('//*[@id="duration"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="starting_at"]//ancestor::div[@class="form-group mb-4 errored"]')
+        expect(last_response.body).to have_xpath('//*[@id="offer_id"]//ancestor::div[@class="form-group mb-4 errored"]')
+      end
+
+      it 'body includes value input from request' do
+        post "/customers/#{customer.id}/appointments", attributes.merge(starting_at: starting_at)
+
+        expect(last_response.body).to have_field('appointment[duration]', with: '-1')
+        skip('appointment[starting_at] includes datetime input')
+      end
+
+      it 'body includes validation errors' do
+        post "/customers/#{customer.id}/appointments", attributes
+
+        expect(last_response.body).to have_xpath('//*[@id="duration-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="starting_at-validation"]')
+        expect(last_response.body).to have_xpath('//*[@id="offer_id-validation"]')
+      end
+
+      context 'since customer_id or offer_id do not exist' do
+        it 'returns 422' do
+          skip('todo checking whether or not deferred validations against domain objects from other boundaries should be checked')
+        end
       end
     end
   end
@@ -202,12 +235,6 @@ RSpec.describe Carpanta::Controllers::Customers do
       get "/customers/#{customer.id}/appointments/new"
 
       expect(last_response.status).to eq(200)
-    end
-
-    it 'returns heading' do
-      get "/customers/#{customer.id}/appointments/new"
-
-      expect(last_response.body).to have_xpath('//h2', text: 'New Appointment')
     end
 
     context 'rendered form' do

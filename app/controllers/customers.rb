@@ -4,6 +4,7 @@ require 'app/commands/create_appointment'
 require 'app/queries/show_customers'
 require 'app/queries/offers_lookup'
 require 'app/queries/show_customer'
+require 'app/helpers/form_errors'
 
 module Carpanta
   module Controllers
@@ -15,7 +16,8 @@ module Carpanta
       end
 
       get '/customers/new' do
-        haml :'customers/new'
+        form_errors = Helpers::FormErrors.new
+        haml :'customers/new', {}, { values: {}, form_errors: form_errors }
       end
 
       post '/customers' do
@@ -23,7 +25,9 @@ module Carpanta
 
         redirect('/customers') if result.success?
 
+        form_errors = Helpers::FormErrors.new(result.failure)
         status 422
+        haml :'customers/new', {}, { values: customer_attributes, form_errors: form_errors }
       end
 
       get '/customers/:customer_id' do
@@ -32,7 +36,6 @@ module Carpanta
         if result.success?
           haml :'customers/show', locals: { customer: result.value! }
         else
-          body 'Customer not found'
           status 404
         end
       end
@@ -40,32 +43,34 @@ module Carpanta
       post '/customers/:customer_id/appointments' do
         result = Commands::CreateAppointment.call(appointment_params)
 
-        if result.success?
-          redirect("/customers/#{appointment_params[:customer_id]}")
-        else
-          body(result.failure.to_json)
-          status 422
-        end
+        redirect("/customers/#{appointment_params[:customer_id]}") if result.success?
+
+        form_errors = Helpers::FormErrors.new(result.failure)
+        offers_result = Queries::OffersLookup.call
+        status 422
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value!, values: appointment_params, form_errors: form_errors }
       end
 
       get '/customers/:customer_id/appointments/new' do
         offers_result = Queries::OffersLookup.call
 
-        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value! }
+        form_errors = Helpers::FormErrors.new
+        haml :'customers/appointments/new', locals: { customer_id: params[:customer_id], offers: offers_result.value!, values: {}, form_errors: form_errors }
       end
 
       private
 
       def customer_attributes
-        attributes = params.fetch(:customer, {})
+        attributes = params.fetch(:customer, {}).deep_symbolize_keys
         attributes.filter { |_,v| v.present? }
       end
 
       def appointment_params
-        appointment = params.fetch(:appointment, {}).deep_symbolize_keys
-        appointment[:customer_id] = params['customer_id']
+        attributes = params.fetch(:appointment, {}).deep_symbolize_keys
+        attributes = attributes.filter { |_,v| v.present? }
+        attributes = attributes.merge(customer_id: params['customer_id'])
 
-        appointment
+        attributes
       end
     end
   end

@@ -19,6 +19,10 @@ module Carpanta
         require 'sinatra/reloader'
         register Sinatra::Reloader
       end
+
+      not_found do
+        haml :not_found, layout: :layout
+      end
     end
   end
 end
