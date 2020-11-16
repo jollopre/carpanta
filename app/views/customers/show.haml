@@ -1,31 +1,37 @@
 %div{ class: 'pagehead' }
-  %h1{ class: 'float-left' } Customer
+  %h1{ class: 'text-gold float-left' } Customer
   %div{ class: 'form-actions mt-2 float-right' }
-    %a{ class: 'btn btn-sm btn-primary', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
-    %a{ class: 'btn btn-sm', href: "/customers", type: 'button' } Back
+    %a{ class: 'btn btn-sm bg-gold', href: "/customers/#{customer.id}/appointments/new", type: 'button' } New Appointment
+    %a{ class: 'btn btn-sm bg-gold', href: "/customers", type: 'button' } Back
 %div{ class: 'clearfix' }
 %div{ class: 'col-12 col-sm-12 col-lg-6 float-left' }
-  %div{ class: 'Box rounded-0' }
-    %div{ class: 'Box-body' }
-      %h4 Name
-      = customer.name
-      %h4 Surname
-      = customer.surname
-      %h4 Email
-      = customer.email
-      %h4 Phone
-      = customer.phone
+  %div{ class: 'Box border-0 bg-gray-dark' }
+    %div{ class: 'Box-body border-0' }
+      %h4{ class: 'text-gold' } Name
+      %p{ class: 'text-gold' }
+        = customer.name
+      %h4{ class: 'text-gold' } Surname
+      %p{ class: 'text-gold' }
+        = customer.surname
+      %h4{ class: 'text-gold' } Email
+      %p{ class: 'text-gold' }
+        = customer.email
+      %h4{ class: 'text-gold' } Phone
+      %p{ class: 'text-gold' }
+        = customer.phone
 %div{ class: 'col-12 col-sm-12 col-lg-6 float-left d-flex flex-row flex-wrap' }
-  %div{ class: 'col-4 border p-2' }
-    %p{ class: 'text-bold' } Offer Name
-  %div{ class: 'col-4 border p-2' }
-    %p{ class: 'text-bold' } Starting at
-  %div{ class: 'col-4 border p-2' }
-    %p{ class: 'text-bold' } Duration
+  %div{ class: 'col-4 border-gold p-2' }
+    %p{ class: 'text-bold text-gold' } Offer Name
+  %div{ class: 'col-4 border-gold p-2' }
+    %p{ class: 'text-bold text-gold' } Starting at
+  %div{ class: 'col-4 border-gold p-2' }
+    %p{ class: 'text-bold text-gold' } Duration
   - customer.appointments.each do |appointment|
-    %div{ class: 'col-4 border p-2' }
-      = appointment.offer.name
-    %div{ class: 'col-4 border p-2' }
-      %time{ datetime: appointment.starting_at.iso8601 }= appointment.starting_at.iso8601
-    %div{ class: 'col-4 border p-2' }
-      = appointment.duration
+    %div{ class: 'col-4 border-gold p-2' }
+      %p{ class: 'text-gold break-word' }
+        = appointment.offer.name
+    %div{ class: 'col-4 border-gold p-2' }
+      %time{ class: 'text-gold', datetime: appointment.starting_at.iso8601 }= appointment.starting_at.iso8601
+    %div{ class: 'col-4 border-gold p-2' }
+      %p{ class: 'text-gold break-word' }
+        = appointment.duration

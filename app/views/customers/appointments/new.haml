@@ -1,13 +1,13 @@
 %div{ class: 'pagehead' }
-  %h1{ class: 'float-left' } New Appointment
+  %h1{ class: 'text-gold float-left' } New Appointment
 %div{ class: 'clearfix' }
 %div{ class: 'col-12 col-sm-12 col-md-8 col-lg-6 float-left' }
-  %div{ class: 'Box rounded-0' }
-    %div{ class: 'Box-body' }
+  %div{ class: 'Box rounded-0 bg-gray-dark border-gold' }
+    %div{ class: 'Box-body border-0' }
       %form{ action: "/customers/#{customer_id}/appointments", method: :post }
         %div{ class: form_errors.with_error_class(id: :starting_at, html_class: 'form-group mb-4') }
           %div{ class: 'form-group-header' }
-            %label{ for: 'starting_at' } Starting at
+            %label{ for: 'starting_at', class: 'text-gold' } Starting at
           %div{ class: 'form-group-body' }
             %input{ class: 'form-control', type: 'datetime-local', id: :starting_at, name: 'appointment[starting_at]', value: values[:starting_at] }
           - if form_errors.errors?(:starting_at)
@@ -15,7 +15,7 @@
               = form_errors.errors_to_sentence(:starting_at)
         %div{ class: form_errors.with_error_class(id: :duration, html_class: 'form-group mb-4') }
           %div{ class: 'form-group-header' }
-            %label{ for: 'duration' } Duration (minutes)
+            %label{ for: 'duration', class: 'text-gold' } Duration (minutes)
           %div{ class: 'form-group-body' }
             %input{ class: 'form-control', type: :number, id: :duration, name: 'appointment[duration]', value: values[:duration] }
           - if form_errors.errors?(:duration)
@@ -23,7 +23,7 @@
               = form_errors.errors_to_sentence(:duration)
         %div{ class: form_errors.with_error_class(id: :offer_id, html_class: 'form-group mb-4') }
           %div{ class: 'form-group-header' }
-            %label{ for: 'offer_id' }
+            %label{ for: 'offer_id', class: 'text-gold' }
           %div{ class: 'form-group-body' }
             %select{ class: 'form-select', id: :offer_id, name: 'appointment[offer_id]' }
               - offers.each do |offer|
@@ -32,5 +32,5 @@
               %p{ form_errors.with_error_entries(:offer_id) }
               = form_errors.errors_to_sentence(:offer_id)
         %div{ class: 'form-actions mb-4' }
-          %button{ type: 'submit', class: 'btn btn-primary' } Create
-          %a{ href: "/customers/#{customer_id}", class: 'btn' } Cancel
+          %button{ type: 'submit', class: 'btn bg-gold' } Create
+          %a{ href: "/customers/#{customer_id}", class: 'btn bg-gold' } Cancel
