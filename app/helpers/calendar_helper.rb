@@ -1,8 +1,17 @@
 module Carpanta
   module Helpers
     class CalendarHelper
-      def unique_month_year(dates)
-        dates.map{ |date| "#{date.strftime('%b')} #{date.strftime('%Y')}" }.uniq.join(' - ')
+      def unique_month_year(weekly_dates)
+        months = weekly_dates.map{ |date| date.strftime('%b') }.uniq
+        years = weekly_dates.map{ |date| date.strftime('%Y') }.uniq
+
+        if years.size > 1
+          "#{months.first} #{years.first } - #{months.last} #{years.last}"
+        elsif months.size > 1
+          "#{months.first} - #{months.last} #{years.first}"
+        else
+          "#{months.first} #{years.first}"
+        end
       end
 
       def today?(date)
