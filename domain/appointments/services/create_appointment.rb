@@ -21,6 +21,7 @@ module Carpanta
           def call(params = {})
             sanitized_params = yield validate(params)
             appointment = Appointment.new(sanitized_params)
+            yield check_overlap(appointment)
             yield create(appointment)
 
             Success(appointment.id)
@@ -31,6 +32,10 @@ module Carpanta
 
           def validate(params)
             Validations::OnCreate.call(params)
+          end
+
+          def check_overlap(appointment)
+            Success()
           end
 
           def create(appointment)

@@ -7,7 +7,7 @@ RSpec.describe Carpanta::Domain::Appointments::Services::CreateAppointment do
         starting_at: '20201018T111111Z',
         customer_id: 'TODO',
         offer_id: 'TODO',
-        duration: 50,
+        duration: 60,
       }
     end
 
@@ -21,6 +21,24 @@ RSpec.describe Carpanta::Domain::Appointments::Services::CreateAppointment do
 
         expect(result.failure).to include(
           starting_at: include('must be a date time')
+        )
+      end
+    end
+
+    context 'when there is already an appointment set up' do
+      before do
+        FactoryBot.create(:appointment, default_attributes)
+      end
+
+      let(:attributes) do
+        default_attributes.merge(duration: 30)
+      end
+
+      it 'returns failure' do
+        result = described_class.call(attributes)
+
+        expect(result.failure).to include(
+          duration: include('must not overlap with another existing starting_at date + duration (min)')
         )
       end
     end
