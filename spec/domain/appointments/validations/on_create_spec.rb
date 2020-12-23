@@ -30,13 +30,13 @@ RSpec.describe Carpanta::Domain::Appointments::Validations::OnCreate do
       end
 
       context 'starting_at' do
-        it 'must be a datetime' do
+        it 'must be a time' do
           params = default_params.merge(starting_at: 'foo')
 
           result = subject.call(params)
 
           expect(result.errors.to_h).to include(
-            starting_at: include('must be a date time')
+            starting_at: include('must be a time')
           )
         end
       end

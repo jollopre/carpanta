@@ -178,9 +178,10 @@ RSpec.describe Carpanta::Controllers::Customers do
     let(:customer) { FactoryBot.create(:customer) }
     let(:offer) { FactoryBot.create(:offer) }
     let(:starting_at) { Time.now.iso8601 }
+    let(:duration) { 30 }
 
     it 'creates an appointment for a customer' do
-      post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: starting_at } }
+      post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: starting_at, duration: duration } }
 
       expect(last_response.status).to eq(302)
       expect(last_response.headers).to include("Location" => include("/customers/#{customer.id}"))
