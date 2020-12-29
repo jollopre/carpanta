@@ -18,27 +18,29 @@
     - cwdays.each do |date|
       %div{ class: "border-left p-1 #{helper.today?(date) ? 'text-bold' : ''}", style: 'align-self: center' }
         = helper.weekday_name_and_day_of_month(date)
-  %div{ class: 'weekly-gc', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); grid-template-rows: repeat(16, 50px)' }
+  %div{ class: 'weekly-gc', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); grid-template-rows: repeat(32, 25px)' }
     - hours.each_with_index do |hour, index|
-      %div{ class: 'text-gold text-right position-relative pr-2', style: "grid-column: 1, grid-row: #{index+1}; align-self: end; bottom: -1ex;" }
+      %div{ class: 'text-gold', style: "grid-row: #{index*2+1}; grid-column: 1" }
+      %div{ class: 'text-gold text-right position-relative pr-2', style: "grid-row: #{index*2+2}; grid-column: 1; align-self: end; bottom: -1ex;" }
         = hour
-    %div{ style: 'grid-row: 1 / -1; grid-column:2' }
+    %div{ style: 'grid-row: 1 / -1; grid-column: 2' }
     - cwdays.each_with_index do |date, index|
-      %div{ class: 'border-left', style: "grid-row: 1 / span 16; grid-column: #{index+3}" }
+      %div{ class: 'border-left', style: "grid-row: 1 / span 32; grid-column: #{index+3}" }
     - hours.each_with_index do |_, index|
-      %div{ class: 'border-bottom', style: "grid-row: #{index+1}; grid-column: 2 / -1" }
-    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 3; grid-row: 9 / span 5;' }
+      %div{ style: "grid-row: #{index*2+1}; grid-column: 2 / -1" }
+      %div{ class: 'border-bottom', style: "grid-row: #{index*2+2}; grid-column: 2 / -1" }
+    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 3; grid-row: 23 / span 1;' }
       %a{ href: '#', class: 'text-gray-dark' }
         %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
           Event1
-    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 4; grid-row: 9 / span 4;' }
+    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 5; grid-row: 9 / span 2;' }
       %a{ href: '#', class: 'text-gray-dark' }
         %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
           Event2
-    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 6; grid-row: 3 / span 2;' }
+    %div{ class: 'text-gray-dark pr-1', style: 'grid-column: 8; grid-row: 29 / span 3;' }
       %a{ href: '#', class: 'text-gray-dark' }
         %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
           Event3
     %div{ class: 'position-relative border-top-gold', style: 'grid-column: 7; grid-row: 10; border-top-width: 2px !important; top: -2px;' }
-    %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
+      %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
 %script{ type: 'module', src: '/details-dialog-element.js' }
