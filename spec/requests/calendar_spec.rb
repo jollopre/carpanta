@@ -43,7 +43,7 @@ RSpec.describe Carpanta::Controllers::Calendar do
 
     it 'returns appointments within the weekly grid content' do
       customer = FactoryBot.create(:customer)
-      offer = Factory.create(:offer)
+      offer = FactoryBot.create(:offer)
       monday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2020,12,28,17,0,0), duration: 30, customer_id: customer.id, offer_id: offer.id)
       wednesday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2020, 12, 30, 10,0,0), duration: 60, customer_id: customer.id, offer_id: offer.id)
       saturday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2021,1,2, 20,0,0), duration: 90, customer_id: customer.id, offer_id: offer.id)
