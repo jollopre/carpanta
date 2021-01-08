@@ -37,8 +37,8 @@ RSpec.describe Carpanta::Controllers::Calendar do
     it 'returns grid content with one row per working hour' do
       get '/calendar/week'
 
-      expect(last_response.body).to have_xpath('//div[contains(@class, "weekly-gc")]/div[1]', text: '07:00')
-      expect(last_response.body).to have_xpath('//div[contains(@class, "weekly-gc")]/div[16]', text: '22:00')
+      expect(last_response.body).to have_xpath('//div[contains(@class, "weekly-gc")]/div[2]', text: '07:00')
+      expect(last_response.body).to have_xpath('//div[contains(@class, "weekly-gc")]/div[32]', text: '22:00')
     end
 
     it 'returns appointments within the weekly grid content' do

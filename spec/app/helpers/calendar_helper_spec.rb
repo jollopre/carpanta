@@ -71,4 +71,14 @@ RSpec.describe Carpanta::Helpers::CalendarHelper do
       expect(result).to eq('Mon 21')
     end
   end
+
+  describe '#grid_area' do
+    let(:time) { Time.new(2020,12,28,17,0,0) }
+    let(:duration) { 30 }
+    it 'returns grid column, grid row start and grid row end' do
+      result = subject.grid_area(time: time, duration: 30)
+
+      expect(result).to eq("grid-column: 3; grid-row-start: 23; grid-row-end: 24;")
+    end
+  end
 end
