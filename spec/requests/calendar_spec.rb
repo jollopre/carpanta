@@ -44,13 +44,15 @@ RSpec.describe Carpanta::Controllers::Calendar do
     it 'returns appointments within the weekly grid content' do
       customer = FactoryBot.create(:customer)
       offer = FactoryBot.create(:offer)
-      monday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2020,12,28,17,0,0), duration: 30, customer_id: customer.id, offer_id: offer.id)
-      wednesday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2020, 12, 30, 10,0,0), duration: 60, customer_id: customer.id, offer_id: offer.id)
-      saturday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2021,1,2, 20,0,0), duration: 90, customer_id: customer.id, offer_id: offer.id)
+      monday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2021,1,11,17,0,0), duration: 30, customer_id: customer.id, offer_id: offer.id)
+      wednesday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2021,1,13,10,0,0), duration: 60, customer_id: customer.id, offer_id: offer.id)
+      saturday_appointment = FactoryBot.create(:appointment, starting_at: Time.new(2021,1,16,20,0,0), duration: 90, customer_id: customer.id, offer_id: offer.id)
 
       get '/calendar/week'
 
-      skip('todo')
+      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 3; grid-row-start: 23; grid-row-end: 24;")]/a/span', text: monday_appointment.id)
+      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 5; grid-row-start: 9; grid-row-end: 11;")]/a/span', text: wednesday_appointment.id)
+      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 8; grid-row-start: 29; grid-row-end: 32;")]/a/span', text: saturday_appointment.id)
     end
   end
 end
