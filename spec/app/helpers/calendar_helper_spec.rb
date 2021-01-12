@@ -3,40 +3,66 @@ require 'app/helpers/calendar_helper'
 RSpec.describe Carpanta::Helpers::CalendarHelper do
   subject{ described_class.new }
 
+  describe '#wdays' do
+    subject{ described_class.new(date) }
+
+    RSpec.shared_examples 'current week starting on Monday' do
+      it 'returns dates of the current week starting on Monday' do
+        result = subject.wdays
+
+        expect(result).to start_with([
+          Date.new(2020,11,23),
+          Date.new(2020,11,24),
+          Date.new(2020,11,25),
+          Date.new(2020,11,26),
+          Date.new(2020,11,27),
+          Date.new(2020,11,28),
+          Date.new(2020,11,29)
+        ])
+      end
+    end
+
+    context 'when today is Monday' do
+      let(:date) { Date.new(2020,11,23) }
+      it_behaves_like 'current week starting on Monday'
+    end
+
+    context 'when today is Sunday' do
+      let(:date) { Date.new(2020,11,29) }
+      it_behaves_like 'current week starting on Monday'
+    end
+
+    context 'otherwise' do
+      let(:date) { Date.new(2020,11,25) }
+      it_behaves_like 'current week starting on Monday'
+    end
+  end
+
   describe '#unique_month_year' do
-    let(:dates) { [Date.new(2020,12,17)] }
+    let(:date) { Date.new(2020,12,17) }
+    subject{ described_class.new(date) }
 
     it 'displays unique abbreviated month name and year with century for the collection of dates' do
-      result = subject.unique_month_year(dates)
+      result = subject.unique_month_year
 
       expect(result).to eq('Dec 2020')
     end
 
     context 'when there are dates from different months' do
-      let(:dates) do
-        [
-          Date.new(2020,11,30),
-          Date.new(2020,12,1)
-        ]
-      end
+      let(:date) { Date.new(2020,11,30) }
 
       it 'displays unique abbreviated month name and year with century for the collection of dates' do
-        result = subject.unique_month_year(dates)
+        result = subject.unique_month_year
 
         expect(result).to eq('Nov - Dec 2020')
       end
     end
 
     context 'when there are dates from different years' do
-      let(:dates) do
-        [
-          Date.new(2020,12,31),
-          Date.new(2021,1,1)
-        ]
-      end
+      let(:date) { Date.new(2020,12,31) }
 
       it 'displays unique abbreviated month name and year with century for the collection of dates' do
-        result = subject.unique_month_year(dates)
+        result = subject.unique_month_year
 
         expect(result).to eq('Dec 2020 - Jan 2021')
       end

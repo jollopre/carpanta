@@ -4,18 +4,13 @@
 %div{ class: 'Subhead' }
   %div{ class: 'Subhead-heading text-gold' }
     %p{ class: 'text-right' }
-      = helper.unique_month_year(cwdays)
+      = helper.unique_month_year
 %div{ class: 'clearfix' }
-%details{ class: 'details-reset details-overlay details-overlay-dark' }
-  %summary{ class: 'btn', 'aria-haspopup': 'dialog' } Open
-  %details-dialog{ class: 'Box Box--overlay d-flex flex-column anim-fade-in fast', style: 'z-index: 2;' }
-    %div{ class: 'Box-body' }
-      %p Lorem ipsum
 %div{ style: 'display: grid' }
   %div{ class: 'text-center text-gold border-bottom weekly-gh', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); z-index: 1;' }
     %div
     %div
-    - cwdays.each do |date|
+    - helper.wdays.each do |date|
       %div{ class: "border-left p-1 #{helper.today?(date) ? 'text-bold' : ''}", style: 'align-self: center' }
         = helper.weekday_name_and_day_of_month(date)
   %div{ class: 'weekly-gc', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); grid-template-rows: repeat(32, 25px)' }
@@ -24,7 +19,7 @@
       %div{ class: 'text-gold text-right position-relative pr-2', style: "grid-row: #{index*2+2}; grid-column: 1; align-self: end; bottom: -1ex;" }
         = hour
     %div{ style: 'grid-row: 1 / -1; grid-column: 2' }
-    - cwdays.each_with_index do |date, index|
+    - helper.wdays.each_with_index do |date, index|
       %div{ class: 'border-left', style: "grid-row: 1 / span 32; grid-column: #{index+3}" }
     - hours.each_with_index do |_, index|
       %div{ style: "grid-row: #{index*2+1}; grid-column: 2 / -1" }
@@ -36,4 +31,3 @@
             = appointment.id
     %div{ class: 'position-relative border-top-gold', style: 'grid-column: 7; grid-row: 10; border-top-width: 2px !important; top: -2px;' }
       %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
-%script{ type: 'module', src: '/details-dialog-element.js' }
