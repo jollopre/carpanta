@@ -40,4 +40,53 @@ RSpec.describe Domain::Shared::Date do
     it_behaves_like 'must be a date', Date.new(2021,1,16) # saturday
     it_behaves_like 'must be a date', Date.new(2021,1,17) # sunday
   end
+
+  describe '#today?' do
+    let(:date) { Date.new(2021,1,21) }
+    subject { described_class.new(date) }
+
+    it 'returns false' do
+      result = subject.today?
+
+      expect(result).to eq(false)
+    end
+
+    context 'when date is today' do
+      before do
+        allow(Date).to receive(:today).and_return(date)
+      end
+
+      it 'returns true' do
+        result = subject.today?
+
+        expect(result).to eq(true)
+      end
+    end
+  end
+
+  describe '#strftime' do
+    subject { described_class.new(Date.new(2021,1,22)) }
+
+    it 'responds to strftime method' do
+      expect(subject).to respond_to(:strftime)
+    end
+  end
+
+  describe '#days_of_week' do
+    subject { described_class.new(Date.new(2021,1,22)) }
+
+    it 'returns the days of the week within a date' do
+      result = subject.days_of_week
+
+      expect(result).to eq([
+        Date.new(2021,1,18),
+        Date.new(2021,1,19),
+        Date.new(2021,1,20),
+        Date.new(2021,1,21),
+        Date.new(2021,1,22),
+        Date.new(2021,1,23),
+        Date.new(2021,1,24)
+      ])
+    end
+  end
 end

@@ -1,13 +1,16 @@
-require 'date'
+require 'forwardable'
 
 module Domain
   module Shared
-    class Date < SimpleDelegator
-      WDAYS = {
-        monday: 1
-      }.freeze
-      DAYS_OF_WEEK = 7.freeze
-      END_WDAYS = 6.freeze
+    class Date
+      extend Forwardable
+      ONE = 1.freeze
+      SEVEN = 7.freeze
+
+      def_delegator :date, :today?
+      def_delegator :date, :beginning_of_week
+      def_delegator :date, :end_of_week
+      def_delegator :date, :strftime
 
       class << self
         def working_hours
@@ -15,21 +18,22 @@ module Domain
         end
       end
 
-      def beginning_of_week
-        days = days_to_week_start
-        self - days
+      def initialize(date)
+        @date = date
       end
 
-      def end_of_week
-        days = END_WDAYS - days_to_week_start
-        self + days
+      def days_of_week
+        days = Array.new(SEVEN) { self.beginning_of_week }
+        _, *rest_of_week = days
+        rest_of_week.each_with_index do |_,index|
+          days[index + ONE] = days[index].next_day
+        end
+        days
       end
 
       private
 
-      def days_to_week_start(start_day = :monday)
-        (wday - WDAYS.fetch(start_day)) % DAYS_OF_WEEK
-      end
+      attr_reader :date
     end
   end
 end
