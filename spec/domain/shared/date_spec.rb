@@ -88,5 +88,11 @@ RSpec.describe Domain::Shared::Date do
         Date.new(2021,1,24)
       ])
     end
+
+    it 'all are instance of Shared::Date' do
+      result = subject.days_of_week
+
+      expect(result).to all(be_an_instance_of(Domain::Shared::Date))
+    end
   end
 end

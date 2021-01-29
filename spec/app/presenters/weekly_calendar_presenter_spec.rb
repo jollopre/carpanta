@@ -1,46 +1,24 @@
-require 'app/helpers/calendar_helper'
+require 'app/presenters/weekly_calendar_presenter'
+require 'app/queries/show_weekly_calendar'
 
-RSpec.describe Carpanta::Helpers::CalendarHelper do
-  subject{ described_class.new }
+RSpec.describe Carpanta::Presenters::WeeklyCalendarPresenter do
+  let(:date) { Date.new(2021,1,28) }
+  let(:weekly_calendar) do
+    Carpanta::Queries::ShowWeeklyCalendar::WeeklyCalendar.new(
+      date: Domain::Shared::Date.new(date),
+      appointments: []
+    )
+  end
+  subject { described_class.new(weekly_calendar) }
 
-  describe '#wdays' do
-    subject{ described_class.new(date) }
-
-    RSpec.shared_examples 'current week starting on Monday' do
-      it 'returns dates of the current week starting on Monday' do
-        result = subject.wdays
-
-        expect(result).to start_with([
-          Date.new(2020,11,23),
-          Date.new(2020,11,24),
-          Date.new(2020,11,25),
-          Date.new(2020,11,26),
-          Date.new(2020,11,27),
-          Date.new(2020,11,28),
-          Date.new(2020,11,29)
-        ])
-      end
-    end
-
-    context 'when today is Monday' do
-      let(:date) { Date.new(2020,11,23) }
-      it_behaves_like 'current week starting on Monday'
-    end
-
-    context 'when today is Sunday' do
-      let(:date) { Date.new(2020,11,29) }
-      it_behaves_like 'current week starting on Monday'
-    end
-
-    context 'otherwise' do
-      let(:date) { Date.new(2020,11,25) }
-      it_behaves_like 'current week starting on Monday'
+  describe '#days_of_week' do
+    it 'responds to days_of_week' do
+      expect(subject).to respond_to(:days_of_week)
     end
   end
 
   describe '#unique_month_year' do
     let(:date) { Date.new(2020,12,17) }
-    subject{ described_class.new(date) }
 
     it 'displays unique abbreviated month name and year with century for the collection of dates' do
       result = subject.unique_month_year
@@ -66,25 +44,6 @@ RSpec.describe Carpanta::Helpers::CalendarHelper do
 
         expect(result).to eq('Dec 2020 - Jan 2021')
       end
-    end
-  end
-
-  describe '#today?' do
-    let(:date) { Date.new(2020,12,20) }
-
-    context 'when date passed is today' do
-      let(:date) { Date.today }
-      it 'returns true' do
-        result = subject.today?(date)
-
-        expect(result).to eq(true)
-      end
-    end
-
-    it 'returns false otherwise' do
-      result = subject.today?(date)
-
-      expect(result).to eq(false)
     end
   end
 
