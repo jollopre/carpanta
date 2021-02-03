@@ -57,7 +57,7 @@ module Carpanta
       end
 
       class WeeklyCalendar
-        attr_reader :appointments
+        attr_reader :date, :appointments
 
         def initialize(date:, appointments:)
           @date = date

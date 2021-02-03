@@ -2,9 +2,14 @@
   %h1{ class: 'text-gold float-left' } Calendar
 %div{ class: 'clearfix' }
 %div{ class: 'Subhead' }
-  %div{ class: 'Subhead-heading text-gold' }
-    %p{ class: 'text-right' }
-      = weekly_calendar_presenter.unique_month_year
+  %div{ class: 'Subhead-heading text-gold d-flex flex-row-reverse' }
+    %div{ class: 'pl-2' }
+      %span{ 'data-unique_month_year': true }
+        = weekly_calendar_presenter.unique_month_year
+    %div{ class: 'pagination pl-2' }
+      %a{ class: 'previous_page text-gold', rel: 'previous', href: "#{weekly_calendar_presenter.previous_link}", 'aria-label': 'Previous Page' }
+      %a{ class: 'next_page text-gold', rel: 'next', href: "#{weekly_calendar_presenter.next_link}", 'aria-label': 'Next Page' }
+    %a{ class: 'btn bg-gold', href: "#{weekly_calendar_presenter.today_link}", role: 'button' } Today
 %div{ class: 'clearfix' }
 %div{ style: 'display: grid' }
   %div{ class: 'text-center text-gold border-bottom weekly-gh', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); z-index: 1;' }

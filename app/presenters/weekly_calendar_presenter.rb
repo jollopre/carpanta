@@ -35,10 +35,28 @@ module Carpanta
         "grid-column: #{grid_column}; grid-row-start: #{grid_row_start}; grid-row-end: #{grid_row_end};"
       end
 
+      def today_link
+        "/calendar/week/#{format_date(Time.now)}"
+      end
+
+      def previous_link
+        previous_date = date - 7
+        "/calendar/week/#{format_date(previous_date)}"
+      end
+
+      def next_link
+        next_date = date + 7
+        "/calendar/week/#{format_date(next_date)}"
+      end
+
       private
 
       def delta_row(time)
         time.min == 0 ? 0 : 1
+      end
+
+      def format_date(date)
+        date.strftime('%Y-%m-%d')
       end
     end
   end

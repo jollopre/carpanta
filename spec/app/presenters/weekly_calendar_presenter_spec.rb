@@ -66,4 +66,37 @@ RSpec.describe Carpanta::Presenters::WeeklyCalendarPresenter do
       expect(result).to eq("grid-column: 3; grid-row-start: 23; grid-row-end: 24;")
     end
   end
+
+  describe '#today_link' do
+    let(:date) { Date.new(2020,12,28) }
+    before do
+      allow(Time).to receive(:now).and_return(Time.new(2021,2,3,8,10,0))
+    end
+
+    it "returns a link to the weekly calendar for today's date" do
+      result = subject.today_link
+
+      expect(result).to eq('/calendar/week/2021-02-03')
+    end
+  end
+
+  describe '#previous_link' do
+    let(:date) { Date.new(2020,12,28) }
+
+    it 'returns a link to the weekly calendar for the previous week of a date' do
+      result = subject.previous_link
+
+      expect(result).to eq('/calendar/week/2020-12-21')
+    end
+  end
+
+  describe '#next_link' do
+    let(:date) { Date.new(2020,12,28) }
+
+    it 'returns a link to the weekly calendar for the next week of a date' do
+      result = subject.next_link
+
+      expect(result).to eq('/calendar/week/2021-01-04')
+    end
+  end
 end

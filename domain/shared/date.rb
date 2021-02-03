@@ -12,6 +12,8 @@ module Domain
       def_delegator :date, :end_of_week
       def_delegator :date, :strftime
       def_delegator :date, :==
+      def_delegator :date, :-
+      def_delegator :date, :+
 
       def initialize(date)
         @date = date

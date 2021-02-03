@@ -24,7 +24,9 @@ RSpec.describe Carpanta::Queries::ShowWeeklyCalendar do
 
       expect(result.success?).to eq(true)
       calendar = result.value!
+      date = calendar.date
       appointments = calendar.appointments
+      expect(date).to eq(Date.new(2021,01,14))
       expect(appointments.size).to eq(2)
       expect(appointments.first.id).to eq(appointment1.id)
       expect(appointments.first.starting_at).to eq(appointment1.starting_at)

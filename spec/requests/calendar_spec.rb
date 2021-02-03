@@ -13,10 +13,14 @@ RSpec.describe Carpanta::Controllers::Calendar do
     end
 
     it 'returns calendar heading' do
+      allow(Time).to receive(:now).and_return(Time.new(2021,2,2,8,50,0))
       get "/calendar/week/#{date_param}"
 
       expect(last_response.body).to have_xpath('//h1', text: 'Calendar')
-      expect(last_response.body).to have_xpath('//div[contains(@class, "Subhead-heading")]/p', text: 'Dec 2020 - Jan 2021')
+      expect(last_response.body).to have_xpath('//span[contains(@data-unique_month_year, "")]', text: 'Dec 2020 - Jan 2021')
+      expect(last_response.body).to have_link('', href: '/calendar/week/2020-12-22')
+      expect(last_response.body).to have_link('', href: '/calendar/week/2021-01-05')
+      expect(last_response.body).to have_link('Today', href: '/calendar/week/2021-02-02')
     end
 
     it 'returns grid heading with weekday name and day of month' do
