@@ -34,5 +34,6 @@
         %a{ href: '#', class: 'text-gray-dark' }
           %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
             = appointment.id
-    %div{ class: 'position-relative border-top-gold', style: 'grid-column: 7; grid-row: 10; border-top-width: 2px !important; top: -2px;' }
-      %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
+    - if weekly_calendar_presenter.current_time_in_week?
+      %div{ class: 'border-top-gold', style: "#{weekly_calendar_presenter.grid_area_for_current_time_in_week} border-top-width: 2px !important; top: -2px;" }
+        %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }

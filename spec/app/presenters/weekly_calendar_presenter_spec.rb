@@ -99,4 +99,32 @@ RSpec.describe Carpanta::Presenters::WeeklyCalendarPresenter do
       expect(result).to eq('/calendar/week/2021-01-04')
     end
   end
+
+  describe '#current_time_in_week?' do
+    let(:date) { Date.new(2020,12,28) }
+
+    it 'returns true' do
+      allow(Time).to receive(:now).and_return(Time.new(2020,12,28,8,25,0))
+
+      result = subject.current_time_in_week?
+
+      expect(result).to eq(true)
+    end
+
+    it 'returns false' do
+      result = subject.current_time_in_week?
+
+      expect(result).to eq(false)
+    end
+  end
+
+  describe '#grid_area_for_current_time_in_week' do
+    it 'returns grid column, grid row start and grid row end' do
+      allow(Time).to receive(:now).and_return(Time.new(2021,2,4,8,40,0))
+
+      result = subject.grid_area_for_current_time_in_week
+
+      expect(result).to eq("grid-column: 6; grid-row-start: 7; grid-row-end: 7;")
+    end
+  end
 end

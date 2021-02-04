@@ -35,8 +35,12 @@ module Carpanta
         "grid-column: #{grid_column}; grid-row-start: #{grid_row_start}; grid-row-end: #{grid_row_end};"
       end
 
+      def grid_area_for_current_time_in_week
+        grid_area(time: current_time, duration: 0)
+      end
+
       def today_link
-        "/calendar/week/#{format_date(Time.now)}"
+        "/calendar/week/#{format_date(current_time)}"
       end
 
       def previous_link
@@ -49,6 +53,11 @@ module Carpanta
         "/calendar/week/#{format_date(next_date)}"
       end
 
+      def current_time_in_week?
+        current_date = Date.new(current_time.year, current_time.month, current_time.day)
+        days_of_week.include?(current_date)
+      end
+
       private
 
       def delta_row(time)
@@ -57,6 +66,10 @@ module Carpanta
 
       def format_date(date)
         date.strftime('%Y-%m-%d')
+      end
+
+      def current_time
+        @current_time ||= Time.now
       end
     end
   end
