@@ -79,6 +79,10 @@ module Carpanta
         def initialize(args)
           @id, @starting_at, @duration = args.values_at(:id, :starting_at, :duration)
         end
+
+        def shortened_id
+          id[0,8]
+        end
       end
     end
   end

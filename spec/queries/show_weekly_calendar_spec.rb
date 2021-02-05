@@ -29,9 +29,11 @@ RSpec.describe Carpanta::Queries::ShowWeeklyCalendar do
       expect(date).to eq(Date.new(2021,01,14))
       expect(appointments.size).to eq(2)
       expect(appointments.first.id).to eq(appointment1.id)
+      expect(appointments.first.shortened_id.length).to eq(8)
       expect(appointments.first.starting_at).to eq(appointment1.starting_at)
       expect(appointments.first.duration).to eq(appointment1.duration)
       expect(appointments.second.id).to eq(appointment2.id)
+      expect(appointments.second.shortened_id.length).to eq(8)
       expect(appointments.second.starting_at).to eq(appointment2.starting_at)
       expect(appointments.second.duration).to eq(appointment2.duration)
     end
