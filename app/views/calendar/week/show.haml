@@ -1,0 +1,39 @@
+%div{ class: 'pagehead' }
+  %h1{ class: 'text-gold float-left' } Calendar
+%div{ class: 'clearfix' }
+%div{ class: 'Subhead' }
+  %div{ class: 'Subhead-heading text-gold d-flex flex-row-reverse' }
+    %div{ class: 'pl-2' }
+      %span{ 'data-unique_month_year': true }
+        = weekly_calendar_presenter.unique_month_year
+    %div{ class: 'pagination pl-2' }
+      %a{ class: 'previous_page text-gold', rel: 'previous', href: "#{weekly_calendar_presenter.previous_link}", 'aria-label': 'Previous Page' }
+      %a{ class: 'next_page text-gold', rel: 'next', href: "#{weekly_calendar_presenter.next_link}", 'aria-label': 'Next Page' }
+    %a{ class: 'btn bg-gold', href: "#{weekly_calendar_presenter.today_link}", role: 'button' } Today
+%div{ class: 'clearfix' }
+%div{ style: 'display: grid' }
+  %div{ class: 'text-center text-gold border-bottom weekly-gh', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); z-index: 1;' }
+    %div
+    %div
+    - weekly_calendar_presenter.days_of_week.each do |date|
+      %div{ class: "border-left p-1 #{date.today? ? 'text-bold' : ''}", style: 'align-self: center' }
+        = weekly_calendar_presenter.weekday_name_and_day_of_month(date)
+  %div{ class: 'weekly-gc', style: 'display: grid; grid-template-columns: 3em 10px repeat(7, 1fr); grid-template-rows: repeat(32, 25px)' }
+    - weekly_calendar_presenter.working_hours.each_with_index do |hour, index|
+      %div{ class: 'text-gold', style: "grid-row: #{index*2+1}; grid-column: 1" }
+      %div{ class: 'text-gold text-right position-relative pr-2', style: "grid-row: #{index*2+2}; grid-column: 1; align-self: end; bottom: -1ex;" }
+        = hour
+    %div{ style: 'grid-row: 1 / -1; grid-column: 2' }
+    - weekly_calendar_presenter.days_of_week.each_with_index do |date, index|
+      %div{ class: 'border-left', style: "grid-row: 1 / span 32; grid-column: #{index+3}" }
+    - weekly_calendar_presenter.working_hours.each_with_index do |_, index|
+      %div{ style: "grid-row: #{index*2+1}; grid-column: 2 / -1" }
+      %div{ class: 'border-bottom', style: "grid-row: #{index*2+2}; grid-column: 2 / -1" }
+    - weekly_calendar_presenter.appointments.each do |appointment|
+      %div{ class: 'text-gray-dark pr-1', style: weekly_calendar_presenter.grid_area(time: appointment.starting_at, duration: appointment.duration) }
+        %a{ href: '#', class: 'text-gray-dark' }
+          %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
+            = appointment.shortened_id
+    - if weekly_calendar_presenter.current_time_in_week?
+      %div{ class: 'border-top-gold', style: "#{weekly_calendar_presenter.grid_area_for_current_time_in_week} border-top-width: 2px !important; top: -2px;" }
+        %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }

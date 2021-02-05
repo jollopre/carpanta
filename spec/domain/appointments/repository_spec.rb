@@ -28,4 +28,24 @@ RSpec.describe Carpanta::Domain::Appointments::Repository do
       end
     end
   end
+
+  describe '#exists?' do
+    let(:starting_at) { Time.new(2020, 12, 22, 8, 0, 0) }
+
+    it 'returns Success' do
+      FactoryBot.create(:appointment, starting_at: starting_at)
+
+      result = subject.exists?(['starting_at >= :starting_at', { starting_at: starting_at }])
+
+      expect(result.success?).to eq(true)
+    end
+
+    context 'when there is no appointment meeting the condition' do
+      it 'returns Failure' do
+        result = subject.exists?(['starting_at >= :starting_at', { starting_at: starting_at }])
+
+        expect(result.failure?).to eq(true)
+      end
+    end
+  end
 end

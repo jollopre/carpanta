@@ -4,6 +4,7 @@ require 'domain/appointments/repository'
 FactoryBot.define do
   factory :appointment, class: Carpanta::Domain::Appointments::Appointment do
     starting_at { Time.new(2020, 05, 06, 8, 25, 12) }
+    duration { 30 }
     customer_id { build(:customer).id }
     offer_id { build(:offer).id }
 

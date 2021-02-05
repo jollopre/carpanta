@@ -17,6 +17,11 @@ module Carpanta
           result ? Success() : Failure()
         end
 
+        def exists?(conditions = :none)
+          result = storage.exists?(conditions)
+          result ? Success() : Failure()
+        end
+
         private
         attr_reader :storage
       end
