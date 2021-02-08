@@ -18,7 +18,7 @@ group :development, :test do
   gem 'rack-test', '~> 1.1'
   gem 'factory_bot', '~> 5.1', '>= 5.1.1'
   gem 'database_cleaner-active_record', '~> 1.8'
-  gem 'capybara', '~> 2.7', '>= 2.7.1'
+  gem 'capybara', '~> 3.35', '>= 3.35.3'
 end
 
 group :deploy do
