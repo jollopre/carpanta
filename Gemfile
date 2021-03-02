@@ -4,7 +4,7 @@ ruby '2.7.0'
 group :production do
   gem 'sinatra', '~> 2.0', '>= 2.0.8.1'
   gem 'puma', '~> 4.3'
-  gem 'activerecord', '~> 6.0', '>= 6.0.3.1', require: 'active_record'
+  gem 'activerecord', '~> 6.1', require: 'active_record'
   gem 'haml', '~> 5.1', '>= 5.1.2'
   gem 'rake', '~> 13.0', '>= 13.0.1'
   gem 'sqlite3', '~> 1.4', '>= 1.4.2'
