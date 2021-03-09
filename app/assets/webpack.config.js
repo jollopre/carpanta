@@ -1,18 +1,22 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    styles: './index.scss',
+    index: './index.js'
+  },
   plugins: [
-    new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'Using template',
-      template: 'src/index.html'
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
+    new WebpackManifestPlugin({
+      publicPath: path.resolve(__dirname, 'dist') + path.sep
     })
   ],
   output: {
-    filename: 'main.js',
+    filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true
   },
