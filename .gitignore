@@ -18,9 +18,8 @@
 /doc/
 /rdoc/
 /app/public/*.css
-app/assets/.cache
+app/assets/node_modules
 app/assets/dist
-
 ## Primer assets
 app/assets/fonts
 app/assets/images

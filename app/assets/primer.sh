@@ -1,5 +1,5 @@
 #!/bin/bash
-# Downloads extra assets from primer CSS that cannot be automatically bundled through parceljs
+# Downloads extra assets from primer CSS that cannot be automatically bundled (e.g. https://github.com/primer/css/issues/722)
 
 mkdir -p fonts
 cp node_modules/@primer/css/fonts/Inter-Bold.woff fonts

@@ -2,6 +2,8 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
+const publicPath = path.sep;
+
 module.exports = {
   entry: {
     styles: './index.scss',
@@ -12,13 +14,15 @@ module.exports = {
       filename: '[name].[contenthash].css'
     }),
     new WebpackManifestPlugin({
-      publicPath: path.resolve(__dirname, 'dist') + path.sep
+      fileName: 'manifest.json',
+      publicPath
     })
   ],
   output: {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true
+    clean: true,
+    publicPath
   },
   module: {
     rules: [
