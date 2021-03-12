@@ -10,6 +10,7 @@ module Carpanta
         set :logging, true
         set :raise_errors, development? || test?
         set :root, File.join(Carpanta.root, 'app')
+        set :public_folder, Proc.new { File.join(root, 'public') }
         set :show_exceptions, false
 
         use Rack::CommonLogger, Carpanta.logger

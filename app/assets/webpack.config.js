@@ -2,7 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
-const publicPath = path.sep;
+const publicPath = process.env.PUBLIC_PATH + path.sep;
 
 module.exports = {
   entry: {

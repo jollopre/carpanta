@@ -1,35 +1,17 @@
-*.gem
-*.rbc
-*.sqlite
-/.config
-/coverage/
-/InstalledFiles
-/pkg/
-/spec/reports/
-/spec/examples.txt
-/test/tmp/
-/test/version_tmp/
-/tmp/
-/log/*.log
-
-## Documentation cache and generated files:
-/.yardoc/
-/_yardoc/
-/doc/
-/rdoc/
-/app/public/*.css
+## Front-End
 app/assets/node_modules
 app/assets/dist
+
 ## Primer assets
 app/assets/fonts
 app/assets/images
 
-## Environment normalization:
-/.bundle/
-/vendor/bundle
-/lib/bundler/man/
+## Back-End
+/app/public/assets/!*.keep
+/spec/examples.txt
 
-## Aws credentials
+## Back-End dependencies
+*.sqlite
 .aws
 
 ## Deploy environment variables
