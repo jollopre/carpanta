@@ -1,8 +1,11 @@
 require 'sinatra/base'
+require 'lib/sinatra/asset_helper'
 
 module Carpanta
   module Controllers
     class Base < Sinatra::Base
+      helpers Sinatra::AssetHelper
+
       configure do
         set :dump_errors, true
         set :environment, Carpanta.environment.to_sym

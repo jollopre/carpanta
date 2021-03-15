@@ -12,6 +12,7 @@ app/assets/images
 
 ## Back-End dependencies
 *.sqlite
+*.sqlite-journal
 .aws
 
 ## Deploy environment variables
