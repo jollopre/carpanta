@@ -7,7 +7,8 @@ const publicPath = process.env.PUBLIC_PATH + path.sep;
 module.exports = {
   entry: {
     styles: './index.scss',
-    index: './index.js'
+    index: './index.js',
+    calendar: './calendar.js'
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -35,8 +36,25 @@ module.exports = {
         ],
       },
       {
+        test: /\.css$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+        ]
+      },
+      {
         test: /\.(woff|gif|png)$/i,
         type: "asset/resource"
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       }
     ],
   },

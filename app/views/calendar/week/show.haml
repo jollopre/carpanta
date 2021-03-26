@@ -37,3 +37,5 @@
     - if weekly_calendar_presenter.current_time_in_week?
       %div{ class: 'border-top-gold', style: "#{weekly_calendar_presenter.grid_area_for_current_time_in_week} border-top-width: 2px !important; top: -2px;" }
         %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
+= stylesheet_tag('calendar')
+= javascript_tag('calendar')
