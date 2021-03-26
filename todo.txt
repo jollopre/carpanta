@@ -1,0 +1,27 @@
+UI:
+- Popup component displaying the form
+- Click/Tap grid cell opens a popup
+- Typeahead component to choose customer
+- Dropdown/Typeahead component to choose offer
+- Dropdown to choose duration (30, 60, 90, 120 min)
+- Calendar with date/time
+- Localisation
+- Webpack configuration for assets
+  X SCSS import
+  X Primer extra assets integrated transparently instead of bash script
+  X JS import
+  X Dockerfile target assets
+  - Helper for accessing JS asset or CSS asset
+  - Development mode (hot reloading)
+  - Why node_modules is an empty folder at /usr/src/node_modules (ruby development) ?
+BackEnd:
+- lookup for customers (id, Surname,Name)
+- lookup for offers
+- Move contract to command
+- Validate existence of offer_id/customer_id
+Request Test:
+- When payload is valid --> 200
+- When paylod is invalid --> display errors
+Feature Test:
+- Submitting a valid appointment, creates an appointment displayed in the weekly calendar
+
