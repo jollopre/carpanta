@@ -68,6 +68,19 @@ RSpec.describe Carpanta::Controllers::Calendar do
       expect(last_response.status).to eq(200)
     end
 
+    it 'returns appointment info, its related offer and customer behind' do
+      get "/calendar/appointments/#{appointment.id}"
+
+      expect(last_response.body).to have_content(appointment.id)
+      expect(last_response.body).to have_content(appointment.starting_at.utc)
+      expect(last_response.body).to have_content(appointment.duration)
+      expect(last_response.body).to have_content('Cutting with scissor and Shampooing')
+      expect(last_response.body).to have_content('Donald')
+      expect(last_response.body).to have_content('Duck')
+      expect(last_response.body).to have_content('donald.duck@carpanta.com')
+      expect(last_response.body).to have_content('600111222')
+    end
+
     context 'when the appointment DOES NOT exist' do
       it 'returns 404' do
         get '/calendar/appointments/not_found_id'
