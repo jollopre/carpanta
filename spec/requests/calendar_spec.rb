@@ -56,4 +56,30 @@ RSpec.describe Carpanta::Controllers::Calendar do
       expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 8; grid-row-start: 29; grid-row-end: 32;")]/a/span', text: saturday_appointment.id[0,8])
     end
   end
+
+  describe 'GET /calendar/appointments/:id' do
+    let(:customer) { FactoryBot.create(:customer) }
+    let(:offer) { FactoryBot.create(:offer) }
+    let(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
+
+    it 'returns 200' do
+      get "/calendar/appointments/#{appointment.id}"
+
+      expect(last_response.status).to eq(200)
+    end
+
+    context 'when the appointment DOES NOT exist' do
+      it 'returns 404' do
+        get '/calendar/appointments/not_found_id'
+
+        expect(last_response.status).to eq(404)
+      end
+
+      it 'returns error message' do
+        get '/calendar/appointments/not_found_id'
+
+        expect(last_response.body).to include('The resource you are trying to access does not exist.')
+      end
+    end
+  end
 end

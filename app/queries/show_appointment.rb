@@ -27,7 +27,7 @@ module Carpanta
       class Appointment
         extend Forwardable
 
-        def_delegators :@appointment, :starting_at, :duration
+        def_delegators :@appointment, :id, :starting_at, :duration
 
         def initialize(appointment)
           @appointment = appointment

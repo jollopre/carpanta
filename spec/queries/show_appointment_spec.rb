@@ -12,6 +12,7 @@ RSpec.describe Carpanta::Queries::ShowAppointment do
       expect(result.success?).to eq(true)
       appointment = result.value!
       expect(appointment).to have_attributes(
+        id: appointment.id,
         starting_at: appointment.starting_at,
         duration: appointment.duration,
         offer: have_attributes(
