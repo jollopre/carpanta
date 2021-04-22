@@ -33,6 +33,10 @@ module Carpanta
           @appointment = appointment
         end
 
+        def shortened_id
+          id[0,8]
+        end
+
         def offer
           @offer ||= Offer.new(@appointment.offer)
         end

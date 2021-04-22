@@ -1,7 +1,7 @@
 %div{ class: 'Box' }
   %div{ class: 'Box-header bg-gold' }
     %h3{ class: 'Box-title' }
-      = appointment.id
+      = appointment.shortened_id
   %div{ class: 'Box-body bg-gray-dark' }
     %p{ class: 'text-gold' }
       = Octicons::Octicon.new('stopwatch', width: 24, height: 24).to_svg

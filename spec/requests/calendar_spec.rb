@@ -51,9 +51,9 @@ RSpec.describe Carpanta::Controllers::Calendar do
 
       get "/calendar/week/#{date_param}"
 
-      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 3; grid-row-start: 23; grid-row-end: 24;")]/a/span', text: monday_appointment.id[0,8])
-      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 5; grid-row-start: 9; grid-row-end: 11;")]/a/span', text: wednesday_appointment.id[0,8])
-      expect(last_response.body).to have_xpath('//div[contains(@style, "grid-column: 8; grid-row-start: 29; grid-row-end: 32;")]/a/span', text: saturday_appointment.id[0,8])
+      expect(last_response.body).to have_xpath('//details[contains(@style, "grid-column: 3; grid-row-start: 23; grid-row-end: 24;")]/summary', text: monday_appointment.id[0,8])
+      expect(last_response.body).to have_xpath('//details[contains(@style, "grid-column: 5; grid-row-start: 9; grid-row-end: 11;")]/summary', text: wednesday_appointment.id[0,8])
+      expect(last_response.body).to have_xpath('//details[contains(@style, "grid-column: 8; grid-row-start: 29; grid-row-end: 32;")]/summary', text: saturday_appointment.id[0,8])
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe Carpanta::Controllers::Calendar do
     it 'returns appointment info, its related offer and customer behind' do
       get "/calendar/appointments/#{appointment.id}"
 
-      expect(last_response.body).to have_content(appointment.id)
+      expect(last_response.body).to have_content(appointment.id[0,8])
       expect(last_response.body).to have_content(appointment.starting_at.utc)
       expect(last_response.body).to have_content(appointment.duration)
       expect(last_response.body).to have_content('Cutting with scissor and Shampooing')

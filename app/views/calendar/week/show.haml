@@ -30,10 +30,10 @@
       %div{ style: "grid-row: #{index*2+1}; grid-column: 2 / -1" }
       %div{ class: 'border-bottom', style: "grid-row: #{index*2+2}; grid-column: 2 / -1" }
     - weekly_calendar_presenter.appointments.each do |appointment|
-      %div{ class: 'text-gray-dark pr-1', style: weekly_calendar_presenter.grid_area(time: appointment.starting_at, duration: appointment.duration) }
-        %a{ href: '#', class: 'text-gray-dark' }
-          %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }
-            = appointment.shortened_id
+      %details{ class: 'text-gray-dark pr-1', style: weekly_calendar_presenter.grid_area(time: appointment.starting_at, duration: appointment.duration), data: { controller: 'deferred-details', "deferred-details-url-value": "/calendar/appointments/#{appointment.id}"}}
+        %summary{ class: 'd-block text-gray-dark', 'aria-haspopup': 'dialog' }
+          %span{ class: 'd-block rounded-1 bg-gold wb-break-all p-1 height-full width-full' }= appointment.shortened_id
+        %details-dialog{ data: { "deferred-details-target": "fragment" }}
     - if weekly_calendar_presenter.current_time_in_week?
       %div{ class: 'border-top-gold', style: "#{weekly_calendar_presenter.grid_area_for_current_time_in_week} border-top-width: 2px !important; top: -2px;" }
         %div{ class: 'border-gold circle bg-gold position-relative', style: 'width: 12px; height: 12px; top: -6px; left: -6px;' }
