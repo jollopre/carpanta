@@ -1,8 +1,11 @@
 require 'sinatra/base'
+require 'lib/sinatra/asset_helper'
 
 module Carpanta
   module Controllers
     class Base < Sinatra::Base
+      helpers Sinatra::AssetHelper
+
       configure do
         set :dump_errors, true
         set :environment, Carpanta.environment.to_sym
@@ -10,6 +13,7 @@ module Carpanta
         set :logging, true
         set :raise_errors, development? || test?
         set :root, File.join(Carpanta.root, 'app')
+        set :public_folder, Proc.new { File.join(root, 'public') }
         set :show_exceptions, false
 
         use Rack::CommonLogger, Carpanta.logger

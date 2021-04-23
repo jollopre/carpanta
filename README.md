@@ -44,7 +44,7 @@ $ make shell
 $ bundle exec rspec
 ```
 
-The front-end development uses vanilla JavaScript and [Parcel](https://parceljs.org/) to bundle every asset located under `app/assets`. Open a second tab and type the following:
+The front-end development uses vanilla JavaScript and [Webpack](https://webpack.js.org/) to bundle every asset under `app/assets`. Open a second tab and type the following:
 
 ```sh
 $ make shell_assets

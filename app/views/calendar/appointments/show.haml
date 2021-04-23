@@ -1,0 +1,25 @@
+%div{ class: 'Box' }
+  %div{ class: 'Box-header bg-gold' }
+    %h3{ class: 'Box-title' }
+      = appointment.shortened_id
+  %div{ class: 'Box-body bg-gray-dark' }
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('stopwatch', width: 24, height: 24).to_svg
+      = appointment.starting_at
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('hourglass', width: 24, height: 24).to_svg
+      = "#{appointment.duration} minutes"
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('note', width: 24, height: 24).to_svg
+      = appointment.offer.name
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('person', width: 24, height: 24).to_svg
+      = "#{appointment.customer.surname}, #{appointment.customer.name}"
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('mail', width: 24, height: 24).to_svg
+      = appointment.customer.email
+    %p{ class: 'text-gold' }
+      = Octicons::Octicon.new('device-mobile', width: 24, height: 24).to_svg
+      = appointment.customer.phone
+  %div{ class: 'Box-footer bg-gray-dark', style: 'border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;' }
+    %button{ type: 'button', class: 'btn btn-block bg-gold', 'data-close-dialog': true } Close

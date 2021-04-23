@@ -113,6 +113,8 @@ GEM
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    octicons (13.0.0)
+      nokogiri (>= 1.6.3.1)
     public_suffix (4.0.6)
     puma (4.3.5)
       nio4r (~> 2.0)
@@ -171,6 +173,7 @@ DEPENDENCIES
   dry-validation (~> 1.5, >= 1.5.6)
   factory_bot (~> 5.1, >= 5.1.1)
   haml (~> 5.1, >= 5.1.2)
+  octicons (~> 13.0)
   provisioner!
   puma (~> 4.3)
   rack-test (~> 1.1)
