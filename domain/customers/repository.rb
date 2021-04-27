@@ -27,7 +27,7 @@ module Carpanta
         def find_by_id(id)
           values = storage
             .where(id: id)
-            .pluck(ATTRIBUTE_NAMES)
+            .pluck(*ATTRIBUTE_NAMES)
             .first
           return Failure() unless values.present?
 
