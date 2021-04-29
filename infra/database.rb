@@ -30,7 +30,7 @@ module Infra
     end
 
     def configurations
-      YAML.load(ERB.new(IO.read(PATH)).result)
+      YAML.safe_load(ERB.new(IO.read(PATH)).result)
     end
 
     def environment
