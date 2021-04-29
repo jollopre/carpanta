@@ -1,9 +1,9 @@
-require 'infra/orm'
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
-require 'domain/shared/validation'
-require 'domain/shared/do_notation'
-require 'domain/shared/date'
+require "infra/orm"
+require "domain/shared/callable"
+require "domain/shared/resultable"
+require "domain/shared/validation"
+require "domain/shared/do_notation"
+require "domain/shared/date"
 
 module Carpanta
   module Queries
@@ -22,7 +22,7 @@ module Carpanta
         date = ::Domain::Shared::Date.new(result.fetch(:date))
         weekly_calendar = WeeklyCalendar.new(
           date: date,
-          appointments: appointments(date),
+          appointments: appointments(date)
         )
         Success(weekly_calendar)
       end
@@ -40,12 +40,12 @@ module Carpanta
 
       def beginning_of_week(date)
         monday = date.beginning_of_week
-        Time.new(monday.year, monday.month, monday.day,6,0,0)
+        Time.new(monday.year, monday.month, monday.day, 6, 0, 0)
       end
 
       def end_of_week(date)
         sunday = date.end_of_week
-        Time.new(sunday.year, sunday.month, sunday.day,22,0,0)
+        Time.new(sunday.year, sunday.month, sunday.day, 22, 0, 0)
       end
 
       attr_reader :relation
@@ -69,7 +69,7 @@ module Carpanta
         end
 
         def working_hours
-          ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+          ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"]
         end
       end
 
@@ -81,7 +81,7 @@ module Carpanta
         end
 
         def shortened_id
-          id[0,8]
+          id[0, 8]
         end
       end
     end

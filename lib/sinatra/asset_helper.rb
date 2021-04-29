@@ -1,9 +1,9 @@
-require 'json'
+require "json"
 
 module Sinatra
   module AssetHelper
-    MANIFEST = "#{Carpanta.root}/app/public/#{ENV.fetch('PUBLIC_PATH')}/manifest.json".freeze
-    class AssetNotFound < StandardError ; end
+    MANIFEST = "#{Carpanta.root}/app/public/#{ENV.fetch("PUBLIC_PATH")}/manifest.json".freeze
+    class AssetNotFound < StandardError; end
 
     def javascript_tag(source)
       src = manifest.fetch("#{source}.js") { raise AssetNotFound }

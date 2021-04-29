@@ -1,7 +1,7 @@
-require 'forwardable'
-require 'infra/orm'
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
+require "forwardable"
+require "infra/orm"
+require "domain/shared/callable"
+require "domain/shared/resultable"
 
 module Carpanta
   module Queries
@@ -22,6 +22,7 @@ module Carpanta
       end
 
       private
+
       attr_reader :relation
 
       class Customer

@@ -1,11 +1,11 @@
-require 'domain/shared/entity'
+require "domain/shared/entity"
 
 module Carpanta
   module Domain
     module Appointments
       class Appointment < Shared::Entity
         attr_reader :starting_at, :duration, :customer_id, :offer_id
-        SECONDS = 60.freeze
+        SECONDS = 60
 
         def initialize(params = {})
           super(params[:id])

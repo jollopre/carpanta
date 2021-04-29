@@ -1,5 +1,5 @@
-require 'infra/orm'
-require 'domain/shared/resultable'
+require "infra/orm"
+require "domain/shared/resultable"
 
 module Carpanta
   module Domain
@@ -17,6 +17,7 @@ module Carpanta
         end
 
         private
+
         attr_reader :storage
       end
     end

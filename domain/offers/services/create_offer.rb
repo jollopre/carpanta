@@ -1,9 +1,9 @@
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
-require 'domain/shared/do_notation'
-require 'domain/offers/validations/on_create'
-require 'domain/offers/offer'
-require 'domain/offers/repository'
+require "domain/shared/callable"
+require "domain/shared/resultable"
+require "domain/shared/do_notation"
+require "domain/offers/validations/on_create"
+require "domain/offers/offer"
+require "domain/offers/repository"
 
 module Carpanta
   module Domain

@@ -1,4 +1,4 @@
-require_relative 'config/boot'
+require_relative "config/boot"
 
-import 'tasks/db.rake'
-import 'tasks/test.rake'
+import "tasks/db.rake"
+import "tasks/test.rake"

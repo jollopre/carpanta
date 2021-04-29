@@ -1,9 +1,9 @@
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
-require 'domain/shared/do_notation'
-require 'domain/customers/validations/on_create'
-require 'domain/customers/customer'
-require 'domain/customers/repository'
+require "domain/shared/callable"
+require "domain/shared/resultable"
+require "domain/shared/do_notation"
+require "domain/customers/validations/on_create"
+require "domain/customers/customer"
+require "domain/customers/repository"
 
 module Carpanta
   module Domain
@@ -42,7 +42,7 @@ module Carpanta
           def check_uniqueness_for_email(customer)
             result = repository.exists?(email: customer.email)
 
-            return Failure(email: ['is not unique']) if result.success?
+            return Failure(email: ["is not unique"]) if result.success?
             Success()
           end
         end

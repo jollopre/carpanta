@@ -1,5 +1,5 @@
-require 'delegate'
-require 'logger'
+require "delegate"
+require "logger"
 
 module Infra
   class Logger < SimpleDelegator

@@ -1,4 +1,4 @@
-require 'securerandom'
+require "securerandom"
 
 module Carpanta
   module Domain
@@ -17,10 +17,9 @@ module Carpanta
         end
 
         def to_h
-          instance_variables.reduce({}) do |acc, var_name|
+          instance_variables.each_with_object({}) do |var_name, acc|
             key = var_name.to_s[1..-1].to_sym
             acc[key] = instance_variable_get(var_name)
-            acc
           end
         end
       end

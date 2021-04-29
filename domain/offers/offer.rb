@@ -1,4 +1,4 @@
-require 'domain/shared/entity'
+require "domain/shared/entity"
 
 module Carpanta
   module Domain

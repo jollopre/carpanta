@@ -1,5 +1,5 @@
-require 'dry-validation'
-require_relative 'resultable'
+require "dry-validation"
+require_relative "resultable"
 
 module Carpanta
   module Domain

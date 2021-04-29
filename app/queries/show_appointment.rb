@@ -1,7 +1,7 @@
-require 'forwardable'
-require 'infra/orm'
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
+require "forwardable"
+require "infra/orm"
+require "domain/shared/callable"
+require "domain/shared/resultable"
 
 module Carpanta
   module Queries
@@ -34,7 +34,7 @@ module Carpanta
         end
 
         def shortened_id
-          id[0,8]
+          id[0, 8]
         end
 
         def offer

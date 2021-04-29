@@ -1,4 +1,4 @@
-require 'lib/configurable'
+require "lib/configurable"
 
 module Carpanta
   include Configurable

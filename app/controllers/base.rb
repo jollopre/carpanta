@@ -1,5 +1,5 @@
-require 'sinatra/base'
-require 'lib/sinatra/asset_helper'
+require "sinatra/base"
+require "lib/sinatra/asset_helper"
 
 module Carpanta
   module Controllers
@@ -12,15 +12,15 @@ module Carpanta
         set :haml, format: :html5
         set :logging, true
         set :raise_errors, development? || test?
-        set :root, File.join(Carpanta.root, 'app')
-        set :public_folder, Proc.new { File.join(root, 'public') }
+        set :root, File.join(Carpanta.root, "app")
+        set :public_folder, proc { File.join(root, "public") }
         set :show_exceptions, false
 
         use Rack::CommonLogger, Carpanta.logger
       end
 
       configure :development do
-        require 'sinatra/reloader'
+        require "sinatra/reloader"
         register Sinatra::Reloader
       end
 
