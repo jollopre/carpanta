@@ -18,7 +18,7 @@ module Carpanta
 
         def to_h
           instance_variables.each_with_object({}) do |var_name, acc|
-            key = var_name.to_s[1..-1].to_sym
+            key = var_name.to_s[1..].to_sym
             acc[key] = instance_variable_get(var_name)
           end
         end

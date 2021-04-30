@@ -58,12 +58,11 @@ lambda do
     Carpanta::Domain::Customers::Services::CreateCustomer.call(customer_attrs).value!
   end
 
-  class UniqueAppointmentAttrsGenerator
-    SECONDS = 60
-
+  unique_appointment_attrs_generator_class = Class.new do
     def initialize
       @latest_starting_at = Time.new(now.year, now.month, now.day, now.hour, 0, 0)
       @latest_duration = duration_generator
+      @seconds = 60
     end
 
     def call
@@ -80,7 +79,7 @@ lambda do
     end
 
     def starting_at_generator
-      (latest_starting_at + latest_duration * SECONDS) + (delta * SECONDS)
+      (latest_starting_at + latest_duration * @seconds) + (delta * @seconds)
     end
 
     def duration_generator
@@ -94,7 +93,7 @@ lambda do
     attr_reader :latest_starting_at, :latest_duration
   end
 
-  unique_appointment_attrs_generator = UniqueAppointmentAttrsGenerator.new
+  unique_appointment_attrs_generator = unique_appointment_attrs_generator_class.new
 
   create_appointment = lambda do |customer_id, offer_id|
     unique_appointment_attrs = unique_appointment_attrs_generator.call

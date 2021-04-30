@@ -2,7 +2,7 @@ require "lib/sinatra/asset_helper"
 
 RSpec.describe Sinatra::AssetHelper do
   subject do
-    class Aclass
+    Class.new do
       extend Sinatra::AssetHelper
     end
   end

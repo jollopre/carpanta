@@ -10,4 +10,4 @@ end.call
 require "config/app"
 require "app/controllers/application"
 
-Dir[File.expand_path(File.join(File.dirname(__FILE__), "initializers", "**", "*.rb"))].each { |f| require f }
+Dir[File.expand_path(File.join(File.dirname(__FILE__), "initializers", "**", "*.rb"))].sort.each { |f| require f }
