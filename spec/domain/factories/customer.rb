@@ -1,12 +1,12 @@
-require 'domain/customers/customer'
-require 'domain/customers/repository'
+require "domain/customers/customer"
+require "domain/customers/repository"
 
 FactoryBot.define do
   factory :customer, class: Carpanta::Domain::Customers::Customer do
-    name { 'Donald' }
-    surname { 'Duck' }
-    email { 'donald.duck@carpanta.com' }
-    phone { '600111222' }
+    name { "Donald" }
+    surname { "Duck" }
+    email { "donald.duck@carpanta.com" }
+    phone { "600111222" }
 
     initialize_with do
       Carpanta::Domain::Customers::Customer.new(attributes)

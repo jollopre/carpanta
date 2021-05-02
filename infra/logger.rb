@@ -1,11 +1,11 @@
-require 'delegate'
-require 'logger'
+require "delegate"
+require "logger"
 
 module Infra
   class Logger < SimpleDelegator
     class << self
       def build
-        new(::Logger.new(STDOUT))
+        new(::Logger.new($stdout))
       end
     end
 

@@ -1,9 +1,9 @@
 module Carpanta
   module Helpers
     class FormErrors
-      ERROR_CLASS = 'errored'.freeze
-      SEPARATOR = ' '.freeze
-      ARIA_DESCRIBED_BY = 'aria-describedby'.freeze
+      ERROR_CLASS = "errored".freeze
+      SEPARATOR = " ".freeze
+      ARIA_DESCRIBED_BY = "aria-describedby".freeze
 
       def initialize(errors = {})
         @errors = errors
@@ -23,7 +23,7 @@ module Carpanta
 
       def with_error_entries(id)
         {
-          class: 'note error',
+          class: "note error",
           id: "#{id}-validation"
         }
       end

@@ -3,5 +3,6 @@ services:
   - docker
 install: skip
 script:
+  - make lint
   - make seed
   - make test

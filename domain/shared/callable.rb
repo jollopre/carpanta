@@ -2,8 +2,8 @@ module Carpanta
   module Domain
     module Shared
       module Callable
-        def call(*args, &block)
-          new.call(*args, &block)
+        def call(...)
+          new.call(...)
         end
       end
     end

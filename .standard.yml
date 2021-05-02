@@ -1,0 +1,4 @@
+ignore:
+  - 'app/assets/node_modules/**/*'
+  - 'db/schema.rb'
+  - 'infra/provisioner/**/*'

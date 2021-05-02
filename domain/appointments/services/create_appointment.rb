@@ -1,9 +1,9 @@
-require 'domain/shared/callable'
-require 'domain/shared/resultable'
-require 'domain/shared/do_notation'
-require 'domain/appointments/validations/on_create'
-require 'domain/appointments/appointment'
-require 'domain/appointments/repository'
+require "domain/shared/callable"
+require "domain/shared/resultable"
+require "domain/shared/do_notation"
+require "domain/appointments/validations/on_create"
+require "domain/appointments/appointment"
+require "domain/appointments/repository"
 
 module Carpanta
   module Domain
@@ -13,7 +13,7 @@ module Carpanta
           extend Shared::Callable
           include Shared::Resultable
           include Shared::DoNotation
-          OVERLAP_MSG = 'must not overlap with another existing starting_at + duration (min)'.freeze
+          OVERLAP_MSG = "must not overlap with another existing starting_at + duration (min)".freeze
 
           def initialize(repository: Repository.new)
             @repository = repository
@@ -29,6 +29,7 @@ module Carpanta
           end
 
           private
+
           attr_reader :repository
 
           def validate(params)
@@ -36,7 +37,7 @@ module Carpanta
           end
 
           def check_overlap(appointment)
-            result = repository.exists?(['starting_at BETWEEN :starting_at AND :ending_at', { starting_at: appointment.starting_at, ending_at: appointment.ending_at }])
+            result = repository.exists?(["starting_at BETWEEN :starting_at AND :ending_at", {starting_at: appointment.starting_at, ending_at: appointment.ending_at}])
 
             return Failure(duration: [OVERLAP_MSG]) if result.success?
             Success()

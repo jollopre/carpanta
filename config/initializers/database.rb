@@ -1,4 +1,4 @@
-require 'infra/database'
+require "infra/database"
 
 Infra::Database.configure do |config|
   config.root = Carpanta.root

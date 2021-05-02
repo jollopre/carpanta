@@ -1,4 +1,4 @@
-require 'domain/shared/callable'
+require "domain/shared/callable"
 
 RSpec.describe Carpanta::Domain::Shared::Callable do
   let(:klass) do
@@ -11,31 +11,31 @@ RSpec.describe Carpanta::Domain::Shared::Callable do
     end
   end
 
-  describe '.call' do
+  describe ".call" do
     let(:klass_instance) { klass.new }
 
     before do
       allow(klass).to receive(:new).and_return(klass_instance)
     end
 
-    it 'invokes instance method call' do
+    it "invokes instance method call" do
       allow(klass_instance).to receive(:call).and_call_original
 
-      klass.call(1, { foo: 'bar' }, bar: 'baz')
+      klass.call(1, {foo: "bar"}, bar: "baz")
 
-      expect(klass_instance).to have_received(:call).with(1, { foo: 'bar' }, { bar: 'baz' })
+      expect(klass_instance).to have_received(:call).with(1, {foo: "bar"}, {bar: "baz"})
     end
 
-    context 'when block is passed' do
-      it 'yields control' do
+    context "when block is passed" do
+      it "yields control" do
         expect do |b|
           klass.call(1, &b)
         end.to yield_control
       end
     end
 
-    context 'when no arguments are passed' do
-      it 'invokes instance method call with no arguments' do
+    context "when no arguments are passed" do
+      it "invokes instance method call with no arguments" do
         allow(klass_instance).to receive(:call)
 
         klass.call
@@ -44,7 +44,7 @@ RSpec.describe Carpanta::Domain::Shared::Callable do
       end
     end
 
-    context 'when the extended class only accepts an argument' do
+    context "when the extended class only accepts an argument" do
       let(:klass) do
         Class.new do
           extend Carpanta::Domain::Shared::Callable
@@ -55,7 +55,7 @@ RSpec.describe Carpanta::Domain::Shared::Callable do
         end
       end
 
-      it 'invokes instance method class with only one argument' do
+      it "invokes instance method class with only one argument" do
         allow(klass_instance).to receive(:call)
 
         klass.call(1)

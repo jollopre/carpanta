@@ -1,10 +1,10 @@
-require 'app/queries/show_customers'
+require "app/queries/show_customers"
 
 RSpec.describe Carpanta::Queries::ShowCustomers do
   let!(:customer) { FactoryBot.create(:customer) }
 
-  describe '.call' do
-    it 'returns success with customers' do
+  describe ".call" do
+    it "returns success with customers" do
       result = described_class.call
 
       customers = result.value!

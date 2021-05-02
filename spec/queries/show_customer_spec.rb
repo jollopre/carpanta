@@ -1,12 +1,12 @@
-require 'app/queries/show_customer'
+require "app/queries/show_customer"
 
 RSpec.describe Carpanta::Queries::ShowCustomer do
   let(:customer) { FactoryBot.create(:customer) }
   let(:offer) { FactoryBot.create(:offer) }
   let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id) }
 
-  describe '.call' do
-    it 'returns success with customer information' do
+  describe ".call" do
+    it "returns success with customer information" do
       result = described_class.call(customer.id)
 
       expect(result.success?).to eq(true)
@@ -18,8 +18,8 @@ RSpec.describe Carpanta::Queries::ShowCustomer do
       expect(customer.phone).to eq(customer.phone)
     end
 
-    context 'appointments' do
-      it 'returns appointment information' do
+    context "appointments" do
+      it "returns appointment information" do
         result = described_class.call(customer.id)
 
         customer = result.value!
@@ -31,17 +31,17 @@ RSpec.describe Carpanta::Queries::ShowCustomer do
         )
       end
 
-      it 'returns offer name associated' do
+      it "returns offer name associated" do
         result = described_class.call(customer.id)
 
         customer = result.value!
-        expect(customer.appointments.first.offer.name).to eq('Cutting with scissor and Shampooing')
+        expect(customer.appointments.first.offer.name).to eq("Cutting with scissor and Shampooing")
       end
     end
 
-    context 'when customer DOES NOT exist' do
-      it 'returns failure' do
-        result = subject.call('non_existent')
+    context "when customer DOES NOT exist" do
+      it "returns failure" do
+        result = subject.call("non_existent")
 
         expect(result.failure?).to eq(true)
         expect(result.failure).to include(

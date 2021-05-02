@@ -1,4 +1,4 @@
-require 'dry/monads'
+require "dry/monads"
 
 module Carpanta
   module Domain

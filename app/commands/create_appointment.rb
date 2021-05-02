@@ -1,5 +1,5 @@
-require 'domain/shared/callable'
-require 'domain/appointments/services/create_appointment'
+require "domain/shared/callable"
+require "domain/appointments/services/create_appointment"
 
 module Carpanta
   module Commands

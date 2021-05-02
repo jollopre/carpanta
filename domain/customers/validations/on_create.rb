@@ -1,4 +1,4 @@
-require 'domain/shared/validation'
+require "domain/shared/validation"
 
 module Carpanta
   module Domain

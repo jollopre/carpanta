@@ -1,4 +1,4 @@
-.PHONY: up down build test clean shell shell_assets console logs start stop deploy
+.PHONY: up down build test clean shell shell_assets console lint logs seed start stop deploy
 
 COMPOSE_FILES_ASSETS=-f docker-compose.assets.yml
 COMPOSE_FILES_TEST=-f docker-compose.base.yml -f docker-compose.test.yml
@@ -12,7 +12,6 @@ down:
 build:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} build
 test:
-	@docker-compose ${COMPOSE_FILES_TEST} build
 	@docker-compose ${COMPOSE_FILES_ASSETS} run --rm assets npm test
 	@docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake spec
 clean:
@@ -25,6 +24,8 @@ shell_assets:
 	@docker-compose ${COMPOSE_FILES_ASSETS} run --rm assets sh
 console:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bin/console
+lint:
+	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} run --rm app bundle exec standardrb
 logs:
 	@docker-compose -f docker-compose.base.yml logs -f
 seed:

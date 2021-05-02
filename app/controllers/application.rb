@@ -1,6 +1,6 @@
-require_relative 'base'
-require_relative 'customers'
-require_relative 'calendar'
+require_relative "base"
+require_relative "customers"
+require_relative "calendar"
 
 module Carpanta
   module Controllers
@@ -8,8 +8,8 @@ module Carpanta
       use Customers
       use Calendar
 
-      get '/' do
-        redirect('/customers')
+      get "/" do
+        redirect("/customers")
       end
     end
   end

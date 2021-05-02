@@ -12,11 +12,11 @@ module Carpanta
       }.freeze
 
       def unique_month_year
-        months = days_of_week.map{ |date| date.strftime('%b') }.uniq
-        years = days_of_week.map{ |date| date.strftime('%Y') }.uniq
+        months = days_of_week.map { |date| date.strftime("%b") }.uniq
+        years = days_of_week.map { |date| date.strftime("%Y") }.uniq
 
         if years.size > 1
-          "#{months.first} #{years.first } - #{months.last} #{years.last}"
+          "#{months.first} #{years.first} - #{months.last} #{years.last}"
         elsif months.size > 1
           "#{months.first} - #{months.last} #{years.first}"
         else
@@ -25,7 +25,7 @@ module Carpanta
       end
 
       def weekday_name_and_day_of_month(date)
-        "#{date.strftime('%a')} #{date.strftime('%d')}"
+        "#{date.strftime("%a")} #{date.strftime("%d")}"
       end
 
       def grid_area(time:, duration:)
@@ -65,7 +65,7 @@ module Carpanta
       end
 
       def format_date(date)
-        date.strftime('%Y-%m-%d')
+        date.strftime("%Y-%m-%d")
       end
 
       def current_time

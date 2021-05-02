@@ -1,11 +1,11 @@
-require 'domain/shared/validation'
+require "domain/shared/validation"
 
 module Carpanta
   module Domain
     module Appointments
       module Validations
         class OnCreate < Shared::Validation
-          ZERO = 0.freeze
+          ZERO = 0
 
           params do
             required(:duration).filled(:integer, gt?: ZERO)

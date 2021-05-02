@@ -1,5 +1,5 @@
-require 'yaml'
-require 'lib/configurable'
+require "yaml"
+require "lib/configurable"
 
 module Infra
   class Database
@@ -8,8 +8,8 @@ module Infra
 
     configure_with :root, :environment, :logger
 
-    PATH = 'config/database.yml'.freeze
-    DB_DIR = 'db'.freeze
+    PATH = "config/database.yml".freeze
+    DB_DIR = "db".freeze
     MIGRATIONS_PATHS = "#{DB_DIR}/migrate".freeze
 
     def connect!
@@ -30,7 +30,7 @@ module Infra
     end
 
     def configurations
-      YAML.load(ERB.new(IO.read(PATH)).result)
+      YAML.safe_load(ERB.new(IO.read(PATH)).result)
     end
 
     def environment
@@ -53,9 +53,9 @@ module Infra
       def connect!
         instance.connect!
       end
-      
+
       def load_tasks
-        load 'active_record/railties/databases.rake'
+        load "active_record/railties/databases.rake"
         Rake::Task.define_task(:environment)
       end
     end

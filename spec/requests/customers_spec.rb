@@ -1,89 +1,89 @@
-require_relative 'shared_context'
+require_relative "shared_context"
 
 RSpec.describe Carpanta::Controllers::Customers do
-  include_context 'requests'
+  include_context "requests"
 
-  describe 'GET /customers' do
+  describe "GET /customers" do
     let!(:customer) { FactoryBot.create(:customer) }
 
-    it 'returns 200' do
-      get '/customers'
+    it "returns 200" do
+      get "/customers"
 
       expect(last_response.status).to eq(200)
     end
 
-    it 'returns customers heading' do
-      get '/customers'
+    it "returns customers heading" do
+      get "/customers"
 
-      expect(last_response.body).to have_xpath('//h1', text: 'Customers')
+      expect(last_response.body).to have_xpath("//h1", text: "Customers")
     end
 
-    it 'includes link for new customer' do
-      get '/customers'
+    it "includes link for new customer" do
+      get "/customers"
 
-      expect(last_response.body).to have_link('New Customer', href: '/customers/new')
+      expect(last_response.body).to have_link("New Customer", href: "/customers/new")
     end
 
-    it 'returns list of customers' do
-      get '/customers'
+    it "returns list of customers" do
+      get "/customers"
 
-      expect(last_response.body).to have_content('Donald')
-      expect(last_response.body).to have_content('Duck')
-      expect(last_response.body).to have_content('donald.duck@carpanta.com')
-      expect(last_response.body).to have_content('600111222')
-      expect(last_response.body).to have_link('Show', href: "/customers/#{customer.id}")
+      expect(last_response.body).to have_content("Donald")
+      expect(last_response.body).to have_content("Duck")
+      expect(last_response.body).to have_content("donald.duck@carpanta.com")
+      expect(last_response.body).to have_content("600111222")
+      expect(last_response.body).to have_link("Show", href: "/customers/#{customer.id}")
     end
   end
 
-  describe 'GET /customers/new' do
-    it 'returns 200' do
-      get '/customers/new'
+  describe "GET /customers/new" do
+    it "returns 200" do
+      get "/customers/new"
 
       expect(last_response.status).to eq(200)
     end
 
-    it 'returns form for filling customer' do
-      get '/customers/new'
+    it "returns form for filling customer" do
+      get "/customers/new"
 
       expect(last_response.body).to have_xpath("//form[@action = '/customers' and @method = 'post']")
-      expect(last_response.body).to have_field('customer[name]', type: 'text')
-      expect(last_response.body).to have_field('customer[surname]', type: 'text')
-      expect(last_response.body).to have_field('customer[email]', type: 'email')
-      expect(last_response.body).to have_field('customer[phone]', type: 'tel')
-      expect(last_response.body).to have_button('Create')
+      expect(last_response.body).to have_field("customer[name]", type: "text")
+      expect(last_response.body).to have_field("customer[surname]", type: "text")
+      expect(last_response.body).to have_field("customer[email]", type: "email")
+      expect(last_response.body).to have_field("customer[phone]", type: "tel")
+      expect(last_response.body).to have_button("Create")
     end
 
-    it 'includes cancel link' do
-      get '/customers/new'
+    it "includes cancel link" do
+      get "/customers/new"
 
-      expect(last_response.body).to have_link('Cancel', href: '/customers')
+      expect(last_response.body).to have_link("Cancel", href: "/customers")
     end
   end
 
-  describe 'POST /customers' do
-    context 'when customer is invalid' do
-      it 'returns 422' do
-        post '/customers', { customer: { email: 'donald@' }}
+  describe "POST /customers" do
+    context "when customer is invalid" do
+      it "returns 422" do
+        post "/customers", {customer: {email: "donald@"}}
 
         expect(last_response.status).to eq(422)
       end
 
-      it 'body includes `errored class` for form-group belonging the input' do
-        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
+      it "body includes `errored class` for form-group belonging the input" do
+        post "/customers", {customer: {name: "", surname: "", email: "donald@"}}
 
         expect(last_response.body).to have_xpath('//*[@id="name"]//ancestor::div[@class="form-group mb-4 errored"]')
         expect(last_response.body).to have_xpath('//*[@id="surname"]//ancestor::div[@class="form-group mb-4 errored"]')
         expect(last_response.body).to have_xpath('//*[@id="email"]//ancestor::div[@class="form-group mb-4 errored"]')
       end
 
-      it 'body includes value input from request' do
-        post '/customers', { customer: { name: '', surname: '', email: 'donald@' }}
+      it "body includes value input from request" do
+        post "/customers", {customer: {name: "", surname: "", email: "donald@"}}
 
-        expect(last_response.body).to have_field('customer[email]', with: 'donald@')
+        expect(last_response.body).to have_field("customer[email]", with: "donald@")
       end
 
-      it 'body includes validation errors' do
-        post '/customers', { customer: { email: 'donald@' }}
+      it "body includes validation errors" do
+        post "/customers", {customer: {email: "donald@"}}
 
         expect(last_response.body).to have_xpath('//*[@id="name-validation"]')
         expect(last_response.body).to have_xpath('//*[@id="surname-validation"]')
@@ -91,114 +91,114 @@ RSpec.describe Carpanta::Controllers::Customers do
       end
     end
 
-    it 'creates a customer' do
-      post '/customers', { customer: { name: 'Donald', surname: 'Duck', email: 'donald.duck@carpanta.com' }}
+    it "creates a customer" do
+      post "/customers", {customer: {name: "Donald", surname: "Duck", email: "donald.duck@carpanta.com"}}
 
       expect(last_response.status).to eq(302)
     end
   end
 
-  describe 'GET /customers/:customer_id' do
-    context 'when customer DOES NOT exist' do
-      it 'returns 404' do
-        get '/customers/not_found_id'
+  describe "GET /customers/:customer_id" do
+    context "when customer DOES NOT exist" do
+      it "returns 404" do
+        get "/customers/not_found_id"
 
         expect(last_response.status).to eq(404)
       end
 
-      it 'returns error message' do
-        get '/customers/not_found_id'
+      it "returns error message" do
+        get "/customers/not_found_id"
 
-        expect(last_response.body).to include('The resource you are trying to access does not exist.')
+        expect(last_response.body).to include("The resource you are trying to access does not exist.")
       end
     end
 
-    context 'when customer exists' do
+    context "when customer exists" do
       let(:customer) { FactoryBot.create(:customer) }
-      let(:offer) { FactoryBot.create(:offer, tasks: ['Cutting', 'Shampooing']) }
-      let(:starting_at) { Time.new(2020,05,26,07,45,12) }
+      let(:offer) { FactoryBot.create(:offer, tasks: ["Cutting", "Shampooing"]) }
+      let(:starting_at) { Time.new(2020, 0o5, 26, 0o7, 45, 12) }
       let!(:appointment) { FactoryBot.create(:appointment, customer_id: customer.id, offer_id: offer.id, starting_at: starting_at) }
 
-      it 'returns 200 status' do
+      it "returns 200 status" do
         get "/customers/#{customer.id}"
 
         expect(last_response.status).to eq(200)
       end
 
-      it 'returns the details for a customer' do
+      it "returns the details for a customer" do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_content('Name')
+        expect(last_response.body).to have_content("Name")
         expect(last_response.body).to have_content(customer.name)
-        expect(last_response.body).to have_content('Surname')
+        expect(last_response.body).to have_content("Surname")
         expect(last_response.body).to have_content(customer.surname)
-        expect(last_response.body).to have_content('Email')
+        expect(last_response.body).to have_content("Email")
         expect(last_response.body).to have_content(customer.email)
-        expect(last_response.body).to have_content('Phone')
+        expect(last_response.body).to have_content("Phone")
         expect(last_response.body).to have_content(customer.phone)
       end
 
-      it 'includes link to return to the list of customers' do
+      it "includes link to return to the list of customers" do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_link('Back', href: '/customers')
+        expect(last_response.body).to have_link("Back", href: "/customers")
       end
 
-      context 'appointment list' do
-        it 'includes offer name' do
+      context "appointment list" do
+        it "includes offer name" do
           get "/customers/#{customer.id}"
 
-          expect(last_response.body).to have_content('Cutting and Shampooing')
+          expect(last_response.body).to have_content("Cutting and Shampooing")
         end
 
-        it 'includes starting_at' do
+        it "includes starting_at" do
           get "/customers/#{customer.id}"
 
-          starting_at_iso8601 = '2020-05-26T07:45:12Z'
+          starting_at_iso8601 = "2020-05-26T07:45:12Z"
           expect(last_response.body).to have_xpath("//time[@datetime='#{starting_at_iso8601}']")
           expect(last_response.body).to have_content(starting_at_iso8601)
         end
 
-        it 'includes duration' do
+        it "includes duration" do
           get "/customers/#{customer.id}"
 
           expect(last_response.body).to have_content(appointment.duration)
         end
       end
 
-      it 'permits adding new appointment' do
+      it "permits adding new appointment" do
         get "/customers/#{customer.id}"
 
-        expect(last_response.body).to have_link('New Appointment', href: "/customers/#{customer.id}/appointments/new")
+        expect(last_response.body).to have_link("New Appointment", href: "/customers/#{customer.id}/appointments/new")
       end
     end
   end
 
-  describe 'POST /customers/:customer_id/appointments' do
+  describe "POST /customers/:customer_id/appointments" do
     let(:customer) { FactoryBot.create(:customer) }
     let(:offer) { FactoryBot.create(:offer) }
     let(:starting_at) { Time.now.iso8601 }
     let(:duration) { 30 }
 
-    it 'creates an appointment for a customer' do
-      post "/customers/#{customer.id}/appointments", { appointment: { offer_id: offer.id, starting_at: starting_at, duration: duration } }
+    it "creates an appointment for a customer" do
+      post "/customers/#{customer.id}/appointments", {appointment: {offer_id: offer.id, starting_at: starting_at, duration: duration}}
 
       expect(last_response.status).to eq(302)
       expect(last_response.headers).to include("Location" => include("/customers/#{customer.id}"))
     end
 
-    context 'when the appointment is invalid' do
+    context "when the appointment is invalid" do
       let(:attributes) do
-        { appointment: { duration: -1, starting_at: nil, offer_id: nil }}
+        {appointment: {duration: -1, starting_at: nil, offer_id: nil}}
       end
 
-      it 'returns 422' do
+      it "returns 422" do
         post "/customers/#{customer.id}/appointments", attributes
 
         expect(last_response.status).to eq(422)
       end
 
-      it 'body includes `errored class` for form-group belonging the input' do
+      it "body includes `errored class` for form-group belonging the input" do
         post "/customers/#{customer.id}/appointments", attributes
 
         expect(last_response.body).to have_xpath('//*[@id="duration"]//ancestor::div[@class="form-group mb-4 errored"]')
@@ -206,14 +206,14 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_xpath('//*[@id="offer_id"]//ancestor::div[@class="form-group mb-4 errored"]')
       end
 
-      it 'body includes value input from request' do
+      it "body includes value input from request" do
         post "/customers/#{customer.id}/appointments", attributes.merge(starting_at: starting_at)
 
-        expect(last_response.body).to have_field('appointment[duration]', with: '-1')
-        skip('appointment[starting_at] includes datetime input')
+        expect(last_response.body).to have_field("appointment[duration]", with: "-1")
+        skip("appointment[starting_at] includes datetime input")
       end
 
-      it 'body includes validation errors' do
+      it "body includes validation errors" do
         post "/customers/#{customer.id}/appointments", attributes
 
         expect(last_response.body).to have_xpath('//*[@id="duration-validation"]')
@@ -221,56 +221,56 @@ RSpec.describe Carpanta::Controllers::Customers do
         expect(last_response.body).to have_xpath('//*[@id="offer_id-validation"]')
       end
 
-      context 'since customer_id or offer_id do not exist' do
-        it 'returns 422' do
-          skip('todo checking whether or not deferred validations against domain objects from other boundaries should be checked')
+      context "since customer_id or offer_id do not exist" do
+        it "returns 422" do
+          skip("todo checking whether or not deferred validations against domain objects from other boundaries should be checked")
         end
       end
     end
   end
 
-  describe 'GET /customers/:customer_id/appointments/new' do
+  describe "GET /customers/:customer_id/appointments/new" do
     let(:customer) { FactoryBot.create(:customer) }
 
-    it 'returns 200' do
+    it "returns 200" do
       get "/customers/#{customer.id}/appointments/new"
 
       expect(last_response.status).to eq(200)
     end
 
-    context 'rendered form' do
+    context "rendered form" do
       let!(:offer) { FactoryBot.create(:offer) }
 
-      it 'includes action, method and submit' do
+      it "includes action, method and submit" do
         get "/customers/#{customer.id}/appointments/new"
 
         expected_url = "/customers/#{customer.id}/appointments"
         expect(last_response.body).to have_xpath("//form[@action = '#{expected_url}' and @method = 'post']")
-        expect(last_response.body).to have_button('Create')
+        expect(last_response.body).to have_button("Create")
       end
 
-      it 'includes starting_at field' do
+      it "includes starting_at field" do
         get "/customers/#{customer.id}/appointments/new"
 
-        expect(last_response.body).to have_field('appointment[starting_at]', type: 'datetime-local')
+        expect(last_response.body).to have_field("appointment[starting_at]", type: "datetime-local")
       end
 
-      it 'includes duration field' do
+      it "includes duration field" do
         get "/customers/#{customer.id}/appointments/new"
 
-        expect(last_response.body).to have_field('appointment[duration]', type: 'number')
+        expect(last_response.body).to have_field("appointment[duration]", type: "number")
       end
 
-      it 'includes select for offers' do
+      it "includes select for offers" do
         get "/customers/#{customer.id}/appointments/new"
 
-        expect(last_response.body).to have_select('appointment[offer_id]', options: ['Cutting with scissor and Shampooing'])
+        expect(last_response.body).to have_select("appointment[offer_id]", options: ["Cutting with scissor and Shampooing"])
       end
 
-      it 'includes cancel link' do
+      it "includes cancel link" do
         get "/customers/#{customer.id}/appointments/new"
 
-        expect(last_response.body).to have_link('Cancel', href: "/customers/#{customer.id}")
+        expect(last_response.body).to have_link("Cancel", href: "/customers/#{customer.id}")
       end
     end
   end

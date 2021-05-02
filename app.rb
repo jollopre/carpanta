@@ -1,15 +1,20 @@
-require 'lib/configurable'
+require "lib/configurable"
 
 module Carpanta
+  DELEGATED_METHODS = [:root, :environment, :logger]
   include Configurable
 
-  configure_with :root, :environment, :logger
+  configure_with(*DELEGATED_METHODS)
 
   class << self
-    def method_missing(method, *args, &block)
-      return configuration.send(method, *args, &block) if configuration.respond_to?(method)
+    def method_missing(name, *args, &block)
+      return super unless DELEGATED_METHODS.include?(name)
 
-      super(method, *args, &block)
+      configuration.send(name, *args, &block)
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      DELEGATED_METHODS.include?(name) or super
     end
   end
 end

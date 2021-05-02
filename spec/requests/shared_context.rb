@@ -1,6 +1,6 @@
-require 'rack/test'
+require "rack/test"
 
-RSpec.shared_context 'requests' do
+RSpec.shared_context "requests" do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
