@@ -1,5 +1,5 @@
 require "domain/shared/callable"
-require 'domain/customers/services/create_customer'
+require "domain/customers/services/create_customer"
 
 module Carpanta
   module Commands
