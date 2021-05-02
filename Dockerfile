@@ -1,4 +1,4 @@
-FROM ruby:2.7.0 as base
+FROM ruby:2.7.3 as base
 ENV ROOT_PATH /usr/src
 ENV PUBLIC_PATH /assets
 WORKDIR $ROOT_PATH

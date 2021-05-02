@@ -12,9 +12,8 @@ down:
 build:
 	@docker-compose ${COMPOSE_FILES_DEVELOPMENT} build
 test:
-	@docker-compose ${COMPOSE_FILES_TEST} build
 	@docker-compose ${COMPOSE_FILES_ASSETS} run --rm assets npm test
-	@docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec rake spec
+	@docker-compose ${COMPOSE_FILES_TEST} run --rm app bundle exec standardrb && bundle exec rake spec
 clean:
 	@docker-compose ${COMPOSE_FILES_ASSETS} down --rmi local --volumes
 	@docker-compose ${COMPOSE_FILES_TEST} down --rmi local --volumes
