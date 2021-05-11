@@ -15,7 +15,7 @@ module Carpanta
       def call
         offers = relation.pluck(:id, :tasks).map do |attributes|
           id, tasks = attributes
-          Offer.new(id: id, tasks: tasks)
+          Lookup.new(id: id, tasks: tasks)
         end
         Success(offers)
       end
@@ -25,21 +25,17 @@ module Carpanta
       attr_reader :relation
     end
 
-    class Offer
+    class Lookup
       attr_reader :id
 
       def initialize(params = {})
-        @id = params[:id]
-        @tasks = params[:tasks]
+        @id = params.fetch(:id)
+        @tasks = params.fetch(:tasks)
       end
 
       def label
-        tasks.to_sentence
+        @tasks.to_sentence
       end
-
-      private
-
-      attr_reader :tasks
     end
   end
 end
