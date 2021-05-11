@@ -5,7 +5,7 @@ RSpec.describe Carpanta::Domain::Appointments::Validations::OnCreate do
   describe "#call" do
     let(:default_params) do
       {
-        duration: 50,
+        duration: 60,
         starting_at: "2020-10-15T08:03:12Z",
         customer_id: "f901d3bf-9d71-4ef9-9848-bd1634fceb7e",
         offer_id: "63a74e85-c41b-49fa-8936-ab64a62b1b8a"
@@ -26,6 +26,15 @@ RSpec.describe Carpanta::Domain::Appointments::Validations::OnCreate do
           expect(result.errors.to_h).to include(
             duration: include("must be greater than 0")
           )
+        end
+
+        context "duration minutes" do
+          let(:values) { [30, 60, 90, 120] }
+
+          it_behaves_like "must be one of", { duration: 20 }, :duration
+          it_behaves_like "must be one of", { duration: 50 }, :duration
+          it_behaves_like "must be one of", { duration: 80 }, :duration
+          it_behaves_like "must be one of", { duration: 110 }, :duration
         end
       end
 

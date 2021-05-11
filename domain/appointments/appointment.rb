@@ -6,6 +6,7 @@ module Carpanta
       class Appointment < Shared::Entity
         attr_reader :starting_at, :duration, :customer_id, :offer_id
         SECONDS = 60
+        DURATION_MINUTES = [30, 60, 90, 120].freeze
 
         def initialize(params = {})
           super(params[:id])

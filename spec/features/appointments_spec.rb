@@ -6,7 +6,7 @@ RSpec.describe "Appointments resource", type: :feature do
   let(:customer) { FactoryBot.create(:customer) }
   let!(:offer) { FactoryBot.create(:offer, tasks: ["Cutting", "Shampooing"]) }
   let(:starting_at) { Time.new(2020, 0o5, 26, 0o7, 45, 12) }
-  let(:duration) { 50 }
+  let(:duration) { 60 }
 
   it "creates an appointment" do
     visit "/customers/#{customer.id}/appointments/new"
