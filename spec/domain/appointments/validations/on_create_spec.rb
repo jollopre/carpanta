@@ -31,10 +31,10 @@ RSpec.describe Carpanta::Domain::Appointments::Validations::OnCreate do
         context "duration minutes" do
           let(:values) { [30, 60, 90, 120] }
 
-          it_behaves_like "must be one of", { duration: 20 }, :duration
-          it_behaves_like "must be one of", { duration: 50 }, :duration
-          it_behaves_like "must be one of", { duration: 80 }, :duration
-          it_behaves_like "must be one of", { duration: 110 }, :duration
+          it_behaves_like "must be one of", {duration: 20}, :duration
+          it_behaves_like "must be one of", {duration: 50}, :duration
+          it_behaves_like "must be one of", {duration: 80}, :duration
+          it_behaves_like "must be one of", {duration: 110}, :duration
         end
       end
 
